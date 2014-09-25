@@ -23,3 +23,37 @@ D, [2014-09-25T14:31:01.318528 #18127] DEBUG -- : Websocket connection opened.
 D, [2014-09-25T14:31:07.350482 #18127] DEBUG -- : Received message: hellloo
 D, [2014-09-25T14:31:16.361154 #18127] DEBUG -- : Received message: new message
 D, [2014-09-25T14:32:04.698021 #18127] DEBUG -- : Websocket connection closed.
+D, [2014-09-25T15:10:51.806132 #38278] DEBUG -- : Websocket connection opened.
+D, [2014-09-25T15:10:57.168419 #38278] DEBUG -- : Received message: asd;lfkj
+
+D, [2014-09-25T15:10:57.189944 #38278] DEBUG -- : Websocket connection closed.
+D, [2014-09-25T15:14:57.377256 #38314] DEBUG -- : Websocket connection opened.
+D, [2014-09-25T15:15:07.840822 #38314] DEBUG -- : Received message: asdfa
+
+D, [2014-09-25T15:15:07.862712 #38314] DEBUG -- : Websocket connection closed.
+D, [2014-09-25T15:15:51.855374 #38325] DEBUG -- : Websocket connection opened.
+D, [2014-09-25T15:15:57.188251 #38325] DEBUG -- : Received message: asd;lfkjeae
+D, [2014-09-25T15:16:03.251563 #38325] DEBUG -- : Received message: awefawefawef
+D, [2014-09-25T15:16:05.513591 #38325] DEBUG -- : Received message: awefawefawef
+D, [2014-09-25T15:16:08.486715 #38325] DEBUG -- : Received message: das;lfuaew;f
+D, [2014-09-25T15:16:37.951576 #38325] DEBUG -- : Received message: adfaewfaewf
+D, [2014-09-25T15:19:05.869623 #38325] DEBUG -- : Received message: ad;fljqpoiwefsdf
+D, [2014-09-25T15:24:40.508887 #38325] DEBUG -- : Websocket connection closed.
+D, [2014-09-25T15:24:40.532929 #38325] DEBUG -- : Websocket connection opened.
+D, [2014-09-25T15:25:51.609114 #38325] DEBUG -- : Websocket connection closed.
+D, [2014-09-25T15:26:36.216754 #38383] DEBUG -- : Websocket connection opened.
+D, [2014-09-25T15:26:39.813973 #38383] DEBUG -- : Websocket connection closed.
+D, [2014-09-25T15:27:04.236298 #38390] DEBUG -- : Websocket connection opened.
+D, [2014-09-25T15:27:22.068038 #38390] DEBUG -- : Websocket connection closed.
+D, [2014-09-25T15:27:33.007716 #38399] DEBUG -- : Websocket connection opened.
+D, [2014-09-25T15:27:46.334435 #38399] DEBUG -- : Received message: asdf
+D, [2014-09-25T15:27:46.343277 #38399] DEBUG -- : Websocket connection closed.
+D, [2014-09-25T15:27:46.344256 #38399] DEBUG -- : Websocket connection opened.
+D, [2014-09-25T15:28:06.721992 #38399] DEBUG -- : Received message: asdf
+D, [2014-09-25T15:28:48.516271 #38399] DEBUG -- : Websocket connection closed.
+D, [2014-09-25T15:28:52.652322 #38412] DEBUG -- : Websocket connection opened.
+D, [2014-09-25T15:29:15.295611 #38412] DEBUG -- : Received message: FOOBAR
+D, [2014-09-25T15:29:54.431482 #38412] DEBUG -- : Websocket connection closed.
+D, [2014-09-25T15:29:57.123781 #38423] DEBUG -- : Websocket connection opened.
+D, [2014-09-25T15:30:00.804959 #38423] DEBUG -- : Received message: foobar
+D, [2014-09-25T15:36:31.803181 #38423] DEBUG -- : Websocket connection closed.
