@@ -6,8 +6,8 @@ var loadChat = function() {
   var $messages = $sidebar.find('#messages');
   var $socketStatus = $sidebar.find('#status');
 
-  // var socket = new WebSocket('ws://localhost:8080');
-  var socket = new WebSocket('ws://104.131.117.55:8080');
+  var socket = new WebSocket('ws://localhost:8080');
+  // var socket = new WebSocket('ws://104.131.117.55:8080');
 
   socket.onopen = function(event) {
 	  $socketStatus.html("");
