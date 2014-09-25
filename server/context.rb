@@ -1,4 +1,6 @@
 require 'em-websocket'
+require 'logger'
+$SERVER_LOG = Logger.new('logs/server.log', 'monthly')
 
 #Name for the pid file, this file will store the process id of the process we fork
 PID_FILE = "context.pid"
@@ -42,7 +44,7 @@ end
 EM.run {
   EM::WebSocket.run(:host => "0.0.0.0", :port => 8080) do |ws|
     ws.onopen { |handshake|
-      puts "WebSocket connection open"
+      $SERVER_LOG.debug("Websocket connection opened.")
 
       # Access properties on the EM::WebSocket::Handshake object, e.g.
       # path, query_string, origin, headers
@@ -51,10 +53,10 @@ EM.run {
       ws.send "Welcome!"
     }
 
-    ws.onclose { puts "Connection closed" }
+    ws.onclose { $SERVER_LOG.debug("Websocket connection closed.") }
 
     ws.onmessage { |msg|
-      puts "Recieved message: #{msg}"
+      $SERVER_LOG.debug("Received message: #{msg}")
       ws.send "Pong: #{msg}"
     }
   end
