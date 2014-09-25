@@ -1,0 +1,12 @@
+if [ -e "my-daemon.pid" ]
+then
+  pid=`cat my-daemon.pid`
+  if ps -p $pid > /dev/null
+  then
+    echo "Process $pid is alive and well."
+  else
+    echo "Process $pid is dead."
+  fi
+else
+  echo "my-daemon.pid doesn't exist"
+fi
