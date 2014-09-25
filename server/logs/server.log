@@ -2,3 +2,24 @@
 D, [2014-09-25T12:15:51.500210 #5306] DEBUG -- : Websocket connection opened.
 D, [2014-09-25T12:15:55.972595 #5306] DEBUG -- : Received message: hello
 D, [2014-09-25T12:16:29.624832 #5306] DEBUG -- : Websocket connection closed.
+D, [2014-09-25T14:26:42.956231 #17947] DEBUG -- : Websocket connection opened.
+D, [2014-09-25T14:26:44.562780 #17947] DEBUG -- : Websocket connection opened.
+D, [2014-09-25T14:26:47.124203 #17947] DEBUG -- : Websocket connection closed.
+D, [2014-09-25T14:27:01.522309 #17947] DEBUG -- : Received message: hello
+D, [2014-09-25T14:27:01.522978 #17947] DEBUG -- : Websocket connection closed.
+D, [2014-09-25T14:27:34.428689 #18083] DEBUG -- : Websocket connection opened.
+D, [2014-09-25T14:27:37.018513 #18083] DEBUG -- : Received message: hello
+D, [2014-09-25T14:27:37.049997 #18083] DEBUG -- : Websocket connection closed.
+D, [2014-09-25T14:28:20.274765 #18093] DEBUG -- : Websocket connection opened.
+D, [2014-09-25T14:28:22.909804 #18093] DEBUG -- : Received message: hllo again
+D, [2014-09-25T14:28:22.930662 #18093] DEBUG -- : Websocket connection closed.
+D, [2014-09-25T14:28:52.484538 #18103] DEBUG -- : Websocket connection opened.
+D, [2014-09-25T14:28:55.788302 #18103] DEBUG -- : Received message: sdfkadfkl
+D, [2014-09-25T14:28:55.789810 #18103] DEBUG -- : Websocket connection closed.
+D, [2014-09-25T14:30:32.987356 #18116] DEBUG -- : Websocket connection opened.
+D, [2014-09-25T14:30:35.186286 #18116] DEBUG -- : Received message: message
+D, [2014-09-25T14:30:35.266758 #18116] DEBUG -- : Websocket connection closed.
+D, [2014-09-25T14:31:01.318528 #18127] DEBUG -- : Websocket connection opened.
+D, [2014-09-25T14:31:07.350482 #18127] DEBUG -- : Received message: hellloo
+D, [2014-09-25T14:31:16.361154 #18127] DEBUG -- : Received message: new message
+D, [2014-09-25T14:32:04.698021 #18127] DEBUG -- : Websocket connection closed.
