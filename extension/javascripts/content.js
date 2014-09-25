@@ -10,10 +10,38 @@ function toggleSidebar() {
 	if ($('body').find('#' + id).length === 0) {
 		var $sidebar = $('<div id="' + id + '"></div>');
 		$sidebar.html("<h1>Hello World</h1>");
-		$('body').css("margin-right", "350px");
+		adjustBodyPosition('open');
 		$('body').prepend($sidebar);
 	} else {
-		$('body').css("margin-right", "0");
+		adjustBodyPosition('close');
 		$('#' + id).remove();
+	}
+}
+
+function adjustBodyPosition(command) {
+	var $body = $('body');
+	
+	if (command === 'open') {
+		if($body.css("position") === "absolute") {
+			$body.css("right", "350px");
+		} else if($body.css("position") === "relative") {
+			$body.css("right", "350px");
+		} else if($body.css("width") === ($(window).width() + "px")){
+			$body.css("margin-right", "350px");
+			$body.css("width", "auto");
+		} else {
+			$body.css("margin-right", "350px");
+		}
+	} else if (command === 'close') {
+		if($body.css("position") === "absolute") {
+			$body.css("right", "0");
+		} else if($body.css("position") === "relative") {
+			$body.css("right", "0");
+		} else if($body.css("width") === "auto"){
+			$body.css("margin-right", "0");
+			$body.css("width", "100%");
+		} else {
+			$body.css("margin-right", "0");
+		}
 	}
 }
