@@ -1,6 +1,9 @@
 require 'em-websocket'
+require 'pg'
 require 'logger'
 $SERVER_LOG = Logger.new('logs/server.log', 'monthly')
+
+require_relative 'database_connection'
 
 #Name for the pid file, this file will store the process id of the process we fork
 PID_FILE = "context.pid"
@@ -41,6 +44,11 @@ Signal.trap('EXIT') do
   puts "Stopped Server\n"
 end
 
+# exec("createdb context") # need to run create db first time on server
+pg_db = PostgresDirect.new()
+pg_db.connect
+# pg_db.createMessageTable
+
 EM.run {
   EM::WebSocket.run(:host => "0.0.0.0", :port => 8080) do |ws|
     ws.onopen { |handshake|
@@ -58,6 +66,8 @@ EM.run {
     ws.onmessage { |msg|
       $SERVER_LOG.debug("Received message: #{msg}")
       ws.send "Pong: #{msg}"
+      pg_db.addMessage("#{msg}")
+      pg_db.queryMessageTable
     }
   end
 }
