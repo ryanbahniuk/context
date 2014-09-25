@@ -7,8 +7,8 @@ window.onload = function() {
   var socketStatus = document.getElementById('status');
   var closeBtn = document.getElementById('close');
 
-  var socket = new WebSocket('ws://localhost:8080');
-  // var socket = new WebSocket('ws://104.131.117.55:8080');
+  // var socket = new WebSocket('ws://localhost:8080');
+  var socket = new WebSocket('ws://104.131.117.55:8080');
 
   socket.onopen = function(event) {
 	  socketStatus.innerHTML = 'Connected to: ' + event.currentTarget.UdRL;

@@ -7,12 +7,12 @@ class PostgresDirect
 	end
 
 	def create_messages_table
-		@conn.exec("CREATE TABLE messages (id serial NOT NULL, content varchar(255), user_id int, url_id int, latitude float, longitude float, FOREIGN KEY(room_id) REFERENCES rooms(id));")	
+		@conn.exec("CREATE TABLE messages (id serial NOT NULL UNIQUE, content varchar(255), user_id int, url_id int, latitude float, longitude float, FOREIGN KEY(url_id) REFERENCES urls(id));")	
 		puts "created message table"
 	end
 
 	def create_users_table
-		@conn.exec("CREATE TABLE users (id serial NOT NULL, name varchar(255), email varchar(255), password_digest varchar(255))")
+		@conn.exec("CREATE TABLE users (id serial NOT NULL UNIQUE, name varchar(255), email varchar(255), password_digest varchar(255))")
 	end
 
 	def create_urls_table
