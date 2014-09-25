@@ -48,7 +48,7 @@ EM.run {
       # path, query_string, origin, headers
 
       # Publish message to the client
-      ws.send "Hello Client, you connected to #{handshake.path}"
+      ws.send "Welcome!"
     }
 
     ws.onclose { puts "Connection closed" }

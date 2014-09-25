@@ -1,6 +1,9 @@
 /*Handle requests from background*/
 function handleRequest(request, sender, sendResponse) {
-	if (request.callFunction == "toggleSidebar") toggleSidebar();
+	if (request.callFunction == "toggleSidebar") {
+		toggleSidebar();
+		loadChat();
+	}
 }
 chrome.extension.onRequest.addListener(handleRequest);
 
@@ -9,7 +12,9 @@ function toggleSidebar() {
 
 	if ($('body').find('#' + id).length === 0) {
 		var $sidebar = $('<div id="' + id + '"></div>');
-		$sidebar.html("<h1>Hello World</h1>");
+
+		var $chat = $('<h1>Context</h1><div id="status">Connecting...</div><ul id="messages"></ul><form id="message-form" action="#" method="post"><textarea id="message" placeholder="Write your message here..." required></textarea><button type="submit">Send Message</button></form>');
+		$sidebar.html($chat);
 		adjustBodyPosition('open');
 		$('body').prepend($sidebar);
 	} else {
