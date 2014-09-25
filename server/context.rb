@@ -47,7 +47,8 @@ end
 # exec("createdb context") # need to run create db first time on server
 pg_db = PostgresDirect.new()
 pg_db.connect
-# pg_db.createMessageTable
+# pg_db.drop_tables
+# pg_db.create_schema_tables
 
 EM.run {
   EM::WebSocket.run(:host => "0.0.0.0", :port => 8080) do |ws|
@@ -66,8 +67,8 @@ EM.run {
     ws.onmessage { |msg|
       $SERVER_LOG.debug("Received message: #{msg}")
       ws.send "Pong: #{msg}"
-      pg_db.addMessage("#{msg}")
-      pg_db.queryMessageTable
+      pg_db.add_message(content: msg)
+      pg_db.query_messages_table
     }
   end
 }
