@@ -6,9 +6,11 @@ GEM
       http_parser.rb (~> 0.6.0)
     eventmachine (1.0.3)
     http_parser.rb (0.6.0)
+    pg (0.17.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   em-websocket (~> 0.5.1)
+  pg

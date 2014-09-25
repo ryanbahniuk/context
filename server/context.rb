@@ -1,6 +1,8 @@
 require 'em-websocket'
 require 'pg'
 require 'logger'
+require 'pg/em'
+
 $SERVER_LOG = Logger.new('logs/server.log', 'monthly')
 
 require_relative 'database_connection'
@@ -44,11 +46,15 @@ Signal.trap('EXIT') do
   puts "Stopped Server\n"
 end
 
-# exec("createdb context") # need to run create db first time on server
 pg_db = PostgresDirect.new()
 pg_db.connect
-# pg_db.drop_tables
+
+# exec("createdb context") # need to run create db first time on server
 # pg_db.create_schema_tables
+
+pg = PG::EM::Client.new dbname: 'context'
+
+# pg_db.drop_tables
 
 EM.run {
   EM::WebSocket.run(:host => "0.0.0.0", :port => 8080) do |ws|
@@ -65,10 +71,26 @@ EM.run {
     ws.onclose { $SERVER_LOG.debug("Websocket connection closed.") }
 
     ws.onmessage { |msg|
+      puts "begin fiber"
+      Fiber.new {
+        # pg_db.add_message(content: msg) do |result|
+        #   sleep 5
+        #   p result
+        # end
+        # pg_db.query_messages_table
+        puts "before query"
+        pg.query("INSERT INTO messages (content) VALUES ('#{msg}')") do |result|
+          puts "in callback"
+          sleep 3
+          p result
+        end
+        puts "after query"
+        # EM.stop
+      }.resume
+      
+      p "outside fiber"
       $SERVER_LOG.debug("Received message: #{msg}")
       ws.send "Pong: #{msg}"
-      pg_db.add_message(content: msg)
-      pg_db.query_messages_table
     }
   end
 }
