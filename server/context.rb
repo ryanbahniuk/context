@@ -1,7 +1,7 @@
 require 'em-websocket'
 
 #Name for the pid file, this file will store the process id of the process we fork
-PID_FILE = "my-daemon.pid"
+PID_FILE = "context.pid"
 
 if File.exists?(PID_FILE)
   puts "A pid file already exists. This might mean the server is still running."
@@ -36,7 +36,7 @@ Signal.trap('EXIT') do
   rescue
   end
   File.delete(PID_FILE)
-  puts "Stopped Server"
+  puts "Stopped Server\n"
 end
 
 EM.run {
