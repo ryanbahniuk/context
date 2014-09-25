@@ -1,5 +1,8 @@
 require 'em-websocket'
 require 'pg'
+require 'logger'
+$SERVER_LOG = Logger.new('logs/server.log', 'monthly')
+
 require_relative 'database_connection'
 
 #Name for the pid file, this file will store the process id of the process we fork
@@ -49,23 +52,22 @@ pg_db.connect
 EM.run {
   EM::WebSocket.run(:host => "0.0.0.0", :port => 8080) do |ws|
     ws.onopen { |handshake|
-      puts "WebSocket connection open"
+      $SERVER_LOG.debug("Websocket connection opened.")
 
       # Access properties on the EM::WebSocket::Handshake object, e.g.
       # path, query_string, origin, headers
 
       # Publish message to the client
-      ws.send "Hello Client, you connected to #{handshake.path}"
+      ws.send "Welcome!"
     }
 
-    ws.onclose { puts "Connection closed" }
+    ws.onclose { $SERVER_LOG.debug("Websocket connection closed.") }
 
     ws.onmessage { |msg|
-      puts "Recieved message: #{msg}"
+      $SERVER_LOG.debug("Received message: #{msg}")
       ws.send "Pong: #{msg}"
       pg_db.addMessage("#{msg}")
       pg_db.queryMessageTable
     }
   end
 }
-

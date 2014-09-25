@@ -1,0 +1,4 @@
+# Logfile created on 2014-09-25 12:14:58 -0500 by logger.rb/41954
+D, [2014-09-25T12:15:51.500210 #5306] DEBUG -- : Websocket connection opened.
+D, [2014-09-25T12:15:55.972595 #5306] DEBUG -- : Received message: hello
+D, [2014-09-25T12:16:29.624832 #5306] DEBUG -- : Websocket connection closed.
