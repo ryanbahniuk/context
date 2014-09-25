@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 if [ -e "my-daemon.pid" ]
 then
   pid=`cat my-daemon.pid`

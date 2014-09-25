@@ -1,1 +1,3 @@
+#!/usr/bin/env bash
+
 kill `cat my-daemon.pid`
