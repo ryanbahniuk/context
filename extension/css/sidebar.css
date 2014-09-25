@@ -1,0 +1,9 @@
+#context-sidebar {
+	position: fixed;
+	top: 0;
+	right: 0;
+	height: 100%;
+	width: 350px;
+	background-color: tomato;
+	z-index: 2147483647;
+}
