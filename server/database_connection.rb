@@ -20,9 +20,9 @@ class PostgresDirect
 	end
 
 	def create_schema_tables
+		create_urls_table
 		create_messages_table
 		create_users_table
-		create_urls_table
 	end
 
 	def drop_tables
