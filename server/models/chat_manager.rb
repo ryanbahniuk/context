@@ -47,7 +47,7 @@ class ChatManager
     p "MESSAGE: #{msg}"
     query = Proc.new {
       start_time = Time.now
-      $SERVER_LOG.info("Saving message")
+      $SERVER_LOG.info("Saving message -- #{msg["message"]}")
       url = Url.find_create(msg["url"])
       message = Message.create(content: msg["message"], url: url)
       $SERVER_LOG.info ("Message saved (id: #{message.id}) -- #{Time.now - start_time}")
@@ -59,6 +59,7 @@ class ChatManager
   def send_all(url, msg)
     @open_urls[url].each do |ws|
       ws.send(msg)
+      $SERVER_LOG.info "sending #{msg}"
     end
   end
 
