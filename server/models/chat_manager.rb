@@ -13,14 +13,7 @@ class ChatManager
   end
 
   def remove_client(ws)
-    @open_urls.each { |url, arr|
-      p arr.length
-      if arr.include?(ws)
-        arr.delete(ws)
-        p "client removed"
-        p arr.length
-      end
-    }
+    @open_urls.each { |url, arr| arr.delete(ws) if arr.include?(ws) }
   end
 
   def route_message(ws, msg)
