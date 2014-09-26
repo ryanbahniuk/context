@@ -46,8 +46,6 @@ Signal.trap('EXIT') do
   puts "Stopped Server\n"
 end
 
-pg_db = PostgresDirect.new()
-pg_db.connect
 
 # exec("createdb context") # need to run create db first time on server
 # pg_db.create_schema_tables
@@ -59,7 +57,9 @@ pg_db.connect
 class ChatRoom
   def initialize
     @clients = []
-    @pg = PG::EM::Client.new dbname: 'context'
+    # @pg = PG::EM::Client.new dbname: 'context'
+    @pg_db = PostgresDirect.new()
+    @pg_db.connect
   end
 
   def start(options)
@@ -83,12 +83,17 @@ class ChatRoom
   end
 
   def handle_message(ws, msg)
-    Fiber.new {
-      @pg.query("INSERT INTO messages (content) VALUES ('#{msg}')") do |result|
-        p result
-      end
-    }.resume
+    query = Proc.new {
+      sleep 5
+      puts "finished sleeping"
+      @pg_db.add_message(content: msg)
+      puts "we addd to database and now it is....\n"
+      puts @pg_db.query_messages_table
+    }
 
+    EM.defer (query)
+    puts "\n QUERYING DATABASE \n" 
+    puts @pg_db.query_messages_table
     send_all(msg)
   end
 
@@ -103,42 +108,3 @@ chatroom = ChatRoom.new
 EM.run {
   chatroom.start(host: "0.0.0.0", port: 8080)
 }
-
-# EM.run {
-#   EM::WebSocket.run(:host => "0.0.0.0", :port => 8080) do |ws|
-#     ws.onopen { |handshake|
-#       $SERVER_LOG.debug("Websocket connection opened.")
-
-#       # Access properties on the EM::WebSocket::Handshake object, e.g.
-#       # path, query_string, origin, headers
-
-#       # Publish message to the client
-#       ws.send "Welcome!"
-#     }
-
-#     ws.onclose { $SERVER_LOG.debug("Websocket connection closed.") }
-
-#     ws.onmessage { |msg|
-#       puts "begin fiber"
-#       Fiber.new {
-#         # pg_db.add_message(content: msg) do |result|
-#         #   sleep 5
-#         #   p result
-#         # end
-#         # pg_db.query_messages_table
-#         puts "before query"
-#         pg.query("INSERT INTO messages (content) VALUES ('#{msg}')") do |result|
-#           puts "in callback"
-#           sleep 3
-#           p result
-#         end
-#         puts "after query"
-#         # EM.stop
-#       }.resume
-      
-#       p "outside fiber"
-#       $SERVER_LOG.debug("Received message: #{msg}")
-#       ws.send "Pong: #{msg}"
-#     }
-#   end
-# }
