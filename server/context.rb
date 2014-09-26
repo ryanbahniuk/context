@@ -41,47 +41,7 @@ Signal.trap('EXIT') do
   puts "Stopped Server\n"
 end
 
-
-class ChatRoom
-  def initialize
-    @clients = []
-  end
-
-  def start(options)
-    EM::WebSocket.start(options) do |ws|
-      ws.onopen { add_client(ws) }
-      ws.onmessage { |msg| handle_message(ws, msg) }
-      ws.onclose { remove_client(ws) }
-    end
-  end
-
-  def add_client(ws)
-    @clients << ws
-  end
-
-  def remove_client(ws)
-    client = @clients.delete(ws)
-  end
-
-  def handle_message(ws, msg)
-    msg = ::JSON.parse(msg)
-    query = Proc.new {
-      url = Url.rootify_find_create(msg["url"])
-      message = Message.create(content: msg["message"], url: url)
-    }
-
-    EM.defer query
-    send_all(msg["message"])
-  end
-
-  def send_all(msg)
-    @clients.each do |ws|
-      ws.send(msg)
-    end
-  end
-end
-
-chatroom = ChatRoom.new
+chat_manager = ChatManager.new
 EM.run {
-  chatroom.start(host: "0.0.0.0", port: 8080)
+  chat_manager.start(host: "0.0.0.0", port: 8080)
 }
