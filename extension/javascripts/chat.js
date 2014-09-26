@@ -5,6 +5,7 @@ var loadChat = function() {
   var $messageInput = $sidebar.find('#message');
   var $messages = $sidebar.find('#messages');
   var $socketStatus = $sidebar.find('#status');
+  var url = window.location.host + window.location.pathname;
 
   var socket = new WebSocket('ws://104.131.117.55:8080');
   // var socket = new WebSocket('ws://localhost:8080');
@@ -12,12 +13,13 @@ var loadChat = function() {
   socket.onopen = function(event) {
 	  $socketStatus.html("");
 	  $socketStatus.addClass('open');
+    var msg = {url: url, initial: true};
+    socket.send(JSON.stringify(msg));
 	};
 
 	$form.on("submit", function(e) {
 	  e.preventDefault();
 
-	  var url = document.URL;
 	  // Retrieve the message from the textarea.
 	  var message = $messageInput.val();
 
