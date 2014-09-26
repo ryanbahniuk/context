@@ -1,12 +1,6 @@
-require 'em-websocket'
-require 'pg'
-require 'logger'
-require 'pg/em'
-require 'json'
+require_relative 'config/environment'
 
 $SERVER_LOG = Logger.new('logs/server.log', 'monthly')
-
-require_relative 'database_connection'
 
 #Name for the pid file, this file will store the process id of the process we fork
 PID_FILE = "context.pid"
@@ -47,8 +41,6 @@ Signal.trap('EXIT') do
   puts "Stopped Server\n"
 end
 
-pg_db = PostgresDirect.new()
-pg_db.connect
 
 class ChatRoom
   def initialize
