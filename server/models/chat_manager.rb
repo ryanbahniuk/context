@@ -50,7 +50,7 @@ class ChatManager
       $SERVER_LOG.info("Saving message")
       url = Url.find_create(msg["url"])
       message = Message.create(content: msg["message"], url: url)
-      $SERVER_LOG("Message saved (id: #{message.id}) -- #{Time.now - start_time}")
+      $SERVER_LOG.info ("Message saved (id: #{message.id}) -- #{Time.now - start_time}")
     }
     EM.defer query
     send_all(msg["url"], msg["message"])
