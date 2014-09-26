@@ -8,7 +8,7 @@
 		},
 		"content_scripts": [
 	    {
-        "matches": ["http://*/*", "https://*/*"],
+        "matches": ["http://*/*"],
         "js": ["javascripts/jquery-2.1.1.min.js", "javascripts/chat.js", "javascripts/content.js"],
         "css": ["css/sidebar.css"],
         "run_at": "document_end"
