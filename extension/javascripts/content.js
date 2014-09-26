@@ -11,10 +11,9 @@ function toggleSidebar() {
 	var id = 'context-sidebar';
 
 	if ($('body').find('#' + id).length === 0) {
-		var $sidebar = $('<div id="' + id + '"></div>');
+		var iframeSource = chrome.extension.getURL('index.html');
+		var $sidebar = $('<iframe id="' + id + '" src="' + iframeSource + '"></iframe>');
 
-		var $chat = $('<h1>Context</h1><div id="status">Connecting...</div><ul id="messages"></ul><form id="message-form" action="#" method="post"><textarea id="message" placeholder="Write your message here..." required></textarea><button type="submit">Send Message</button></form>');
-		$sidebar.html($chat);
 		adjustBodyPosition('open');
 		$('body').prepend($sidebar);
 	} else {
