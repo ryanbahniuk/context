@@ -2,6 +2,7 @@ require 'em-websocket'
 require 'pg'
 require 'logger'
 require 'pg/em'
+require 'json'
 
 $SERVER_LOG = Logger.new('logs/server.log', 'monthly')
 
@@ -49,13 +50,6 @@ end
 pg_db = PostgresDirect.new()
 pg_db.connect
 
-# exec("createdb context") # need to run create db first time on server
-# pg_db.create_schema_tables
-
-
-# pg_db.drop_tables
-
-
 class ChatRoom
   def initialize
     @clients = []
@@ -72,29 +66,29 @@ class ChatRoom
 
   def add_client(ws)
     @clients << ws
-    puts "added #{ws}"
-    puts @clients.inspect
-    puts "length of @clients is #{@clients.length}"
+    # puts "added #{ws}"
+    # puts @clients.inspect
+    # puts "length of @clients is #{@clients.length}"
   end
 
   def remove_client(ws)
     client = @clients.delete(ws)
-    puts "removed #{ws}"
+    # puts "removed #{ws}"
   end
 
   def handle_message(ws, msg)
     Fiber.new {
-      @pg.query("INSERT INTO messages (content) VALUES ('#{msg}')") do |result|
-        p result
+      msg = ::JSON.parse(msg)
+      @pg.query("INSERT INTO messages (content) VALUES ('#{msg["message"]}')") do |result|
       end
     }.resume
 
-    send_all(msg)
+    send_all(msg["message"])
   end
 
   def send_all(msg)
     @clients.each do |ws|
-      ws.send("you've been sent message #{msg}")
+      ws.send(msg)
     end
   end
 end
@@ -135,7 +129,7 @@ EM.run {
 #         puts "after query"
 #         # EM.stop
 #       }.resume
-      
+
 #       p "outside fiber"
 #       $SERVER_LOG.debug("Received message: #{msg}")
 #       ws.send "Pong: #{msg}"

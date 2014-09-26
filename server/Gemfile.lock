@@ -1,6 +1,9 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    em-pg-client (0.3.4)
+      eventmachine (~> 1.0.0)
+      pg (>= 0.17.0)
     em-websocket (0.5.1)
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0.6.0)
@@ -12,5 +15,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  em-pg-client (~> 0.3.4)
   em-websocket (~> 0.5.1)
   pg
