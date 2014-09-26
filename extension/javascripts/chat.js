@@ -7,8 +7,8 @@ var loadChat = function() {
   var $socketStatus = $sidebar.find('#status');
   var url = window.location.host + window.location.pathname;
 
-  // var socket = new WebSocket('ws://104.131.117.55:8080');
-  var socket = new WebSocket('ws://localhost:8080');
+  var socket = new WebSocket('ws://104.131.117.55:8080');
+  // var socket = new WebSocket('ws://localhost:8080');
 
   socket.onopen = function(event) {
 	  $socketStatus.html("");
