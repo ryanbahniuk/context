@@ -11,7 +11,7 @@ end
 # the first time it sees "Person" and will only throw an exception if
 # that file doesn't define the Person class.
 
-
+# db = URI.parse("postgres://root:root@localhost/context")
 db = URI.parse(ENV['DATABASE_URL'] || "postgres://localhost/#{APP_NAME}")
 
 DB_NAME = db.path[1..-1]
