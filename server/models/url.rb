@@ -2,15 +2,9 @@ class Url < ActiveRecord::Base
 	require 'uri'
 	has_many :messages
 
-	before_create :rootify
-
-	def rootify
-		uri = URI(self.link)
-		self.link = uri.host + uri.path
-	end
-
-	def self.rootify(link)
+	def self.rootify_find_create(link)
 		uri = URI(link)
-		uri.host + uri.path
+		link = uri.host + uri.path
+		self.find_or_create_by(link: link)
 	end
 end

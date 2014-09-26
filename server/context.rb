@@ -64,10 +64,9 @@ class ChatRoom
   end
 
   def handle_message(ws, msg)
+    msg = ::JSON.parse(msg)
     query = Proc.new {
-      msg = ::JSON.parse(msg)
-      link = Url.rootify(msg["url"])
-      url = Url.find_or_create_by(link: link)
+      url = Url.rootify_find_create(msg["url"])
       message = Message.create(content: msg["message"], url: url)
     }
 
