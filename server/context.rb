@@ -64,13 +64,14 @@ class ChatRoom
   end
 
   def handle_message(ws, msg)
-    Fiber.new {
+    query = Proc.new {
       msg = ::JSON.parse(msg)
       link = Url.rootify(msg["url"])
       url = Url.find_or_create_by(link: link)
       message = Message.create(content: msg["message"], url: url)
-    }.resume
+    }
 
+    EM.defer query
     send_all(msg["message"])
   end
 
