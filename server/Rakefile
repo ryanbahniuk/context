@@ -15,7 +15,7 @@ namespace :generate do
 
     model_name     = ENV['NAME'].camelize
     model_filename = ENV['NAME'].underscore + '.rb'
-    model_path = APP_ROOT.join('models', model_filename)
+    model_path = APP_ROOT.join('server', 'models', model_filename)
 
     if File.exist?(model_path)
       raise "ERROR: Model file '#{model_path}' already exists"
@@ -39,7 +39,7 @@ namespace :generate do
 
     name     = ENV['NAME'].camelize
     filename = "%s_%s.rb" % [Time.now.strftime('%Y%m%d%H%M%S'), ENV['NAME'].underscore]
-    path     = APP_ROOT.join('db', 'migrate', filename)
+    path     = APP_ROOT.join('server', 'db', 'migrate', filename)
 
     if File.exist?(path)
       raise "ERROR: File '#{path}' already exists"
@@ -64,7 +64,7 @@ namespace :generate do
 
     name     = ENV['NAME'].camelize
     filename = "%s_spec.rb" % ENV['NAME'].underscore
-    path     = APP_ROOT.join('spec', filename)
+    path     = APP_ROOT.join('server', 'spec', filename)
 
     if File.exist?(path)
       raise "ERROR: File '#{path}' already exists"
@@ -108,7 +108,7 @@ namespace :db do
 
   desc "Populate the database with dummy data by running db/seeds.rb"
   task :seed do
-    require APP_ROOT.join('db', 'seeds.rb')
+    require APP_ROOT.join('server', 'db', 'seeds.rb')
   end
 
   desc "drop, create, migrate, seed"

@@ -11,4 +11,3 @@ class CreateMessages < ActiveRecord::Migration
 		end
 	end
 end
-@conn.exec("CREATE TABLE messages (id serial NOT NULL UNIQUE, content varchar(255), user_id int, url_id int, latitude float, longitude float, FOREIGN KEY(url_id) REFERENCES urls(id));")

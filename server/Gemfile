@@ -6,7 +6,10 @@ gem 'pg'
 
 gem 'activesupport', '~>4.1'
 gem 'activerecord', '~>4.1'
+gem 'bcrypt-ruby', '~> 3.1.5'
 
 gem 'rake'
 
 gem 'rspec'
+
+gem 'faker'

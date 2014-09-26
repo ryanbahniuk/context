@@ -1,4 +1,4 @@
-Dir[APP_ROOT.join('models', '*.rb')].each do |model_file|
+Dir[APP_ROOT.join('server', 'models', '*.rb')].each do |model_file|
 	filename = File.basename(model_file).gsub('.rb', '')
 	autoload ActiveSupport::Inflector.camelize(filename), model_file
 end
@@ -12,7 +12,7 @@ end
 # that file doesn't define the Person class.
 
 
-db = URI.parse(ENV['DATABASE_URL'] || "postgres://localhost/context")
+db = URI.parse(ENV['DATABASE_URL'] || "postgres://localhost/#{APP_NAME}")
 
 DB_NAME = db.path[1..-1]
 
