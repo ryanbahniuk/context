@@ -130,7 +130,7 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
   },
 
   add_message: function(message) {
-    // debugger;
+    debugger;
     this.state.data.push(message);
   },
 

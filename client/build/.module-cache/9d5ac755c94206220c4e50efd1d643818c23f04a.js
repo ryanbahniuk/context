@@ -113,8 +113,8 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
     socket.onmessage = function(e) {
       var message = event.data;
       // debugger;
-      this.add_message(message);
-    }.bind(this);
+      ChatBox.add_message(message);
+    };
   },
 
   getInitialState: function() {
@@ -130,8 +130,7 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
   },
 
   add_message: function(message) {
-    // debugger;
-    this.state.data.push(message);
+    this.data.push(message);
   },
 
   render: function() {

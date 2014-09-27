@@ -4,6 +4,7 @@ var socket;
 var url;
 
 $(document).ready(function() {
+  url = window.location.host + window.location.pathname;
   console.log("load");
   var displayUrl = document.getElementById('url');
   // var socket = new WebSocket('ws://localhost:8080');
@@ -102,7 +103,6 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
     // this.loadMessages();
     // setInterval(this.loadMessages, this.props.pollInterval);
     socket = new WebSocket(this.props.socket_address);
-    url = window.location.host + window.location.pathname;
     socket.onopen = function(event) {
       var socketStatus = document.getElementById('status');
       socketStatus.innerHTML = 'Connected to: ' + event.currentTarget.UdRL;
@@ -112,9 +112,8 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
     };
     socket.onmessage = function(e) {
       var message = event.data;
-      // debugger;
-      this.add_message(message);
-    }.bind(this);
+      this.add(message);
+    };
   },
 
   getInitialState: function() {
@@ -129,9 +128,8 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
     socket.send(JSON.stringify(msg));
   },
 
-  add_message: function(message) {
-    // debugger;
-    this.state.data.push(message);
+  add: function(message) {
+    this.data.push(message);
   },
 
   render: function() {

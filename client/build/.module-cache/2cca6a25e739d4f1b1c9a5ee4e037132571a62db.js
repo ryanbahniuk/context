@@ -4,6 +4,7 @@ var socket;
 var url;
 
 $(document).ready(function() {
+  url = window.location.host + window.location.pathname;
   console.log("load");
   var displayUrl = document.getElementById('url');
   // var socket = new WebSocket('ws://localhost:8080');
@@ -101,20 +102,7 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
     // this.socket = new WebSocket('ws://localhost:8080');
     // this.loadMessages();
     // setInterval(this.loadMessages, this.props.pollInterval);
-    socket = new WebSocket(this.props.socket_address);
-    url = window.location.host + window.location.pathname;
-    socket.onopen = function(event) {
-      var socketStatus = document.getElementById('status');
-      socketStatus.innerHTML = 'Connected to: ' + event.currentTarget.UdRL;
-      socketStatus.className = 'open';
-      var msg = {url: url, initial: true};
-      socket.send(JSON.stringify(msg));
-    };
-    socket.onmessage = function(e) {
-      var message = event.data;
-      // debugger;
-      this.add_message(message);
-    }.bind(this);
+    var socket = new WebSocket(this.props.socket_address);
   },
 
   getInitialState: function() {
@@ -129,9 +117,8 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
     socket.send(JSON.stringify(msg));
   },
 
-  add_message: function(message) {
-    // debugger;
-    this.state.data.push(message);
+  add: function(message) {
+    this.data.push(message);
   },
 
   render: function() {
@@ -148,6 +135,22 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
 
 
     React.renderComponent(
-      ChatBox({url: "/messages", pollInterval: 3000, socket_address: "ws://104.131.117.55:8080"}),
+      ChatBox({url: "/messages", pollInterval: 3000}),
       document.getElementById("content")
       );
+
+    
+      // var socketStatus = document.getElementById('status');
+
+
+    socket.onopen = function(event) {
+      socketStatus.innerHTML = 'Connected to: ' + event.currentTarget.UdRL;
+      socketStatus.className = 'open';
+      var msg = {url: url, initial: true};
+      socket.send(JSON.stringify(msg));
+    };
+
+    socket.onmessage = function(e) {
+      var message = event.data;
+      ChatBox.add(message);
+    };
