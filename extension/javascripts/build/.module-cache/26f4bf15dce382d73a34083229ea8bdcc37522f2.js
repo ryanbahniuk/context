@@ -18,24 +18,24 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
     this.setState({showLogin: true, showRegister: false});
   },
 
-  handleLoginRequest: function(data) {
-    $.ajax({
-      url: this.props.loginUrl,
-      type: 'POST',
-      dataType: 'json',
-      data: {user: {username: data["email"], password: data["password"]}},
-    })
-    .done(function(data) {
-      console.log("success");
-    })
-    .fail(function() {
-      console.log("error");
-    })
-    .always(function() {
-      console.log("complete");
-    });
+  // handleLoginRequest: function(data) {
+  //   $.ajax({
+  //     url: this.props.loginUrl,
+  //     type: 'POST',
+  //     dataType: 'json',
+  //     data: {user: {username: data["email"], password: data["password"]},
+  //   })
+  //   .done(function(data) {
+  //     console.log("success");
+  //   })
+  //   .fail(function() {
+  //     console.log("error");
+  //   })
+  //   .always(function() {
+  //     console.log("complete");
+  //   });
     
-  },
+  // },
 
   handleRegisterRequest: function(data) {
     $.ajax({
@@ -72,7 +72,7 @@ var LoginForm = React.createClass({displayName: 'LoginForm',
     e.preventDefault();
     var email = this.refs.loginEmail.getDOMNode().value.trim();
     var password = this.refs.loginPassword.getDOMNode().value.trim();
-    this.props.onLogin({email: email, password: password});
+    this.refs.onLogin({email: email, password: password});
   },
 
   render: function() {
@@ -96,7 +96,7 @@ var RegisterForm = React.createClass({displayName: 'RegisterForm',
     var name = this.refs.registerName.getDOMNode().value.trim();
     var email = this.refs.registerEmail.getDOMNode().value.trim();
     var password = this.refs.registerPassword.getDOMNode().value.trim();
-    this.props.onRegister({name: name, email: email, password: password});
+    this.refs.onRegister({name: name, email: email, password: password});
   },
 
   render: function() {

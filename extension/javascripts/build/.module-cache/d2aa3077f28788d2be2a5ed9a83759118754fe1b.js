@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 
-var UserAuth = React.createClass({
+var UserAuth = React.createClass({displayName: 'UserAuth',
 
   getInitialState: function() {
     return {
@@ -21,11 +21,11 @@ var UserAuth = React.createClass({
   handleLoginRequest: function(data) {
     $.ajax({
       url: this.props.loginUrl,
-      type: 'POST',
+      type: 'GET',
       dataType: 'json',
-      data: {user: {username: data["email"], password: data["password"]}},
+      data: {email: data["email"], password: data["password"]},
     })
-    .done(function(data) {
+    .done(function() {
       console.log("success");
     })
     .fail(function() {
@@ -35,6 +35,7 @@ var UserAuth = React.createClass({
       console.log("complete");
     });
     
+
   },
 
   handleRegisterRequest: function(data) {
@@ -58,58 +59,58 @@ var UserAuth = React.createClass({
 
   render: function() {
     return (
-      <div className="userAuth">
-      { this.state.showLogin ? <LoginForm onLogin={this.handleLoginRequest} onSwitchRegister={this.onClickRegister}/> : null }
-      { this.state.showRegister ? <RegisterForm onRegister={this.handleRegisterRequest} onSwitchLogin={this.onClickLogin}/> : null }
-      </div>
+      React.DOM.div({className: "userAuth"}, 
+       this.state.showLogin ? LoginForm({onLogin: this.handleLoginRequest, onSwitchRegister: this.onClickRegister}) : null, 
+       this.state.showRegister ? RegisterForm({onRegister: this.handleRegisterRequest, onSwitchLogin: this.onClickLogin}) : null
+      )
     );
   }
 });
 
-var LoginForm = React.createClass({
+var LoginForm = React.createClass({displayName: 'LoginForm',
 
   handleLogin: function(e) {
     e.preventDefault();
     var email = this.refs.loginEmail.getDOMNode().value.trim();
     var password = this.refs.loginPassword.getDOMNode().value.trim();
-    this.props.onLogin({email: email, password: password});
+    this.refs.onLogin({email: email, password: password});
   },
 
   render: function() {
     return (
-      <div className="loginForm">
-      <form onSubmit={this.handleLogin}>
-        <input type="text" placeholder="Email" ref="loginEmail"/>
-        <input type="password" placeholder="Password" ref="loginPassword"/>
-        <input type="submit"/>
-      </form>
-      <button onClick={this.props.onSwitchRegister}>Register</button>
-      </div>
+      React.DOM.div({className: "loginForm"}, 
+      React.DOM.form({onSubmit: this.handleLogin}, 
+        React.DOM.input({type: "text", placeholder: "Email", ref: "loginEmail"}), 
+        React.DOM.input({type: "password", placeholder: "Password", ref: "loginPassword"}), 
+        React.DOM.input({type: "submit"})
+      ), 
+      React.DOM.button({onClick: this.props.onSwitchRegister}, "Register")
+      )
      );
   }
 });
 
-var RegisterForm = React.createClass({
+var RegisterForm = React.createClass({displayName: 'RegisterForm',
 
   handleRegister: function(e) {
     e.preventDefault();
     var name = this.refs.registerName.getDOMNode().value.trim();
     var email = this.refs.registerEmail.getDOMNode().value.trim();
     var password = this.refs.registerPassword.getDOMNode().value.trim();
-    this.props.onRegister({name: name, email: email, password: password});
+    this.refs.onRegister({name: name, email: email, password: password});
   },
 
   render: function() {
     return (
-      <div className="registerForm">
-      <form onSubmit={this.handleRegister}>
-      <input type="text" placeholder="Name" ref="registerName"/>
-      <input type="text" placeholder="Email" ref="registerEmail"/>
-      <input type="text" placeholder="Password" ref="registerPassword"/>
-      <input type="submit"/>
-      </form>
-      <button onClick={this.props.onSwitchLogin}>Login</button>
-      </div>
+      React.DOM.div({className: "registerForm"}, 
+      React.DOM.form({onSubmit: this.handleRegister}, 
+      React.DOM.input({type: "text", placeholder: "Name", ref: "registerName"}), 
+      React.DOM.input({type: "text", placeholder: "Email", ref: "registerEmail"}), 
+      React.DOM.input({type: "text", placeholder: "Password", ref: "registerPassword"}), 
+      React.DOM.input({type: "submit"})
+      ), 
+      React.DOM.button({onClick: this.props.onSwitchLogin}, "Login")
+      )
       );
   }
 });

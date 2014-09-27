@@ -8,8 +8,8 @@ var App = React.createClass({displayName: 'App',
 
   getInitialState: function() {
     return {
-      showAuth: true,
-      showChat: false
+      showAuth: false,
+      showChat: true
     };
   },
 

@@ -1,15 +1,15 @@
 /** @jsx React.DOM */
 
 var loginUrl = "/login";
-var registerUrl = "/users";
+var registerUrl = "...";
 var socketAddress = 'ws://104.131.117.55:8080';
 
 var App = React.createClass({displayName: 'App',
 
   getInitialState: function() {
     return {
-      showAuth: true,
-      showChat: false
+      showAuth: false,
+      showChat: true
     };
   },
 

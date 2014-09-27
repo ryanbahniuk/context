@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 
-var loginUrl = "...";
-var registerUrl = "...";
+var loginUrl = "/login";
+var registerUrl = "/users";
 var socketAddress = 'ws://104.131.117.55:8080';
 
 var App = React.createClass({
