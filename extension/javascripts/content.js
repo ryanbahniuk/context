@@ -2,7 +2,6 @@
 function handleRequest(request, sender, sendResponse) {
 	if (request.callFunction == "toggleSidebar") {
 		toggleSidebar();
-		loadChat();
 	}
 }
 chrome.extension.onRequest.addListener(handleRequest);
@@ -11,7 +10,7 @@ function toggleSidebar() {
 	var id = 'context-sidebar';
 
 	if ($('body').find('#' + id).length === 0) {
-		var iframeSource = chrome.extension.getURL('index.html');
+		var iframeSource = chrome.extension.getURL('index.html') + "?url=" + document.URL;
 		var $sidebar = $('<iframe id="' + id + '" src="' + iframeSource + '"></iframe>');
 
 		adjustBodyPosition('open');
