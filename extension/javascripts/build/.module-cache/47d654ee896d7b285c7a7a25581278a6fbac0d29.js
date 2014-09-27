@@ -3,7 +3,7 @@
 var socket;
 var url;
 
-var ChatInput = React.createClass({
+var ChatInput = React.createClass({displayName: 'ChatInput',
   handleSubmit: function(e) {
     e.preventDefault();
     var c = this.refs.content.getDOMNode().value.trim();
@@ -14,25 +14,25 @@ var ChatInput = React.createClass({
 
   render: function() {
     return (
-      <form className="chatInput" onSubmit={this.handleSubmit}>
-      <input type="text" ref="content"/>
-      <input type="submit"/>
-      </form>
+      React.DOM.form({className: "chatInput", onSubmit: this.handleSubmit}, 
+      React.DOM.input({type: "text", ref: "content"}), 
+      React.DOM.input({type: "submit"})
+      )
       );
   }
 });
 
-var MessageList = React.createClass({
+var MessageList = React.createClass({displayName: 'MessageList',
   render: function() {
     var messageNodes = this.props.data.map(function(message, index) {
       return (
-        <Message author={message.author} content={message.content} key={index}/>
+        Message({author: message.author, content: message.content, key: index})
         );
     });
     return (
-      <ul className="messageList">
-      {messageNodes}
-      </ul>
+      React.DOM.ul({className: "messageList"}, 
+      messageNodes
+      )
       );
   },
 
@@ -55,22 +55,22 @@ var MessageList = React.createClass({
   }
 });
 
-var Message = React.createClass({
+var Message = React.createClass({displayName: 'Message',
   render: function() {
     return (
-      <li className="message">
-      <h5 className="messageAuthor">
-      {this.props.author}
-      </h5>
-      <p className="messageContent">
-      {this.props.content}
-      </p>
-      </li>
+      React.DOM.li({className: "message"}, 
+      React.DOM.h5({className: "messageAuthor"}, 
+      this.props.author
+      ), 
+      React.DOM.p({className: "messageContent"}, 
+      this.props.content
+      )
+      )
       );
   }
 });
 
-var ChatBox = React.createClass({
+var ChatBox = React.createClass({displayName: 'ChatBox',
   loadMessages: function() {
     $.ajax({
       url: this.props.url,
@@ -91,7 +91,7 @@ var ChatBox = React.createClass({
     // this.socket = new WebSocket('ws://localhost:8080');
     // this.loadMessages();
     // setInterval(this.loadMessages, this.props.pollInterval);
-    socket = new WebSocket(this.props.socketAddress);
+    socket = new WebSocket(this.props.socket_address);
     url = window.location.host + window.location.pathname // document.URL.split("?")[1].replace(/url=/,"");
     socket.onopen = function(event) {
       var socketStatus = document.getElementById('status');
@@ -124,11 +124,18 @@ var ChatBox = React.createClass({
 
   render: function() {
     return (
-      <div className="chatBox">
-      <div className="titleBar">(0|\|+3x+</div>
-        < MessageList data={this.state.data} />
-        < ChatInput onMessageSubmit={this.handleMessageSubmit} />
-        </div>
+      React.DOM.div({className: "chatBox"}, 
+      React.DOM.div({className: "titleBar"}, "(0|\\|+3x+"), 
+        MessageList({data: this.state.data}), 
+        ChatInput({onMessageSubmit: this.handleMessageSubmit})
+        )
         );
     }
   });
+
+
+// React.renderComponent(
+//   <ChatBox socket_address='ws://104.131.117.55:8080'/>,
+//   document.getElementById("content")
+//   );
+
