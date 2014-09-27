@@ -1,19 +1,17 @@
-<!Doctype>
-<html>
-	<head>
-		<script src="javascripts/jquery-2.1.1.min.js"></script>
-		<script src="javascripts/chat.js"></script>
-	</head>
-	<body id="context">
-		<h1>Context</h1>
+`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>WebSockets Demo</title>
 
-		<div id="status">Connecting...</div>
-
-		<ul id="messages"></ul>
-
-		<form id="message-form" action="#" method="post">
-			<textarea id="message" placeholder="Write your message here..." required></textarea>
-			<button type="submit">Send Message</button>
-		</form>
-	</body>
+  <link rel="stylesheet" href="css/sidebar.css">
+  <script src="javascripts/jquery-2.1.1.min.js"></script>
+  <script src="javascripts/react.min.js"></script>
+</head>
+<body>
+  <span id="url"></span>
+  <span id="status">Disconnected</span>
+  <div id="content"></div>
+  <script type="text/javascript" src="javascripts/build/sidebar.js"></script>
+</body>
 </html>
