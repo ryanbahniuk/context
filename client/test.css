@@ -1,0 +1,39 @@
+div.chatBox {
+  height: 300px;
+  width: 200px;
+}
+
+div.titleBar {
+  font-size: 1.3rem;
+  border: 1px solid black;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+ul.messageList {
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  border: 1px solid black;
+  list-style: none;
+  margin: 0;
+  padding: 0.25rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+li.message {
+  margin: 0;
+}
+
+li.message h5 {
+  margin: 0;
+  padding: 0.3rem 0;
+}
+
+li.message p {
+  font-size: 0.8rem;
+}

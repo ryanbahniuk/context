@@ -42,6 +42,7 @@ Signal.trap('EXIT') do
 end
 
 chat_manager = ChatManager.new
+
 EM.run {
   chat_manager.start(host: "0.0.0.0", port: 8080)
 }
