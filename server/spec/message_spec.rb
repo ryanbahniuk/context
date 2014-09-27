@@ -1,4 +1,4 @@
-require_relative '../config/environment'
+require_relative 'spec_helper'
 
 describe Message do 
 	let(:url) {Url.create(link: "www.nytimes.com")}

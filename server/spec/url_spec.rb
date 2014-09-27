@@ -1,4 +1,4 @@
-require_relative '../config/environment'
+require_relative 'spec_helper'
 
 describe Url do 
 	let(:link) { "http://www.nytimes.com/test?test=123" }
