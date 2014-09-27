@@ -24,6 +24,7 @@
       "tabs"
     ],
     "web_accessible_resources": [
-	    "index.html"
+	    "index.html",
+	    "css/iframe.css.map"
 	  ]
 }
