@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
 ruby context.rb
+unicorn -D -p 3000
