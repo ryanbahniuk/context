@@ -1,0 +1,3 @@
+# describe ChatManager do 
+	
+# end
