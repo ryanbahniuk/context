@@ -1,4 +1,4 @@
-post '/urls/get_messages/:i' do
+post '/urls/messages/:i' do
 	if request.xhr?
 		url = Url.find_by(link: params[:url])
 		if !url.nil?
