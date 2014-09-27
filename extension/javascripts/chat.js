@@ -6,20 +6,20 @@ $(document).ready(function() {
   var $messageInput = $context.find('#message');
   var $messages = $context.find('#messages');
   var $socketStatus = $context.find('#status');
+  var url = document.URL.split("?")[1].replace(/url=/,"");
 
   var socket = new WebSocket('ws://104.131.117.55:8080');
   // var socket = new WebSocket('ws://localhost:8080');
   socket.onopen = function(event) {
-	  $socketStatus.html("");
-	  $socketStatus.addClass('open');
+    $socketStatus.html("");
+    $socketStatus.addClass('open');
     var msg = {url: url, initial: true};
     socket.send(JSON.stringify(msg));
-	};
+  };
 
-	$form.on("submit", function(e) {
-	  e.preventDefault();
-    
-	  var url = document.URL.split("?")[1].replace(/url=/,"");
+  $form.on("submit", function(e) {
+    e.preventDefault();
+
 	  // Retrieve the message from the textarea.
 	  var message = $messageInput.val();
 
