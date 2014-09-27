@@ -8,7 +8,7 @@ describe Url do
 	end
 
 	after(:all) do 
-		@url.destroy
+		Url.destroy_all
 	end
 
 	subject { @url }
@@ -22,12 +22,16 @@ describe Url do
 		end
 	end
 
-	describe "::find_create" do 
-		let(:new_url) { "www.theatlantic.com/test" }
-		let(:old_url) { "www.nytimes.com/test" }
+	describe "::rootify_find_create" do 
+		let(:new_url) { "http://www.theatlantic.com/test" }
+		let(:old_url) { "http://www.nytimes.com/test" }
 
 		it "should create a new url if not in database" do 
-			expect{Url.find_or_create_by(link: new_url)}.to change{Url.count}.by(1)
+			expect{Url.rootify_find_create(link: new_url)}.to change{Url.count}.by(1)
+		end
+
+		it "should not add a url if already in database" do 
+			expect{Url.rootify_find_create(link: old_url)}.to change{Url.count}.by(0)
 		end
 	end
 
