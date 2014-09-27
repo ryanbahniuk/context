@@ -4,12 +4,12 @@ post '/users' do
 
 		if user.errors.empty?
 			content_type :json
-			{user: user}.to_json
+			return {user: user}.to_json
 		else
 			content_type :json
-			{error: "There appears to have been an error creating a new user profile."}.to_json
+			return {error: "There appears to have been an error creating a new user profile."}.to_json
 		end
 	else
-		"Request not allowed."
+		return {error: "Request not allowed."}.to_json
 	end
 end

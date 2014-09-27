@@ -3,12 +3,12 @@ post '/urls/messages/:i' do
 		url = Url.find_by(link: params[:url])
 		if !url.nil?
 			content_type :json
-			url.messages.last(params[:i]).to_json
+			return url.messages.last(params[:i]).to_json
 		else
 			content_type :json
-			{}.to_json
+			return {}.to_json
 		end
 	else
-		"Request not allowed."
+		return {error: "Request not allowed."}.to_json
 	end
 end

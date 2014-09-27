@@ -4,12 +4,12 @@ post '/login' do
 
 		if user && user.authenticate(params[:user][:password])
 			content_type :json
-			{user: user}.to_json
+			return {user: user}.to_json
 		else
 			content_type :json
-			{error: "Username or password did not match."}.to_json
+			return {error: "Username or password did not match."}.to_json
 		end
 	else
-		"Request not allowed."
+		return {error: "Request not allowed."}.to_json
 	end
 end
