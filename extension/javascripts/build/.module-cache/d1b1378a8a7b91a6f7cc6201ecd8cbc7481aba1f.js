@@ -1,8 +1,7 @@
 /** @jsx React.DOM */
 
-var loginUrl = "http://104.131.117.55:3000/login";
-var registerUrl = "http://104.131.117.55:3000/users";
-var messageUrl = "http://104.131.117.55:3000/urls/messages/10"
+var loginUrl = "/login";
+var registerUrl = "/users";
 var socketAddress = 'ws://104.131.117.55:8080';
 
 var App = React.createClass({displayName: 'App',

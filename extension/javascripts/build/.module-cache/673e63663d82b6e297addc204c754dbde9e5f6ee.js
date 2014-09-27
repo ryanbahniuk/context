@@ -4,7 +4,7 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
 
   getInitialState: function() {
     return {
-      errors: "",
+      errors: [],
       showLogin: true,
       showRegister: false
     };
@@ -19,35 +19,22 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
   },
 
   handleLoginRequest: function(data) {
-    console.log(this.props.loginUrl);
     $.ajax({
       url: this.props.loginUrl,
       type: 'POST',
       dataType: 'json',
       data: {user: {username: data["email"], password: data["password"]}},
     })
-
     .done(function(data) {
       console.log("success");
-      if(data["error"]) {
-        this.setState({errors: data["error"]});
-      } else if(data["user"]) {
-        chrome.storage.sync.set({user: data["user"]});
-        this.props.onSuccess();
-      } else {
-        this.setState({errors: "??????"});
-      };
-    }.bind(this))
-
+    })
     .fail(function() {
       console.log("error");
-      debugger;
-      this.setState({errors: "login broken..."});
-    }.bind(this))
-
+    })
     .always(function() {
       console.log("complete");
     });
+    
   },
 
   handleRegisterRequest: function(data) {
@@ -57,40 +44,25 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
       dataType: 'json',
       data: {name: data["name"], email: data["email"], password: data["password"]},
     })
-
     .done(function(data) {
       console.log("success");
       console.log(data);
-      this.props.onSuccess();
-    }.bind(this))
-
+    })
     .fail(function() {
       console.log("error");
-      this.setState({errors: "register broken..."});      
-    }.bind(this))
-    
+    })
     .always(function() {
       console.log("complete");
     });
+
   },
 
   render: function() {
     return (
       React.DOM.div({className: "userAuth"}, 
-        DisplayErrors({errors: this.state.errors}), 
        this.state.showLogin ? LoginForm({onLogin: this.handleLoginRequest, onSwitchRegister: this.onClickRegister}) : null, 
        this.state.showRegister ? RegisterForm({onRegister: this.handleRegisterRequest, onSwitchLogin: this.onClickLogin}) : null
       )
-    );
-  }
-});
-
-var DisplayErrors = React.createClass({displayName: 'DisplayErrors',
-  render: function() {
-    return (
-    React.DOM.div({className: "displayErrors"}, 
-      React.DOM.p(null, this.props.errors)
-    )
     );
   }
 });
