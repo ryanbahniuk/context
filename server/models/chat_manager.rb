@@ -50,9 +50,12 @@ class ChatManager
       $SERVER_LOG.info("Saving message -- #{msg["message"]}")
       url = Url.find_create(msg["url"])
       message = Message.create(content: msg["message"], url: url)
-      $SERVER_LOG.info ("Message saved (id: #{message.id}) -- #{Time.now - start_time}")
+      $SERVER_LOG.info ("Message saved (#{msg["message"]}) -- #{Time.now - start_time}")
     }
-    EM.defer query
+    callback = Proc.new {
+      ActiveRecord::Base.clear_reloadable_connections!
+    }
+    EM.defer query, callback
     send_all(msg["url"], msg["message"])
   end
 
