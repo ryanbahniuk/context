@@ -138,7 +138,7 @@ var ChatBox = React.createClass({
     // console.log("in ChatBox render")
     return (
       <div className="chatBox">
-      <h3>(0|\|+3x+</h3>
+      <div className="titleBar">(0|\|+3x+</div>
         < MessageList data={this.state.data} />
         < ChatInput onMessageSubmit={this.handleMessageSubmit} />
         </div>
