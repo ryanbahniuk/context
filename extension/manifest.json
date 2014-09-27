@@ -21,7 +21,7 @@
 	    "default_title": "Contextual Conversation"
 		},
 		"permissions": [
-      "tabs", "http://104.131.117.55:3000/"
+      "tabs", "http://104.131.117.55:3000/", "http://localhost/"
     ],
     "web_accessible_resources": [
 	    "index.html"

@@ -22,3 +22,4 @@ gem 'rake'
 gem 'rspec'
 
 gem 'faker'
+

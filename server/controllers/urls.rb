@@ -1,4 +1,6 @@
 post '/urls/messages/:i' do
+	response['Access-Control-Allow-Origin'] = '*'
+	
 	if request.xhr?
 		url = Url.find_by(link: params[:url])
 		if !url.nil?

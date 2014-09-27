@@ -39,6 +39,7 @@ GEM
     multi_json (1.10.1)
     pg (0.17.1)
     rack (1.5.2)
+    rack-cors (0.2.9)
     rack-protection (1.5.3)
       rack
     rack-test (0.6.2)
@@ -92,6 +93,7 @@ DEPENDENCIES
   em-websocket (~> 0.5.1)
   faker
   pg
+  rack-cors
   rake
   rspec
   sinatra

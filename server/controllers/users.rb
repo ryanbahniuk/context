@@ -1,4 +1,6 @@
 post '/users' do
+	response['Access-Control-Allow-Origin'] = '*'
+
 	if request.xhr?
 		user = User.create(params[:user])
 
