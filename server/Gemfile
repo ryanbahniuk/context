@@ -10,6 +10,8 @@ gem 'sinatra-contrib'
 
 # Use Unicorn for our web server
 gem 'unicorn'
+# And Thin as our backup
+gem 'thin'
 
 gem 'activesupport', '~>4.1'
 gem 'activerecord', '~>4.1'

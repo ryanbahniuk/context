@@ -5,10 +5,21 @@ then
   pid=`cat context.pid`
   if ps -p $pid > /dev/null
   then
-    echo "Process $pid is alive and well."
+    echo "WS Server $pid is alive and well."
   else
-    echo "Process $pid is dead."
+    echo "WS Server $pid is dead."
   fi
 else
   echo "context.pid doesn't exist"
+fi
+
+printf "\n"
+
+re='^[0-9]+$'
+if [[ `pgrep -f "unicorn master -D -p 3000"` =~ $re ]]
+then
+  pid=`pgrep -f "unicorn master -D -p 3000"`
+  echo "HTTP Server running on process $pid is alive and well."
+else
+  echo "HTTP Server is not running."
 fi
