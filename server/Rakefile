@@ -127,6 +127,27 @@ namespace :db do
   task :version do
     puts "Current version: #{ActiveRecord::Migrator.current_version}"
   end
+
+  desc "Sets up test environment"
+  task :test_drop do 
+    puts "Dropping database #{TEST_DB}..."
+    exec("dropdb #{TEST_DB}")
+  end
+
+  task :test_create do 
+    puts "Creating database #{TEST_DB} if it doesn't exist..."
+    exec("createdb #{TEST_DB}")
+  end
+
+  task :test_migrate do 
+    dbconfig = YAML.load(File.read('config/database.yml'))
+    ActiveRecord::Base.establish_connection dbconfig['test']
+    ActiveRecord::Migrator.migrations_paths << File.dirname(__FILE__) + 'db/migrate'
+    ActiveRecord::Migration.verbose = ENV["VERBOSE"] ? ENV["VERBOSE"] == "true" : true
+    ActiveRecord::Migrator.migrate(ActiveRecord::Migrator.migrations_paths, ENV["VERSION"] ? ENV["VERSION"].to_i : nil) do |migration|
+      ENV["SCOPE"].blank? || (ENV["SCOPE"] == migration.scope)
+    end 
+  end
 end
 
 desc 'Start IRB with application environment loaded'
