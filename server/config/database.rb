@@ -18,8 +18,10 @@ end
 
 # db = URI.parse("postgres://root:root@localhost/context")
 db = URI.parse(ENV['DATABASE_URL'] || "postgres://localhost/#{APP_NAME}")
+db_test = URI.parse("postgres://localhost/test")
 
 DB_NAME = db.path[1..-1]
+TEST_DB = db_test.path[1..-1]
 
 ActiveRecord::Base.establish_connection(
 	:adapter  => db.scheme == 'postgres' ? 'postgresql' : db.scheme,

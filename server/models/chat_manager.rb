@@ -1,6 +1,7 @@
 class ChatManager
   require 'json'
-
+  attr_reader :open_urls
+  
   def initialize
     @open_urls = {}
   end
@@ -38,7 +39,7 @@ class ChatManager
     else
       @open_urls[url] = [ws]
     end
-    $SERVER_LOG.info url_log
+    # $SERVER_LOG.info url_log
     p "OPEN URLS:---------------------------"
     p @open_urls
   end
