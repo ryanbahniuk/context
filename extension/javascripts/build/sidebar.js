@@ -73,14 +73,17 @@ var Message = React.createClass({displayName: 'Message',
 var ChatBox = React.createClass({displayName: 'ChatBox',
   loadMessages: function() {
     $.ajax({
-      url: this.props.url,
+      url: this.props.messageUrl,
       dataType: 'json',
-      type: 'GET',
+      type: 'POST',
+      data: {url: url},
+
       success: function(data) {
         var messages = this.state.data;
-        messages = messages.concat(data);
+        messages = messages.push(data);
         this.setState({data: messages});
       }.bind(this),
+
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
       }.bind(this)
@@ -88,21 +91,19 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
   },
 
   componentDidMount: function() {
-    // this.socket = new WebSocket('ws://localhost:8080');
-    // this.loadMessages();
-    // setInterval(this.loadMessages, this.props.pollInterval);
-    socket = new WebSocket(this.props.socket_address);
-    // url = window.location.host + window.location.pathname;
+    this.loadMessages();
+    socket = new WebSocket(this.props.socketAddress);
     url = document.URL.split("?")[1].replace(/url=/,"");
+    
     socket.onopen = function(event) {
       var socketStatus = document.getElementById('status');
-      socketStatus.innerHTML = 'Connected to: ' + event.currentTarget.UdRL;
+      socketStatus.innerHTML = 'Connected to: ' + event.currentTarget.URL;
       socketStatus.className = 'open';
       var msg = {url: url, initial: true};
       socket.send(JSON.stringify(msg));
     };
     socket.onmessage = function(e) {
-      var message = event.data;
+      var message = e.data;
       this.add_message(message);
     }.bind(this);
   },
@@ -115,12 +116,14 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
     var messages = this.state.data;
     messages.push(m);
     this.setState({data: messages});
-    var msg = {url: url, message: m.content};
+    var msg = {url: url, content: m.content};
     socket.send(JSON.stringify(msg));
   },
 
   add_message: function(message) {
-    this.state.data.push(message);
+    var messages = this.state.data;
+    messages.push(message);
+    this.setState({data: messages});
   },
 
   render: function() {
@@ -132,9 +135,3 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
         );
     }
   });
-
-
-    React.renderComponent(
-      ChatBox({socket_address: "ws://104.131.117.55:8080"}),
-      document.getElementById("content")
-      );

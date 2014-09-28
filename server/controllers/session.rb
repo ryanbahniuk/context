@@ -1,15 +1,13 @@
 post '/login' do
-	if request.xhr?
-		user = User.find_by(username: params[:user][:username])
+	response['Access-Control-Allow-Origin'] = '*'
 
-		if user && user.authenticate(params[:user][:password])
-			content_type :json
-			{user: user}.to_json
-		else
-			content_type :json
-			{error: "Username or password did not match."}.to_json
-		end
+	user = User.find_by(email: params[:email])
+
+	if user && user.authenticate(params[:password])
+		object = {user: user}.to_json
 	else
-		"Request not allowed."
+		object = {error: "Username or password did not match."}.to_json
 	end
+	content_type :json
+	object
 end

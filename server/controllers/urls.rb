@@ -1,14 +1,12 @@
 post '/urls/messages/:i' do
-	if request.xhr?
-		url = Url.find_by(link: params[:url])
-		if !url.nil?
-			content_type :json
-			url.messages.last(params[:i]).to_json
-		else
-			content_type :json
-			{}.to_json
-		end
+	response['Access-Control-Allow-Origin'] = '*'
+
+	url = Url.find_by(link: params[:url])
+	if !url.nil?
+		object = {messages: url.messages.last(params[:i])}.to_json
 	else
-		"Request not allowed."
+		object = {}.to_json
 	end
+	content_type :json
+	object
 end
