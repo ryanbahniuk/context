@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 var user;
 
-var UserAuth = React.createClass({
+var UserAuth = React.createClass({displayName: 'UserAuth',
 
   getInitialState: function() {
     return {
@@ -74,26 +74,26 @@ var UserAuth = React.createClass({
 
   render: function() {
     return (
-      <div className="userAuth">
-        <DisplayErrors errors={this.state.errors}/>
-      { this.state.showLogin ? <LoginForm onLogin={this.handleLoginRequest} onSwitchRegister={this.onClickRegister}/> : null }
-      { this.state.showRegister ? <RegisterForm onRegister={this.handleRegisterRequest} onSwitchLogin={this.onClickLogin}/> : null }
-      </div>
+      React.DOM.div({className: "userAuth"}, 
+        DisplayErrors({errors: this.state.errors}), 
+       this.state.showLogin ? LoginForm({onLogin: this.handleLoginRequest, onSwitchRegister: this.onClickRegister}) : null, 
+       this.state.showRegister ? RegisterForm({onRegister: this.handleRegisterRequest, onSwitchLogin: this.onClickLogin}) : null
+      )
     );
   }
 });
 
-var DisplayErrors = React.createClass({
+var DisplayErrors = React.createClass({displayName: 'DisplayErrors',
   render: function() {
     return (
-    <div className="displayErrors">
-      <p>{this.props.errors}</p>
-    </div>
+    React.DOM.div({className: "displayErrors"}, 
+      React.DOM.p(null, this.props.errors)
+    )
     );
   }
 });
 
-var LoginForm = React.createClass({
+var LoginForm = React.createClass({displayName: 'LoginForm',
 
   handleLogin: function(e) {
     e.preventDefault();
@@ -103,19 +103,19 @@ var LoginForm = React.createClass({
 
   render: function() {
     return (
-      <div className="loginForm">
-      <form onSubmit={this.handleLogin} ref="loginForm">
-        <input type="text" placeholder="Email" name="email"/>
-        <input type="password" placeholder="Password" name="password"/>
-        <input type="submit"/>
-      </form>
-      <button onClick={this.props.onSwitchRegister}>Register</button>
-      </div>
+      React.DOM.div({className: "loginForm"}, 
+      React.DOM.form({onSubmit: this.handleLogin, ref: "loginForm"}, 
+        React.DOM.input({type: "text", placeholder: "Email", name: "email"}), 
+        React.DOM.input({type: "password", placeholder: "Password", name: "password"}), 
+        React.DOM.input({type: "submit"})
+      ), 
+      React.DOM.button({onClick: this.props.onSwitchRegister}, "Register")
+      )
      );
   }
 });
 
-var RegisterForm = React.createClass({
+var RegisterForm = React.createClass({displayName: 'RegisterForm',
 
   handleRegister: function(e) {
     e.preventDefault();
@@ -127,15 +127,15 @@ var RegisterForm = React.createClass({
 
   render: function() {
     return (
-      <div className="registerForm">
-      <form onSubmit={this.handleRegister}>
-      <input type="text" placeholder="Name" name="user[name]" ref="registerName"/>
-      <input type="text" placeholder="Email" name="user[email]" ref="registerEmail"/>
-      <input type="text" placeholder="Password" name="user[password]" ref="registerPassword"/>
-      <input type="submit"/>
-      </form>
-      <button onClick={this.props.onSwitchLogin}>Login</button>
-      </div>
+      React.DOM.div({className: "registerForm"}, 
+      React.DOM.form({onSubmit: this.handleRegister}, 
+      React.DOM.input({type: "text", placeholder: "Name", name: "user[name]", ref: "registerName"}), 
+      React.DOM.input({type: "text", placeholder: "Email", name: "user[email]", ref: "registerEmail"}), 
+      React.DOM.input({type: "text", placeholder: "Password", name: "user[password]", ref: "registerPassword"}), 
+      React.DOM.input({type: "submit"})
+      ), 
+      React.DOM.button({onClick: this.props.onSwitchLogin}, "Login")
+      )
       );
   }
 });
