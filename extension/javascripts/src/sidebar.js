@@ -95,9 +95,9 @@ var ChatBox = React.createClass({
     url = document.URL.split("?")[1].replace(/url=/,"");
 
     socket.onopen = function(event) {
-      var socketStatus = document.getElementById('status');
-      socketStatus.innerHTML = 'Connected to: ' + event.currentTarget.URL;
-      socketStatus.className = 'open';
+      // var socketStatus = document.getElementById('status');
+      // socketStatus.innerHTML = 'Connected to: ' + event.currentTarget.URL;
+      // socketStatus.className = 'open';
       var msg = {url: url, initial: true};
       socket.send(JSON.stringify(msg));
     };
