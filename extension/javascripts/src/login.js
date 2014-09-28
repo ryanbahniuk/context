@@ -52,24 +52,27 @@ var UserAuth = React.createClass({
     $.ajax({
       url: this.props.registerUrl,
       type: 'POST',
-      dataType: 'json',
-      data: {name: data["name"], email: data["email"], password: data["password"]},
+      contentType: "application/x-www-form-urlencoded",
+      data: data.serialize(),
     })
 
     .done(function(data) {
-      console.log("success");
-      console.log(data);
-      this.props.onSuccess();
+      if(data["error"]) {
+        this.setState({errors: data["error"]});
+      }
+      else if(data["user"]) {
+        chrome.storage.sync.set({"user": data["user"]});
+        this.props.onSuccess();
+      }
+      else {
+        this.setState({errors: "??????"});        
+      };
     }.bind(this))
 
     .fail(function() {
       console.log("error");
       this.setState({errors: "register broken..."});      
     }.bind(this))
-    
-    .always(function() {
-      console.log("complete");
-    });
   },
 
   render: function() {
@@ -119,24 +122,22 @@ var RegisterForm = React.createClass({
 
   handleRegister: function(e) {
     e.preventDefault();
-    var name = this.refs.registerName.getDOMNode().value.trim();
-    var email = this.refs.registerEmail.getDOMNode().value.trim();
-    var password = this.refs.registerPassword.getDOMNode().value.trim();
-    this.props.onRegister({name: name, email: email, password: password});
+    var form = this.refs.form.getDOMNode();
+    this.props.onRegister($(form));
   },
 
   render: function() {
     return (
       <div className="registerForm">
-      <form onSubmit={this.handleRegister}>
-      <input type="text" placeholder="Name" name="user[name]" ref="registerName"/>
-      <input type="text" placeholder="Email" name="user[email]" ref="registerEmail"/>
-      <input type="text" placeholder="Password" name="user[password]" ref="registerPassword"/>
+      <form onSubmit={this.handleRegister} ref="form">
+      <input type="text" placeholder="Name" name="user[name]" />
+      <input type="text" placeholder="Email" name="user[email]" />
+      <input type="text" placeholder="Password" name="user[password]" />
       <input type="submit"/>
       </form>
       <button onClick={this.props.onSwitchLogin}>Login</button>
       </div>
-      );
+    );
   }
 });
 
