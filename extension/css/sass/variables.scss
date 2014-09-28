@@ -1,0 +1,19 @@
+@import "FontAwesome/font-awesome";
+
+//Color Scheme
+$off-black: #222;
+$off-white: #f7f7f7;
+$dark-grey: lighten( $off-black, 20% );
+$grey: lighten( $off-black, 40% );
+$light-grey: lighten( $off-black, 60% );
+$lighter-grey: lighten( $off-black, 70% );
+
+$brand-primary: #4682B4;
+$brand-secondary: #4682B4;
+
+//Typography
+$font-family-sans-serif: 'Helventica Neue', Helvetica, Arial, sans-serif;
+$font-family-icon: FontAwesome;
+
+//Spacing
+$header-height: 50px;

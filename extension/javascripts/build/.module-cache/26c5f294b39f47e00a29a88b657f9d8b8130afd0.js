@@ -16,7 +16,7 @@ var ChatInput = React.createClass({displayName: 'ChatInput',
     return (
       React.DOM.form({className: "chatInput", onSubmit: this.handleSubmit}, 
       React.DOM.input({type: "text", ref: "content"}), 
-      React.DOM.input({type: "submit", value: "Send"})
+      React.DOM.input({type: "submit"})
       )
       );
   }
@@ -39,7 +39,6 @@ var MessageList = React.createClass({displayName: 'MessageList',
   componentWillUpdate: function() {
     var node = this.getDOMNode();
     this.shouldScroll = node.scrollTop + node.offsetHeight - 2 === node.scrollHeight;
-    
     // console.log("-----------------------------------------------")
     // console.log("scrollTop = " + node.scrollTop);
     // console.log("offsetHeight = " + node.offsetHeight);
@@ -59,8 +58,8 @@ var Message = React.createClass({displayName: 'Message',
   render: function() {
     return (
       React.DOM.li({className: "message"}, 
-      React.DOM.span({className: "messageAuthor"}, 
-      this.props.author, ": "
+      React.DOM.h5({className: "messageAuthor"}, 
+      this.props.author
       ), 
       React.DOM.p({className: "messageContent"}, 
       this.props.content
@@ -73,17 +72,14 @@ var Message = React.createClass({displayName: 'Message',
 var ChatBox = React.createClass({displayName: 'ChatBox',
   loadMessages: function() {
     $.ajax({
-      url: this.props.messageUrl,
+      url: this.props.url,
       dataType: 'json',
-      type: 'POST',
-      data: {url: url},
-
+      type: 'GET',
       success: function(data) {
         var messages = this.state.data;
-        messages = messages.push(data);
+        messages = messages.concat(data);
         this.setState({data: messages});
       }.bind(this),
-
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
       }.bind(this)
@@ -91,19 +87,21 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
   },
 
   componentDidMount: function() {
-    this.loadMessages();
-    socket = new WebSocket(this.props.socketAddress);
+    // this.socket = new WebSocket('ws://localhost:8080');
+    // this.loadMessages();
+    // setInterval(this.loadMessages, this.props.pollInterval);
+    socket = new WebSocket(this.props.socket_address);
+    // url = window.location.host + window.location.pathname;
     url = document.URL.split("?")[1].replace(/url=/,"");
-
     socket.onopen = function(event) {
       var socketStatus = document.getElementById('status');
-      socketStatus.innerHTML = 'Connected to: ' + event.currentTarget.URL;
+      socketStatus.innerHTML = 'Connected to: ' + event.currentTarget.UdRL;
       socketStatus.className = 'open';
       var msg = {url: url, initial: true};
       socket.send(JSON.stringify(msg));
     };
     socket.onmessage = function(e) {
-      var message = e.data;
+      var message = event.data;
       this.add_message(message);
     }.bind(this);
   },
@@ -116,14 +114,12 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
     var messages = this.state.data;
     messages.push(m);
     this.setState({data: messages});
-    var msg = {url: url, content: m.content};
+    var msg = {url: url, message: m.content};
     socket.send(JSON.stringify(msg));
   },
 
   add_message: function(message) {
-    var messages = this.state.data;
-    messages.push(message);
-    this.setState({data: messages});
+    this.state.data.push(message);
   },
 
   render: function() {
@@ -134,8 +130,10 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
         )
         );
     }
-<<<<<<< HEAD
   });
-=======
-  });
->>>>>>> style_conflicts
+
+
+    React.renderComponent(
+      ChatBox({socket_address: "ws://104.131.117.55:8080"}),
+      document.getElementById("content")
+      );

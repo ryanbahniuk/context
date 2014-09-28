@@ -16,7 +16,7 @@ var ChatInput = React.createClass({
     return (
       <form className="chatInput" onSubmit={this.handleSubmit}>
       <input type="text" ref="content"/>
-      <input type="submit"/>
+      <input type="submit" value="Send"/>
       </form>
       );
   }
@@ -39,7 +39,7 @@ var MessageList = React.createClass({
   componentWillUpdate: function() {
     var node = this.getDOMNode();
     this.shouldScroll = node.scrollTop + node.offsetHeight - 2 === node.scrollHeight;
-
+    
     // console.log("-----------------------------------------------")
     // console.log("scrollTop = " + node.scrollTop);
     // console.log("offsetHeight = " + node.offsetHeight);
@@ -59,9 +59,9 @@ var Message = React.createClass({
   render: function() {
     return (
       <li className="message">
-      <h5 className="messageAuthor">
-      {this.props.author}
-      </h5>
+      <span className="messageAuthor">
+      {this.props.author}:&nbsp;
+      </span>
       <p className="messageContent">
       {this.props.content}
       </p>
@@ -93,7 +93,8 @@ var ChatBox = React.createClass({
   componentDidMount: function() {
     this.loadMessages();
     socket = new WebSocket(this.props.socketAddress);
-    url = window.location.host + window.location.pathname // document.URL.split("?")[1].replace(/url=/,"");
+    url = document.URL.split("?")[1].replace(/url=/,"");
+
     socket.onopen = function(event) {
       var socketStatus = document.getElementById('status');
       socketStatus.innerHTML = 'Connected to: ' + event.currentTarget.URL;
@@ -128,10 +129,13 @@ var ChatBox = React.createClass({
   render: function() {
     return (
       <div className="chatBox">
-      <div className="titleBar">(0|\|+3x+</div>
         < MessageList data={this.state.data} />
         < ChatInput onMessageSubmit={this.handleMessageSubmit} />
         </div>
         );
     }
+<<<<<<< HEAD
   });
+=======
+  });
+>>>>>>> style_conflicts
