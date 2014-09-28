@@ -1670,11 +1670,17 @@ body {
 .titleBar {
   position: fixed;
   top: 0;
-  background-color: #f7f7f7;
+  background-color: #fff;
   width: 100%;
   text-align: center;
   height: 50px;
   border-bottom: 1px solid #bbbbbb; }
+  .titleBar .logo {
+    width: 200px;
+    height: 31px;
+    background-image: url(../icons/logo.png);
+    background-repeat: no-repeat;
+    margin: 8px 0 0 8px; }
 
 #status {
   margin-top: 50px; }
@@ -1690,7 +1696,7 @@ body {
   .messageList .message {
     width: 100%;
     border-top: 1px solid #d4d4d4;
-    padding: 0.4em 0.25em; }
+    padding: 0.4em 8px; }
     .messageList .message .messageAuthor {
       color: #4682B4; }
     .messageList .message .messageContent {
