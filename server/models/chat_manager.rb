@@ -1,7 +1,7 @@
 class ChatManager
   require 'json'
   attr_reader :open_urls
-  
+
   def initialize
     @open_urls = {}
   end
@@ -40,19 +40,16 @@ class ChatManager
       @open_urls[url] = [ws]
     end
     # $SERVER_LOG.info url_log
-    p "OPEN URLS:---------------------------"
-    p @open_urls
   end
 
   def handle_message(ws, msg)
-    p "MESSAGE: #{msg}"
     query = Proc.new {
       user_id = msg["user_id"]
-      url = Url.find_create(msg["url"])
-      # start_time = Time.now
-      # $SERVER_LOG.info("Saving message -- #{msg["content"]}")
+      url = Url.rootify_find_create(msg["url"])
+      start_time = Time.now
+      $SERVER_LOG.info("Saving message -- #{msg["content"]}")
       message = Message.create(content: msg["content"], url: url, user_id: user_id)
-      # $SERVER_LOG.info ("Message saved (#{msg["content"]}) -- #{Time.now - start_time}")
+      $SERVER_LOG.info ("Message saved (#{msg["content"]}) -- #{Time.now - start_time}")
     }
     callback = Proc.new {
       ActiveRecord::Base.clear_reloadable_connections!
@@ -72,7 +69,7 @@ class ChatManager
 
   def url_log
     string_urls = {}
-    @open_urls.each { |url, clients| string_urls[url] = clients.length } 
+    @open_urls.each { |url, clients| string_urls[url] = clients.length }
   end
 
 end
