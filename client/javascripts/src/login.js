@@ -19,15 +19,14 @@ var UserAuth = React.createClass({
   },
 
   handleLoginRequest: function(data) {
-    var url = this.props.loginUrl;
-    $.ajax(url, {
-      method: "post",
-      contentType: "application/x-www-form-urlencoded",
-      data: $(data).serialize();
+    $.ajax(this.props.loginUrl, {
+      method: 'POST',
+      data: data.serialize(),
+      contentType: "application/x-www-form-urlencoded"
     })
 
     .done(function(data) {
-      console.log("success");
+      console.log(data);
       if(data["error"]) {
         this.setState({errors: data["error"]});
       } else if(data["user"]) {
@@ -40,7 +39,6 @@ var UserAuth = React.createClass({
 
     .fail(function() {
       console.log("error");
-      debugger;
       this.setState({errors: "login broken..."});
     }.bind(this))
 
@@ -96,18 +94,18 @@ var DisplayErrors = React.createClass({
 
 var LoginForm = React.createClass({
 
-  handleLogin: function(e, d) {
+  handleLogin: function(e) {
     e.preventDefault();
-    var form = this.refs.loginForm;
+    var form = this.refs.form.getDOMNode();
     this.props.onLogin($(form));
   },
 
   render: function() {
     return (
       <div className="loginForm">
-      <form onSubmit={this.handleLogin} ref="loginForm">
-        <input type="text" placeholder="Email"/>
-        <input type="password" placeholder="Password"/>
+      <form onSubmit={this.handleLogin} ref="form">
+        <input type="text" placeholder="Email" name="email" ref="loginEmail"/>
+        <input type="password" placeholder="Password" name="password" ref="loginPassword"/>
         <input type="submit"/>
       </form>
       <button onClick={this.props.onSwitchRegister}>Register</button>
