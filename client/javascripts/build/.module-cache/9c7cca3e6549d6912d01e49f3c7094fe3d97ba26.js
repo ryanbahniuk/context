@@ -19,10 +19,11 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
   },
 
   handleLoginRequest: function(data) {
-    $.ajax(this.props.loginUrl, {
+    $.ajax({
+      url: this.props.loginUrl,
       method: 'POST',
-      data: data.serialize(),
-      contentType: "application/x-www-form-urlencoded"
+      data: data.serialize,
+      xhrFields: { withCredentials: true }
     })
 
     .done(function(data) {

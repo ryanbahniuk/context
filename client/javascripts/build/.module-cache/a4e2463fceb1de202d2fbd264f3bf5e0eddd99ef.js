@@ -21,7 +21,7 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
   handleLoginRequest: function(data) {
     $.ajax(this.props.loginUrl, {
       method: 'POST',
-      data: data.serialize(),
+      data: data.serialize,
       contentType: "application/x-www-form-urlencoded"
     })
 

@@ -19,8 +19,6 @@ var UserAuth = React.createClass({
   },
 
   handleLoginRequest: function(data) {
-    debugger;
-    console.log(this.props.loginUrl);
     $.ajax({
       url: this.props.loginUrl,
       type: 'POST',
