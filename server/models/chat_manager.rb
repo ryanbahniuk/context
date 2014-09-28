@@ -47,23 +47,26 @@ class ChatManager
   def handle_message(ws, msg)
     p "MESSAGE: #{msg}"
     query = Proc.new {
-      start_time = Time.now
-      $SERVER_LOG.info("Saving message -- #{msg["content"]}")
+      user_id = msg["user_id"]
       url = Url.find_create(msg["url"])
-      message = Message.create(content: msg["content"], url: url)
-      $SERVER_LOG.info ("Message saved (#{msg["content"]}) -- #{Time.now - start_time}")
+      # start_time = Time.now
+      # $SERVER_LOG.info("Saving message -- #{msg["content"]}")
+      message = Message.create(content: msg["content"], url: url, user_id: user_id)
+      # $SERVER_LOG.info ("Message saved (#{msg["content"]}) -- #{Time.now - start_time}")
     }
     callback = Proc.new {
       ActiveRecord::Base.clear_reloadable_connections!
     }
     EM.defer query, callback
-    send_all(msg["url"], msg["content"])
+    user = User.find(msg["user_id"])
+    send_all(msg["url"], msg["content"], user.name)
   end
 
-  def send_all(url, msg)
+  def send_all(url, content, name)
+    message = {content: content, author: name}.to_json
     @open_urls[url].each do |ws|
-      ws.send(msg)
-      $SERVER_LOG.info "sending #{msg}"
+      ws.send(message)
+      $SERVER_LOG.info "sending #{message}"
     end
   end
 

@@ -20,6 +20,8 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
 
   handleLoginRequest: function(data) {
     var url = this.props.loginUrl;
+    console.log(url);
+    console.log($(data).serialize());
     $.ajax(url, {
       method: "post",
       contentType: "application/x-www-form-urlencoded",
@@ -27,10 +29,12 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
     })
 
     .done(function(data) {
+      console.log(data);
       if(data["error"]) {
         this.setState({errors: data["error"]});
       } else if(data["user"]) {
-        chrome.storage.sync.set({"user": data["user"]});
+        debugger;
+        chrome.storage.sync.set({user: data["user"]});
         this.props.onSuccess();
       } else {
         this.setState({errors: "??????"});
@@ -39,6 +43,7 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
 
     .fail(function() {
       console.log("error");
+      debugger;
       this.setState({errors: "login broken..."});
     }.bind(this))
 

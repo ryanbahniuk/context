@@ -20,6 +20,7 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
 
   handleLoginRequest: function(data) {
     var url = this.props.loginUrl;
+    console.log($(data).serialize());
     $.ajax(url, {
       method: "post",
       contentType: "application/x-www-form-urlencoded",
@@ -27,10 +28,11 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
     })
 
     .done(function(data) {
+      console.log("success");
       if(data["error"]) {
         this.setState({errors: data["error"]});
       } else if(data["user"]) {
-        chrome.storage.sync.set({"user": data["user"]});
+        chrome.storage.sync.set({user: data["user"]});
         this.props.onSuccess();
       } else {
         this.setState({errors: "??????"});
@@ -39,6 +41,7 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
 
     .fail(function() {
       console.log("error");
+      debugger;
       this.setState({errors: "login broken..."});
     }.bind(this))
 
@@ -94,9 +97,9 @@ var DisplayErrors = React.createClass({displayName: 'DisplayErrors',
 
 var LoginForm = React.createClass({displayName: 'LoginForm',
 
-  handleLogin: function(e) {
+  handleLogin: function(e, d) {
     e.preventDefault();
-    var form = this.refs.loginForm.getDOMNode();
+    var form = this.refs.loginForm;
     this.props.onLogin($(form));
   },
 
@@ -104,8 +107,8 @@ var LoginForm = React.createClass({displayName: 'LoginForm',
     return (
       React.DOM.div({className: "loginForm"}, 
       React.DOM.form({onSubmit: this.handleLogin, ref: "loginForm"}, 
-        React.DOM.input({type: "text", placeholder: "Email", name: "email"}), 
-        React.DOM.input({type: "password", placeholder: "Password", name: "password"}), 
+        React.DOM.input({type: "text", placeholder: "Email"}), 
+        React.DOM.input({type: "password", placeholder: "Password"}), 
         React.DOM.input({type: "submit"})
       ), 
       React.DOM.button({onClick: this.props.onSwitchRegister}, "Register")

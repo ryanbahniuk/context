@@ -31,6 +31,7 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
         this.setState({errors: data["error"]});
       } else if(data["user"]) {
         chrome.storage.sync.set({"user": data["user"]});
+        debugger;
         this.props.onSuccess();
       } else {
         this.setState({errors: "??????"});
