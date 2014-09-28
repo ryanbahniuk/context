@@ -20,7 +20,6 @@ var App = React.createClass({
   },
 
   handleClickSettings: function() {
-    console.log("lcik");
     if(this.state.showSettings === false) {
       this.setState({showSettings: true});
     } else {
@@ -61,12 +60,20 @@ var SettingsPanel = React.createClass({
   render: function() {
     return (
       <div className="settingsPanel">
-        <button className="logoutButton" onClick={this.props.clickLogout}>Logout</button>
+        <div className="logoutButton" onClick={this.props.clickLogout}>Logout</div>
         <div className="viewButton" onClick={this.props.clickView}>Change View</div>
       </div>
     );
   }
 });
+
+var ConnectionStatus = React.createClass({
+  render: function() {
+    return (
+      <div id="status">Disconnected</div>
+    );
+  }
+})
 
 function run() {
   React.renderComponent(

@@ -20,7 +20,6 @@ var App = React.createClass({displayName: 'App',
   },
 
   handleClickSettings: function() {
-    console.log("lcik");
     if(this.state.showSettings === false) {
       this.setState({showSettings: true});
     } else {
@@ -61,12 +60,20 @@ var SettingsPanel = React.createClass({displayName: 'SettingsPanel',
   render: function() {
     return (
       React.DOM.div({className: "settingsPanel"}, 
-        React.DOM.button({className: "logoutButton", onClick: this.props.clickLogout}, "Logout"), 
+        React.DOM.div({className: "logoutButton", onClick: this.props.clickLogout}, "Logout"), 
         React.DOM.div({className: "viewButton", onClick: this.props.clickView}, "Change View")
       )
     );
   }
 });
+
+var ConnectionStatus = React.createClass({displayName: 'ConnectionStatus',
+  render: function() {
+    return (
+      React.DOM.div({id: "status"}, "Disconnected")
+    );
+  }
+})
 
 function run() {
   React.renderComponent(

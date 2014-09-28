@@ -76,3 +76,30 @@ body {
 	}
 }
 
+.settingsButton {
+  position: fixed;
+  top: 0;
+  right: 0;
+  padding: 0.3rem;
+  z-index: 100;
+}
+
+.settingsPanel {
+  width: 100%;
+  position: fixed;
+  top: 50px;
+  right: 0;
+}
+
+.settingsPanel div {
+  text-align: center;
+  font-family: $font-family-sans-serif;
+  border-bottom: 1px solid $light-grey;
+  width: 100%;
+  padding: 0.3rem;
+}
+
+.settingsPanel div:hover {
+  color: $light-grey;
+}
+
