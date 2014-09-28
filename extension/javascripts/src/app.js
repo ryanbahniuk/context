@@ -5,8 +5,6 @@ var registerUrl = "http://104.131.117.55:3000/users";
 var messageUrl = "http://104.131.117.55:3000/urls/messages/10";
 var socketAddress = 'ws://104.131.117.55:8080';
 
-
-
 var App = React.createClass({
 
   getInitialState: function() {
@@ -32,7 +30,7 @@ var App = React.createClass({
 
 });
 
-var run = function() {
+function run() {
   React.renderComponent(
     <App/>,
     document.getElementById("content")

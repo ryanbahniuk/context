@@ -30,7 +30,7 @@ var App = React.createClass({displayName: 'App',
 
 });
 
-function run() {
+var run = function() {
   React.renderComponent(
     App(null),
     document.getElementById("content")
