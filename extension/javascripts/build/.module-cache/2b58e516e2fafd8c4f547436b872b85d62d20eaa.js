@@ -5,7 +5,7 @@ var registerUrl = "http://104.131.117.55:3000/users";
 var messageUrl = "http://104.131.117.55:3000/urls/messages/10";
 var socketAddress = 'ws://104.131.117.55:8080';
 
-
+var user;
 
 var App = React.createClass({displayName: 'App',
 
@@ -43,3 +43,5 @@ chrome.storage.sync.get("user", function(obj){
   user = obj["user"];
   run();
 });
+// /urls/messages/10
+// { url: ... }
