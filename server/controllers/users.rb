@@ -4,7 +4,7 @@ post '/users' do
 	user = User.create(params[:user])
 
 	if user.errors.empty?
-		object = {user: user}.to_json
+		object = {user: {id: user.id, name: user.name, email: user.email}}.to_json
 	else
 		object = {error: "There appears to have been an error creating a new user profile."}.to_json
 	end
