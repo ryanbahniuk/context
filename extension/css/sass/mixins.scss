@@ -1,0 +1,6 @@
+@mixin transition($length) {
+  -webkit-transition: all $length ease;
+  -moz-transition: all $length ease;
+  -o-transition: all $length ease;
+  transition: all $length ease;
+}

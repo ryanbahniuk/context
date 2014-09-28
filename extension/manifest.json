@@ -15,15 +15,22 @@
 	    }
 		],
 		"browser_action": {
+	    "default_title": "Contextual Conversation",
 	    "default_icon": {
-	        "38": "icons/38x38.png"
-	    },
-	    "default_title": "Contextual Conversation"
+	        "19": "icons/19x19.png"
+	     }
 		},
+		"icons": { 
+			"16": "icons/16x16.png",
+			"19": "icons/19x19.png",
+      "48": "icons/48x48.png",
+      "128": "icons/128x128.png"
+    },
 		"permissions": [
-      "tabs"
+      "tabs", "http://104.131.117.55:3000/"
     ],
     "web_accessible_resources": [
-	    "index.html"
+	    "index.html",
+	    "css/iframe.css.map"
 	  ]
 }

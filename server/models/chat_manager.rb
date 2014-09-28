@@ -48,16 +48,16 @@ class ChatManager
     p "MESSAGE: #{msg}"
     query = Proc.new {
       start_time = Time.now
-      $SERVER_LOG.info("Saving message -- #{msg["message"]}")
+      $SERVER_LOG.info("Saving message -- #{msg["content"]}")
       url = Url.find_create(msg["url"])
-      message = Message.create(content: msg["message"], url: url)
-      $SERVER_LOG.info ("Message saved (#{msg["message"]}) -- #{Time.now - start_time}")
+      message = Message.create(content: msg["content"], url: url)
+      $SERVER_LOG.info ("Message saved (#{msg["content"]}) -- #{Time.now - start_time}")
     }
     callback = Proc.new {
       ActiveRecord::Base.clear_reloadable_connections!
     }
     EM.defer query, callback
-    send_all(msg["url"], msg["message"])
+    send_all(msg["url"], msg["content"])
   end
 
   def send_all(url, msg)

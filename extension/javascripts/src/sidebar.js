@@ -16,7 +16,7 @@ var ChatInput = React.createClass({
     return (
       <form className="chatInput" onSubmit={this.handleSubmit}>
       <input type="text" ref="content"/>
-      <input type="submit"/>
+      <input type="submit" value="Send"/>
       </form>
       );
   }
@@ -39,7 +39,7 @@ var MessageList = React.createClass({
   componentWillUpdate: function() {
     var node = this.getDOMNode();
     this.shouldScroll = node.scrollTop + node.offsetHeight - 2 === node.scrollHeight;
-
+    
     // console.log("-----------------------------------------------")
     // console.log("scrollTop = " + node.scrollTop);
     // console.log("offsetHeight = " + node.offsetHeight);
@@ -59,9 +59,9 @@ var Message = React.createClass({
   render: function() {
     return (
       <li className="message">
-      <h5 className="messageAuthor">
-      {this.props.author}
-      </h5>
+      <span className="messageAuthor">
+      {this.props.author}:&nbsp;
+      </span>
       <p className="messageContent">
       {this.props.content}
       </p>
@@ -73,14 +73,17 @@ var Message = React.createClass({
 var ChatBox = React.createClass({
   loadMessages: function() {
     $.ajax({
-      url: this.props.url,
+      url: this.props.messageUrl,
       dataType: 'json',
-      type: 'GET',
+      type: 'POST',
+      data: {url: url},
+
       success: function(data) {
         var messages = this.state.data;
-        messages = messages.concat(data);
+        messages = messages.push(data);
         this.setState({data: messages});
       }.bind(this),
+
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
       }.bind(this)
@@ -88,20 +91,19 @@ var ChatBox = React.createClass({
   },
 
   componentDidMount: function() {
-    // this.socket = new WebSocket('ws://localhost:8080');
-    // this.loadMessages();
-    // setInterval(this.loadMessages, this.props.pollInterval);
-    socket = new WebSocket(this.props.socket_address);
-    url = window.location.host + window.location.pathname // document.URL.split("?")[1].replace(/url=/,"");
+    this.loadMessages();
+    socket = new WebSocket(this.props.socketAddress);
+    url = document.URL.split("?")[1].replace(/url=/,"");
+
     socket.onopen = function(event) {
       var socketStatus = document.getElementById('status');
-      socketStatus.innerHTML = 'Connected to: ' + event.currentTarget.UdRL;
+      socketStatus.innerHTML = 'Connected to: ' + event.currentTarget.URL;
       socketStatus.className = 'open';
       var msg = {url: url, initial: true};
       socket.send(JSON.stringify(msg));
     };
     socket.onmessage = function(e) {
-      var message = event.data;
+      var message = e.data;
       this.add_message(message);
     }.bind(this);
   },
@@ -114,27 +116,26 @@ var ChatBox = React.createClass({
     var messages = this.state.data;
     messages.push(m);
     this.setState({data: messages});
-    var msg = {url: url, message: m.content};
+    var msg = {url: url, content: m.content};
     socket.send(JSON.stringify(msg));
   },
 
   add_message: function(message) {
-    this.state.data.push(message);
+    var messages = this.state.data;
+    messages.push(message);
+    this.setState({data: messages});
   },
 
   render: function() {
     return (
       <div className="chatBox">
-      <div className="titleBar">(0|\|+3x+</div>
         < MessageList data={this.state.data} />
         < ChatInput onMessageSubmit={this.handleMessageSubmit} />
         </div>
         );
     }
+<<<<<<< HEAD
   });
-
-
-    React.renderComponent(
-      <ChatBox socket_address='ws://104.131.117.55:8080'/>,
-      document.getElementById("content")
-      );
+=======
+  });
+>>>>>>> style_conflicts
