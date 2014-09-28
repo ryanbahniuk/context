@@ -19,6 +19,7 @@ var UserAuth = React.createClass({
   },
 
   handleLoginRequest: function(data) {
+    debugger
     console.log(this.props.loginUrl);
     var url = this.props.loginUrl;
     $.ajax(url, {
@@ -97,7 +98,8 @@ var DisplayErrors = React.createClass({
 
 var LoginForm = React.createClass({
 
-  handleLogin: function(e) {
+  handleLogin: function(e, d) {
+    debugger
     e.preventDefault();
     var email = this.refs.loginEmail.getDOMNode().value.trim();
     var password = this.refs.loginPassword.getDOMNode().value.trim();
