@@ -1,4 +1,6 @@
 post '/users' do
+	response['Access-Control-Allow-Origin'] = '*'
+
 	user = User.create(params[:user])
 
 	if user.errors.empty?
