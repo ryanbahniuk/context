@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 
-var UserAuth = React.createClass({
+var UserAuth = React.createClass({displayName: 'UserAuth',
 
   getInitialState: function() {
     return {
@@ -19,10 +19,15 @@ var UserAuth = React.createClass({
   },
 
   handleLoginRequest: function(data) {
+    console.log(this.props.loginUrl);
+    debugger
+    var email = data["email"];
+    var password = data["password"];
+
     $.ajax({
       url: this.props.loginUrl,
       method: 'POST',
-      data: data.serialize,
+      data: $(data).serialize,
       xhrFields: { withCredentials: true }
     })
 
@@ -74,26 +79,26 @@ var UserAuth = React.createClass({
 
   render: function() {
     return (
-      <div className="userAuth">
-        <DisplayErrors errors={this.state.errors}/>
-      { this.state.showLogin ? <LoginForm onLogin={this.handleLoginRequest} onSwitchRegister={this.onClickRegister}/> : null }
-      { this.state.showRegister ? <RegisterForm onRegister={this.handleRegisterRequest} onSwitchLogin={this.onClickLogin}/> : null }
-      </div>
+      React.DOM.div({className: "userAuth"}, 
+        DisplayErrors({errors: this.state.errors}), 
+       this.state.showLogin ? LoginForm({onLogin: this.handleLoginRequest, onSwitchRegister: this.onClickRegister}) : null, 
+       this.state.showRegister ? RegisterForm({onRegister: this.handleRegisterRequest, onSwitchLogin: this.onClickLogin}) : null
+      )
     );
   }
 });
 
-var DisplayErrors = React.createClass({
+var DisplayErrors = React.createClass({displayName: 'DisplayErrors',
   render: function() {
     return (
-    <div className="displayErrors">
-      <p>{this.props.errors}</p>
-    </div>
+    React.DOM.div({className: "displayErrors"}, 
+      React.DOM.p(null, this.props.errors)
+    )
     );
   }
 });
 
-var LoginForm = React.createClass({
+var LoginForm = React.createClass({displayName: 'LoginForm',
 
   handleLogin: function(e) {
     e.preventDefault();
@@ -103,19 +108,19 @@ var LoginForm = React.createClass({
 
   render: function() {
     return (
-      <div className="loginForm">
-      <form onSubmit={this.handleLogin} ref="form">
-        <input type="text" placeholder="Email" name="email" ref="loginEmail"/>
-        <input type="password" placeholder="Password" name="password" ref="loginPassword"/>
-        <input type="submit"/>
-      </form>
-      <button onClick={this.props.onSwitchRegister}>Register</button>
-      </div>
+      React.DOM.div({className: "loginForm"}, 
+      React.DOM.form({onSubmit: this.handleLogin, ref: "form"}, 
+        React.DOM.input({type: "text", placeholder: "Email", name: "email", ref: "loginEmail"}), 
+        React.DOM.input({type: "password", placeholder: "Password", name: "password", ref: "loginPassword"}), 
+        React.DOM.input({type: "submit"})
+      ), 
+      React.DOM.button({onClick: this.props.onSwitchRegister}, "Register")
+      )
      );
   }
 });
 
-var RegisterForm = React.createClass({
+var RegisterForm = React.createClass({displayName: 'RegisterForm',
 
   handleRegister: function(e) {
     e.preventDefault();
@@ -127,15 +132,15 @@ var RegisterForm = React.createClass({
 
   render: function() {
     return (
-      <div className="registerForm">
-      <form onSubmit={this.handleRegister}>
-      <input type="text" placeholder="Name" ref="registerName"/>
-      <input type="text" placeholder="Email" ref="registerEmail"/>
-      <input type="text" placeholder="Password" ref="registerPassword"/>
-      <input type="submit"/>
-      </form>
-      <button onClick={this.props.onSwitchLogin}>Login</button>
-      </div>
+      React.DOM.div({className: "registerForm"}, 
+      React.DOM.form({onSubmit: this.handleRegister}, 
+      React.DOM.input({type: "text", placeholder: "Name", ref: "registerName"}), 
+      React.DOM.input({type: "text", placeholder: "Email", ref: "registerEmail"}), 
+      React.DOM.input({type: "text", placeholder: "Password", ref: "registerPassword"}), 
+      React.DOM.input({type: "submit"})
+      ), 
+      React.DOM.button({onClick: this.props.onSwitchLogin}, "Login")
+      )
       );
   }
 });
