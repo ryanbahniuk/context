@@ -32,7 +32,7 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
         this.setState({errors: data["error"]});
       } else if(data["user"]) {
         chrome.storage.sync.set({"user": data["user"]});
-        this.props.onSuccess();
+        this.props.onSuccess(data["user"]);
       } else {
         this.setState({errors: "??????"});
       };
@@ -62,8 +62,7 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
       }
       else if(data["user"]) {
         chrome.storage.sync.set({"user": data["user"]});
-        console.log(data["user"]);
-        this.props.onSuccess();
+        this.props.onSuccess(data["user"]);
       }
       else {
         this.setState({errors: "??????"});        

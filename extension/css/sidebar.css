@@ -1,4 +1,4 @@
-#context-sidebar {
+/*#context-sidebar {
   position: fixed;
   top: 0;
   right: 0;
@@ -6,4 +6,10 @@
   border-left: 2px solid #222;
   width: 350px;
   z-index: 2147483647;
+}*/
+
+.settingsPanel {
+  height: 100px;
+  width: 100%;
+  border: 1px solid black;
 }
