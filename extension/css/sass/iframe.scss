@@ -13,11 +13,18 @@ body {
 .titleBar {
 	position: fixed;
 	top: 0;
-	background-color: $off-white;
+	background-color: #fff;
 	width: 100%;
 	text-align: center;
 	height: $header-height;
 	border-bottom: 1px solid $light-grey;
+	.logo {
+		width: 200px;
+		height: 31px;
+		background-image: url(../icons/logo.png);
+		background-repeat: no-repeat;
+		margin: 8px 0 0 8px;
+	}
 }
 
 #status {
@@ -36,7 +43,7 @@ body {
 	.message {
 		width: 100%;
 		border-top: 1px solid $lighter-grey;
-		padding: 0.4em 0.25em;
+		padding: 0.4em 8px;
 		.messageAuthor {
 			color: $brand-primary;
 		}
