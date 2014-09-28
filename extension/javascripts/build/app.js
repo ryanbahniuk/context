@@ -9,9 +9,9 @@ var App = React.createClass({displayName: 'App',
 
   getInitialState: function() {
     if(user !== undefined) {
-      return { showAuth: false, showChat: true, user: user };
+      return { showAuth: false, showChat: true, showSettings: false };
     } else {
-      return { showAuth: true, showChat: true, user: user };
+      return { showAuth: true, showChat: true, showSettings: false };
     };
   },
 
@@ -22,12 +22,40 @@ var App = React.createClass({displayName: 'App',
   render: function() {
     return(
       React.DOM.div({className: "App"}, 
+      TitleBar(null), 
+      this.state.showChat ? SettingsButton(null) : null, 
+      this.state.showSettings ? SettingsPanel(null) : null, 
       this.state.showAuth ? UserAuth({loginUrl: loginUrl, registerUrl: registerUrl, onSuccess: this.onUserSuccess}) : null, 
       this.state.showChat ? ChatBox({socketAddress: socketAddress, messageUrl: messageUrl, user: user}) : null
       )
     );
   }
+});
 
+var TitleBar = React.createClass({displayName: 'TitleBar',
+  render: function() {
+    return (
+      React.DOM.div({className: "titleBar"}, "(0|\\|+3x+"
+      )
+    );
+  }
+});
+
+var SettingsButton = React.createClass({displayName: 'SettingsButton',
+  render: function() {
+    return (
+      React.DOM.i({className: "settingsButton fa fa-cog"})
+    );
+  }
+});
+
+var SettingsPanel = React.createClass({displayName: 'SettingsPanel',
+  render: function() {
+    return (
+      React.DOM.div({className: "settingsPanel"}
+      )
+    );
+  }
 });
 
 function run() {

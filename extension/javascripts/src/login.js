@@ -62,6 +62,7 @@ var UserAuth = React.createClass({
       }
       else if(data["user"]) {
         chrome.storage.sync.set({"user": data["user"]});
+        console.log(data["user"]);
         this.props.onSuccess();
       }
       else {

@@ -1679,8 +1679,8 @@ body {
 .settingsButton {
   position: fixed;
   top: 0;
-  right: 0; 
-  padding: 0.3rem; }
+  right: 0;
+  margin: 0.3rem; }
 
 #status {
   margin-top: 50px; }
