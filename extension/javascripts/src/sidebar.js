@@ -134,8 +134,4 @@ var ChatBox = React.createClass({
         </div>
         );
     }
-<<<<<<< HEAD
   });
-=======
-  });
->>>>>>> style_conflicts
