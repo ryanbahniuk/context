@@ -8,37 +8,36 @@ var socketAddress = 'ws://104.131.117.55:8080';
 var App = React.createClass({
 
   getInitialState: function() {
-    return {
-      showAuth: true,
-      showChat: false,
-      user: null
+    if(user !== undefined) {
+      return { showAuth: false, showChat: true, user: user };
+    } else {
+      return { showAuth: true, showChat: true, user: user };
     };
+  },
+
+  onUserSuccess: function() {
+    this.setState({showAuth: false, showChat: true});
   },
 
   render: function() {
     return(
       <div className="App">
       {this.state.showAuth ? <UserAuth loginUrl={loginUrl} registerUrl={registerUrl} onSuccess={this.onUserSuccess}/> : null }
-      {this.state.showChat ? <ChatBox socketAddress={socketAddress} messageUrl={messageUrl} user={this.state.user}/> : null}
+      {this.state.showChat ? <ChatBox socketAddress={socketAddress} messageUrl={messageUrl} user={user}/> : null}
       </div>
     );
-  },
-
-  onUserSuccess: function() {
-    var user;
-    chrome.storage.sync.get("user", function(obj){
-      user = obj["user"];
-    });
-    this.setState({user: user});
-    this.setState({showAuth: false, showChat: true});
   }
 
 });
 
-React.renderComponent(
-  <App/>,
-  document.getElementById("content")
-);
+function run() {
+  React.renderComponent(
+    <App/>,
+    document.getElementById("content")
+  );
+};
 
-// /urls/messages/10
-// { url: ... }
+chrome.storage.sync.get("user", function(obj){
+  user = obj["user"];
+  run();
+});

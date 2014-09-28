@@ -108,19 +108,11 @@ var ChatBox = React.createClass({
   },
 
   getInitialState: function() {
-    return {
-      data: [],
-      user: null
-    };
+    return { data: [] };
   },
 
   handleMessageSubmit: function(m) {
     var messages = this.state.data;
-    var user;
-    chrome.storage.sync.get("user", function(obj){
-      user = obj["user"];
-    });
-    this.setState({user: user});
     var user_id = user["id"];
     var msg = {url: url, content: m.content, user_id: user_id};
     socket.send(JSON.stringify(msg));
@@ -130,7 +122,6 @@ var ChatBox = React.createClass({
     var messages = this.state.data;
     messages.push(message);
     this.setState({data: messages});
-    debugger;
   },
 
   render: function() {
