@@ -1,15 +1,13 @@
 post '/users' do
-	if request.xhr?
-		user = User.create(params[:user])
+	response['Access-Control-Allow-Origin'] = '*'
 
-		if user.errors.empty?
-			content_type :json
-			{user: user}.to_json
-		else
-			content_type :json
-			{error: "There appears to have been an error creating a new user profile."}.to_json
-		end
+	user = User.create(params[:user])
+
+	if user.errors.empty?
+		object = {user: user}.to_json
 	else
-		"Request not allowed."
+		object = {error: "There appears to have been an error creating a new user profile."}.to_json
 	end
+	content_type :json
+	object
 end
