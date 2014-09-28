@@ -1,5 +1,5 @@
 /** @jsx React.DOM */
-var user;
+var user = undefined;
 
 var UserAuth = React.createClass({
 
