@@ -5,10 +5,24 @@
 	<script src="test.js"></script>
 </head>
 <body>
-	<form>
-		<input type="text" name="email">
-		<input type="password" name="password">
-		<input type="submit">
+	<h3>Login</h3>
+	<form id="login">
+		<input type="text" name="email" placeholder="Email">
+		<input type="password" name="password" placeholder="Password">
+		<input type="submit" value="Login">
+	</form>
+
+	<h3>Register</h3>
+	<form id="register">
+		<input type="text" name="user[name]" placeholder="Name">
+		<input type="text" name="user[email]" placeholder="Email">
+		<input type="password" name="user[password]" placeholder="Password">
+		<input type="submit" value="Register">
+	</form>
+
+	<form id="messages">
+		<input type="hidden" name="url" value="devbootcamp.com">
+		<input type="submit" value="Get Messages">
 	</form>
 </body>
 </html>

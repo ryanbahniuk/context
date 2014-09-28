@@ -4,7 +4,7 @@ post '/login' do
 	user = User.find_by(email: params[:email])
 
 	if user && user.authenticate(params[:password])
-		object = {user: user}.to_json
+		object = {user: {id: user.id, name: user.name, email: user.email}}.to_json
 	else
 		object = {error: "Username or password did not match."}.to_json
 	end
