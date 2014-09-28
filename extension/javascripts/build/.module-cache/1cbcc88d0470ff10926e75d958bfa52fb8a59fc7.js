@@ -5,7 +5,16 @@ var registerUrl = "http://104.131.117.55:3000/users";
 var messageUrl = "http://104.131.117.55:3000/urls/messages/10";
 var socketAddress = 'ws://104.131.117.55:8080';
 
-var App = React.createClass({displayName: 'App',
+var App = React.createClass({
+  displayName: 'App',
+
+  getStoredUser: function() {
+    var user;
+    chrome.storage.sync.get("user", function(obj){
+      user = obj["user"];
+    });
+    this.setState({user: user});
+  },
 
   getInitialState: function() {
     return {
@@ -15,6 +24,15 @@ var App = React.createClass({displayName: 'App',
     };
   },
 
+  onUserSuccess: function() {
+    this.setState({showAuth: false, showChat: true});
+  },
+
+  componentDidMount: function() {
+    this.getStoredUser();
+    debugger;
+  },
+
   render: function() {
     return(
       React.DOM.div({className: "App"}, 
@@ -22,15 +40,6 @@ var App = React.createClass({displayName: 'App',
       this.state.showChat ? ChatBox({socketAddress: socketAddress, messageUrl: messageUrl, user: this.state.user}) : null
       )
     );
-  },
-
-  onUserSuccess: function() {
-    var user;
-    chrome.storage.sync.get("user", function(obj){
-      user = obj["user"];
-    });
-    this.setState({user: user});
-    this.setState({showAuth: false, showChat: true});
   }
 
 });

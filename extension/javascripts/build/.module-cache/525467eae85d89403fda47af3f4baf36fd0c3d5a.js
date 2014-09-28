@@ -6,14 +6,24 @@ var messageUrl = "http://104.131.117.55:3000/urls/messages/10";
 var socketAddress = 'ws://104.131.117.55:8080';
 
 function getStoredUser() {
-  var user;
+  var storedUser = {};
   chrome.storage.sync.get("user", function(obj){
-    user = obj["user"];
+    storedUser = obj["user"];
   });
-  return user;
-};
+  return storedUser;
+}
 
 var App = React.createClass({displayName: 'App',
+
+  getStoredUser: function() {
+
+    // this.setState({user: storedUser}, function() {
+    //   console.log(storedUser);
+    //   console.log(this.state);
+    //   debugger;
+    // });
+    // return storedUser;
+  },
 
   getInitialState: function() {
     return {
@@ -24,8 +34,9 @@ var App = React.createClass({displayName: 'App',
   },
 
   componentDidMount: function() {
-    var user = getStoredUser();
+    var user = this.getStoredUser();
     this.setState({user: user});
+    debugger;
   },
 
   onUserSuccess: function() {

@@ -26,6 +26,7 @@ var App = React.createClass({displayName: 'App',
   componentDidMount: function() {
     var user = getStoredUser();
     this.setState({user: user});
+    debugger;
   },
 
   onUserSuccess: function() {
