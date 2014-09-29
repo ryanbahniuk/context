@@ -58,7 +58,6 @@ var MessageList = React.createClass({
 var Message = React.createClass({
   render: function() {
     var messageContent = Autolinker.link(this.props.content, {newWindow: true})
-    // console.log(Autolinker.link(this.props.content, {newWindow: true}))
     return (
       <li className="message">
       <span className="messageAuthor">
@@ -89,11 +88,13 @@ var ChatBox = React.createClass({
     });
     request.done(function(response){
       var messages = this.state.data;
-      for(var i = 0; i < response["messages"].length; i++) {
-        message = response["messages"][i];
-        messages.push(message);
+      if (response["messages"] !== undefined) {
+        for(var i = 0; i < response["messages"].length; i++) {
+          message = response["messages"][i];
+          messages.push(message);
+        }
+        this.setState({data: messages});
       }
-      this.setState({data: messages})
     }.bind(this));
   },
 
