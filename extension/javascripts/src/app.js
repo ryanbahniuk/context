@@ -170,7 +170,6 @@ function run() {
   );
 };
 
-
 chrome.storage.sync.get("user", function(obj){
   user = obj["user"];
   run();
