@@ -27,7 +27,7 @@
       "128": "icons/128x128.png"
     },
 		"permissions": [
-      "tabs", "http://104.131.117.55:3000/", "storage"
+      "tabs", "http://104.131.117.55:3000/", "storage", "geolocation"
     ],
     "web_accessible_resources": [
 	    "index.html",

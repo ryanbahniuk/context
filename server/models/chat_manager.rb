@@ -45,10 +45,14 @@ class ChatManager
   def message_recording_proc(ws, msg)
     Proc.new {
       user_id = msg["user_id"]
+      content = msg["content"]
+      lat = msg["coords"][0].to_f
+      lon = msg["coords"][1].to_f
       url = Url.rootify_find_create(msg["url"])
       start_time = Time.now
       # $SERVER_LOG.info("Saving message -- #{msg["content"]}")
-      message = Message.create(content: msg["content"], url: url, user_id: user_id)
+      message = Message.create(content: content, url: url, user_id: user_id, latitude: lat, longitude: lon)
+      p "message #{message.id}: #{message}"
       # $SERVER_LOG.info ("Message saved (#{msg["content"]}) -- #{Time.now - start_time}")
     }
   end
