@@ -125,13 +125,13 @@ var ChatBox = React.createClass({
   },
 
   handleMessageSubmit: function(m) {
-    var messages = this.state.data;
-    var coords = this.state.coords;
-    console.log(typeof coords[0]);
-    console.log(coords[1]);
-    var user_id = user["id"];
-    var msg = {url: url, content: m.content, user_id: user_id, coords: coords };
-    socket.send(JSON.stringify(msg));
+    if (m.content !== "") {
+      var messages = this.state.data;
+      var coords = this.state.coords;
+      var user_id = user["id"];
+      var msg = {url: url, content: m.content, user_id: user_id, coords: coords };
+      socket.send(JSON.stringify(msg));
+    }
   },
 
   add_message: function(message) {
