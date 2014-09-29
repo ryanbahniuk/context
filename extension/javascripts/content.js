@@ -14,6 +14,8 @@ function toggleSidebar() {
   	var lat = position.coords.latitude;
   	var lon = position.coords.longitude;
   	chrome.storage.sync.set({msgLat: lat, msgLon: lon, coords: [lat, lon]});
+  	console.log(lat);
+  	console.log(lon);
   });
 
 	if ($('body').find('#' + id).length === 0) {

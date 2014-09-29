@@ -104,7 +104,7 @@ var ChatBox = React.createClass({
     // this.loadMessages();
     socket = new WebSocket(this.props.socketAddress);
     url = document.URL.split("?")[1].split("&")[0].replace(/url=/,"");
-    
+    this.getCoords();
     socket.onopen = function(event) {
       this.setState({connectionStatus: 'Connected to: ' + event.currentTarget.URL});
       var msg = {url: url, initial: true};
@@ -122,12 +122,8 @@ var ChatBox = React.createClass({
 
   getCoords: function() {
     chrome.storage.sync.get("coords", function(obj){
-      if (obj["coords"]) {
-        this.setState({ coords: obj["coords"] });
-        console.log(obj["coords"]);
-      };
-    });
-    console.log(this.state.coords);
+      this.setState({coords: [obj["coords"][0], obj["coords"][1]] });
+    }.bind(this));
   },
 
   handleMessageSubmit: function(m) {
@@ -139,7 +135,11 @@ var ChatBox = React.createClass({
   },
 
   add_message: function(message) {
+    if (this.state.coords == false) {
+      this.getCoords();
+    };
     var messages = this.state.data;
+    message["content"] = 
     messages.push(message);
     this.setState({data: messages});
   },
