@@ -6,15 +6,18 @@ function handleRequest(request, sender, sendResponse) {
 }
 chrome.extension.onRequest.addListener(handleRequest);
 
+var open = false;
+
 function toggleSidebar() {
-	var id = 'context-sidebar';
+	var id = 'iframe-wrapper';
 
 	if ($('body').find('#' + id).length === 0) {
 		var iframeSource = chrome.extension.getURL('index.html') + "?url=" + document.URL;
-		var $sidebar = $('<iframe id="' + id + '" src="' + iframeSource + '"></iframe>');
-
+		var sidebar = '<iframe id="context-sidebar" src="' + iframeSource + '"></iframe>';
+		var minimizeImage = '<img src="' + chrome.extension.getURL('icons/19x19.png') + '">'
+		var $wrapper = $('<div id="iframe-wrapper"><div id="minimize-button">' + minimizeImage + '</div>' + sidebar + '</div>');
 		adjustBodyPosition('open');
-		$('body').prepend($sidebar);
+		$('body').prepend($wrapper);
 	} else {
 		adjustBodyPosition('close');
 		$('#' + id).remove();
@@ -23,7 +26,7 @@ function toggleSidebar() {
 
 function adjustBodyPosition(command) {
 	var $body = $('body');
-	
+
 	if (command === 'open') {
 		if($body.css("position") === "absolute") {
 			$body.css("right", "350px");
@@ -44,7 +47,20 @@ function adjustBodyPosition(command) {
 			$body.css("margin-right", "0");
 			$body.css("width", "100%");
 		} else {
-			$body.css("margin-right", "0");
+			$body.css("margin-right", "auto");
 		}
 	}
 }
+
+$(document).on("click", "#minimize-button", function() {
+	if(open === true) {
+		$(this).parent().css("width", "0px");
+		open = false;
+		adjustBodyPosition("close");
+	}
+	else {
+		$(this).parent().css("width", "350px");
+		open = true;
+		adjustBodyPosition("open");
+	}
+});

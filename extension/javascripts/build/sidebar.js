@@ -79,8 +79,11 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
 
       success: function(data) {
         var messages = this.state.data;
-        messages = messages.push(data);
-        this.setState({data: messages});
+
+        if(data !== {}) {
+          messages = messages.push(data);
+          this.setState({data: messages});
+        }
       }.bind(this),
 
       error: function(xhr, status, err) {

@@ -1,4 +1,12 @@
 #context-sidebar {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  border-left: 2px solid #222;
+  width: 100%;
+}
+
+#iframe-wrapper {
   position: fixed;
   top: 0;
   right: 0;
@@ -7,4 +15,16 @@
   border-top: 0;
   width: 350px;
   z-index: 2147483647;
+  box-sizing: border-box;
+}
+
+#minimize-button {
+  background-color: white;
+  border: 1px solid black;
+  border-right: 0;
+  height: 30px;
+  width: 30px;
+  margin-left: -30px;
+  margin-top: 50px;
+  padding: 5px;
 }
