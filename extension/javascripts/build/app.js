@@ -1,8 +1,10 @@
 /** @jsx React.DOM */
 
-var loginUrl = "http://104.131.117.55:3000/login";
-var registerUrl = "http://104.131.117.55:3000/users";
-var messageUrl = "http://104.131.117.55:3000/urls/messages/10";
+var httpServer = "http://104.131.117.55:3000/";
+var loginUrl = httpServer + "login";
+var registerUrl = httpServer + "users";
+var messageUrl = httpServer + "urls/messages/10";
+var errorReportUrl = httpServer + "error/";
 var socketAddress = 'ws://104.131.117.55:8080';
 
 var App = React.createClass({displayName: 'App',
@@ -58,13 +60,65 @@ var SettingsButton = React.createClass({displayName: 'SettingsButton',
 });
 
 var SettingsPanel = React.createClass({displayName: 'SettingsPanel',
+  onReportSend: function() {
+    this.setSate({reportSent: true});
+  },
+
+  getInitialState: function() {
+    return ({reportSent: false});
+  },
+
   render: function() {
     return (
       React.DOM.div({className: "settingsPanel"}, 
         React.DOM.div({className: "button", onClick: this.props.clickLogout}, "Logout"), 
-        React.DOM.div({className: "button", onClick: this.props.clickView}, "Change View")
+        /* <div className="button" onClick={this.props.clickView}>Change View</div> */
+        ReportError({onSend: this.onReportSend}), 
+         this.state.reportSent ? ReportDetails(null) : null
       )
     );
+  }
+});
+
+var ReportError = React.createClass({displayName: 'ReportError',
+  sendReport: function() {
+    $.ajax({
+      url: errorReportUrl + url,
+      type: 'post',
+      dataType: 'text'
+    })
+    .done(function() {
+      console.log("report sent");
+      this.props.onSend;
+      this.setState({reportSent: true});
+    }.bind(this))
+    .fail(function() {
+      console.log("error");
+    })
+    .always(function() {
+      console.log(errorReportUrl + url);
+    }); 
+  },
+
+  getInitialState: function() {
+    return ( {reportSent: false} );
+  },
+
+  render: function() {
+    return (
+      React.DOM.div({className: "reportError"}, 
+        this.state.reportSent ? React.DOM.div({className: "report_sent button"}, "Report Sent")  : React.DOM.div({className: "button", onClick: this.sendReport}, "Report Page Error")
+      )
+    );
+  }
+});
+
+var ReportDetails = React.createClass({displayName: 'ReportDetails',
+  render: function() {
+    React.DOM.div({className: "reportDetails"}, 
+      React.DOM.textarea({placeholder: "Details?"}), 
+      React.DOM.input({type: "submit"})
+    )
   }
 });
 
@@ -74,7 +128,7 @@ var ConnectionStatus = React.createClass({displayName: 'ConnectionStatus',
       React.DOM.div({id: "status"}, "Disconnected")
     );
   }
-})
+});
 
 function run() {
   React.renderComponent(

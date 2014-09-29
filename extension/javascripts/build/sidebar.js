@@ -107,8 +107,6 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
     var lat = document.URL.split("?")[1].split("&")[1].replace("lat=", "");
     var lon = document.URL.split("?")[1].split("&")[2].replace("lon=", "");
     this.setState({userLat: lat, userLon: lon});
-    console.log(this.state.userLat);
-    console.log(this.state.userLon);
     socket.onopen = function(event) {
       this.setState({connectionStatus: 'Connected to: ' + event.currentTarget.URL});
       var msg = {url: url, initial: true};
