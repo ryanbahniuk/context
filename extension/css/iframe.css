@@ -1705,11 +1705,15 @@ body {
 .chatInput {
   position: absolute;
   bottom: 0;
-  width: 100%; }
+  width: 100%;
+  border-left: 0;
+  border-right: 0; }
   .chatInput input {
+    border-left: 0;
+    border-right: 0;
     position: inline-block;
     float: left;
-    font-size: 1.1em;
+    font-size: 0.9rem;
     padding: 0.3em;
     height: 2em;
     outline: none; }
@@ -1721,27 +1725,73 @@ body {
       color: #fff;
       border: 0; }
 
-.settingsButton {
+i.settingsButton {
   position: fixed;
   top: 0;
   right: 0;
   padding: 0.3rem;
-  z-index: 100; }
+  z-index: 100;
+  color: #bbbbbb; }
+  i.settingsButton:hover {
+    -webkit-transition: all 0.4s ease;
+    -moz-transition: all 0.4s ease;
+    -o-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+    color: #555555; }
 
-.settingsPanel {
+div.settingsPanel {
   width: 100%;
   position: fixed;
-  top: 50px;
+  top: 0;
+  right: 0;
+  margin-top: 50px; }
+  div.settingsPanel div.button {
+    width: 50%;
+    display: inline-block;
+    text-align: center;
+    font-family: "Helventica Neue", Helvetica, Arial, sans-serif;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #bbbbbb;
+    padding: 0.3rem;
+    color: #555555; }
+    div.settingsPanel div.button:hover {
+      -webkit-transition: all 0.4s ease;
+      -moz-transition: all 0.4s ease;
+      -o-transition: all 0.4s ease;
+      transition: all 0.4s ease;
+      color: #bbbbbb; }
+
+div.userAuth, div.chatBox {
+  margin-top: 50px; }
+
+div.loginForm, div.registerForm {
+  margin: 0 auto;
+  padding-top: 1rem;
+  font-size: 0.9rem; }
+  div.loginForm input, div.loginForm button, div.registerForm input, div.registerForm button {
+    padding: 0.3rem;
+    display: block;
+    width: 80%;
+    margin: 0.3rem 10%;
+    border: 2px solid #bbbbbb;
+    color: #888888;
+    background-color: white; }
+  div.loginForm input[type="submit"], div.registerForm input[type="submit"] {
+    background-color: #bbbbbb;
+    color: white; }
+    div.loginForm input[type="submit"]:hover, div.registerForm input[type="submit"]:hover {
+      background-color: #888888;
+      border: 2px solid #888888; }
+  div.loginForm button, div.registerForm button {
+    color: #bbbbbb; }
+    div.loginForm button:hover, div.registerForm button:hover {
+      background-color: #888888;
+      border: 2px solid #888888;
+      color: white; }
+
+div.content {
+  position: fixed;
+  top: 0;
   right: 0; }
-
-.settingsPanel div {
-  text-align: center;
-  font-family: "Helventica Neue", Helvetica, Arial, sans-serif;
-  border-bottom: 1px solid #bbbbbb;
-  width: 100%;
-  padding: 0.3rem; }
-
-.settingsPanel div:hover {
-  color: #bbbbbb; }
 
 /*# sourceMappingURL=iframe.css.map */

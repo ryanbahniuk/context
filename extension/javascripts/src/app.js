@@ -60,8 +60,8 @@ var SettingsPanel = React.createClass({
   render: function() {
     return (
       <div className="settingsPanel">
-        <div className="logoutButton" onClick={this.props.clickLogout}>Logout</div>
-        <div className="viewButton" onClick={this.props.clickView}>Change View</div>
+        <div className="button" onClick={this.props.clickLogout}>Logout</div>
+        <div className="button" onClick={this.props.clickView}>Change View</div>
       </div>
     );
   }

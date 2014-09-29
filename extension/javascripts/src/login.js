@@ -1,4 +1,5 @@
 /** @jsx React.DOM */
+
 var user = undefined;
 
 var UserAuth = React.createClass({
@@ -112,7 +113,7 @@ var LoginForm = React.createClass({
         <input type="password" placeholder="Password" name="password"/>
         <input type="submit"/>
       </form>
-      <button onClick={this.props.onSwitchRegister}>Register</button>
+      <button onClick={this.props.onSwitchRegister}>Sign Up</button>
       </div>
      );
   }
@@ -132,8 +133,8 @@ var RegisterForm = React.createClass({
       <form onSubmit={this.handleRegister} ref="form">
       <input type="text" placeholder="Name" name="user[name]" />
       <input type="text" placeholder="Email" name="user[email]" />
-      <input type="text" placeholder="Password" name="user[password]" />
-      <input type="submit"/>
+      <input type="password" placeholder="Password" name="user[password]" />
+      <input type="submit" value="Sign Up"/>
       </form>
       <button onClick={this.props.onSwitchLogin}>Login</button>
       </div>

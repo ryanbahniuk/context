@@ -1,4 +1,5 @@
 /** @jsx React.DOM */
+
 var user = undefined;
 
 var UserAuth = React.createClass({displayName: 'UserAuth',
@@ -112,7 +113,7 @@ var LoginForm = React.createClass({displayName: 'LoginForm',
         React.DOM.input({type: "password", placeholder: "Password", name: "password"}), 
         React.DOM.input({type: "submit"})
       ), 
-      React.DOM.button({onClick: this.props.onSwitchRegister}, "Register")
+      React.DOM.button({onClick: this.props.onSwitchRegister}, "Sign Up")
       )
      );
   }
@@ -132,8 +133,8 @@ var RegisterForm = React.createClass({displayName: 'RegisterForm',
       React.DOM.form({onSubmit: this.handleRegister, ref: "form"}, 
       React.DOM.input({type: "text", placeholder: "Name", name: "user[name]"}), 
       React.DOM.input({type: "text", placeholder: "Email", name: "user[email]"}), 
-      React.DOM.input({type: "text", placeholder: "Password", name: "user[password]"}), 
-      React.DOM.input({type: "submit"})
+      React.DOM.input({type: "password", placeholder: "Password", name: "user[password]"}), 
+      React.DOM.input({type: "submit", value: "Sign Up"})
       ), 
       React.DOM.button({onClick: this.props.onSwitchLogin}, "Login")
       )
