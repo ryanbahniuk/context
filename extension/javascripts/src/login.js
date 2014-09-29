@@ -74,6 +74,7 @@ var UserAuth = React.createClass({
   handleErrors: function() {
     console.log("handling errors");
     this.setState({connection: false});
+    this.forceUpdate();
   },
 
   handleReload: function() {
@@ -94,6 +95,7 @@ var UserAuth = React.createClass({
       return(
         <div className="userAuth">
           <LoginConnection onReload={this.handleReload}/> 
+          <ReportConnection onSend={this.props.onConnectionReport}/>
         </div>
       );
     };

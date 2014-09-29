@@ -74,6 +74,7 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
   handleErrors: function() {
     console.log("handling errors");
     this.setState({connection: false});
+    this.forceUpdate();
   },
 
   handleReload: function() {
@@ -93,7 +94,8 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
     } else {
       return(
         React.DOM.div({className: "userAuth"}, 
-          LoginConnection({onReload: this.handleReload})
+          LoginConnection({onReload: this.handleReload}), 
+          ReportConnection({onSend: this.props.onConnectionReport})
         )
       );
     };

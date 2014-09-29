@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 
-var httpServer = "http://104.131.117.55:3000/";
-// var httpServer = "http://localhost:3000/";
+// var httpServer = "http://104.131.117.55:3000/";
+var httpServer = "http://localhost:3000/";
 var loginUrl = httpServer + "login";
 var registerUrl = httpServer + "users";
 var messageUrl = httpServer + "urls/messages/10";
@@ -80,6 +80,24 @@ var App = React.createClass({displayName: 'App',
       });
   },
 
+  handleConnectionReport: function(form) {
+    $.ajax({
+      url: errorReportUrl,
+      type: 'post',
+      contentType: "application/x-www-form-urlencoded",
+      data: form.serialize(),
+    })
+    .done(function() {
+      console.log("success");
+    })
+    .fail(function() {
+      console.log("error");
+    })
+    .always(function() {
+      console.log("complete");
+    });   
+  },
+
   render: function() {
     return(
       React.DOM.div({className: "App"}, 
@@ -88,7 +106,7 @@ var App = React.createClass({displayName: 'App',
 
       this.state.showSettings ? SettingsPanel({clickLogout: this.handleClickLogout, clickView: this.handleClickView, sendReport: this.handleSendReport, reportSent: this.state.reportSent, sendDetails: this.handleSendDetails, detailsSent: this.state.detailsSent}) : null, 
 
-      this.state.userPresent ? ChatBox({socketAddress: socketAddress, messageUrl: messageUrl, user: user}) : UserAuth({loginUrl: loginUrl, registerUrl: registerUrl, onSuccess: this.onUserSuccess})
+      this.state.userPresent ? ChatBox({socketAddress: socketAddress, messageUrl: messageUrl, user: user, onConnectionReport: this.handleConnectionReport}) : UserAuth({loginUrl: loginUrl, registerUrl: registerUrl, onSuccess: this.onUserSuccess, onConnectionReport: this.handleConnectionReport})
       )
     );
   },
