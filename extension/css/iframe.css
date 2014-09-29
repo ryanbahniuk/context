@@ -1693,6 +1693,7 @@ body {
   list-style: none;
   padding-left: 0;
   width: 100%;
+  margin-bottom: 2rem;
   overflow: scroll; }
   .messageList .message {
     width: 100%;
@@ -1794,5 +1795,8 @@ div.content {
   position: fixed;
   top: 0;
   right: 0; }
+
+body {
+  overflow: hidden; }
 
 /*# sourceMappingURL=iframe.css.map */
