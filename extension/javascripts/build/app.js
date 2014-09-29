@@ -61,11 +61,12 @@ var SettingsButton = React.createClass({displayName: 'SettingsButton',
 
 var SettingsPanel = React.createClass({displayName: 'SettingsPanel',
   onReportSend: function() {
-    this.setSate({reportSent: true});
+    this.setState({reportSent: true});
+    console.log("onReportSend");
   },
 
   getInitialState: function() {
-    return ({reportSent: false});
+    return {reportSent: false};
   },
 
   render: function() {
@@ -89,15 +90,17 @@ var ReportError = React.createClass({displayName: 'ReportError',
     })
     .done(function() {
       console.log("report sent");
-      this.props.onSend;
-      this.setState({reportSent: true});
     }.bind(this))
     .fail(function() {
       console.log("error");
     })
     .always(function() {
+      // move after adding route
+      this.props.onSend();
+      this.setState({reportSent: true});
+      //
       console.log(errorReportUrl + url);
-    }); 
+    }.bind(this)); 
   },
 
   getInitialState: function() {
@@ -106,8 +109,8 @@ var ReportError = React.createClass({displayName: 'ReportError',
 
   render: function() {
     return (
-      React.DOM.div({className: "reportError"}, 
-        this.state.reportSent ? React.DOM.div({className: "report_sent button"}, "Report Sent")  : React.DOM.div({className: "button", onClick: this.sendReport}, "Report Page Error")
+      React.DOM.div({className: "reportError button"}, 
+        this.state.reportSent ? React.DOM.span({id: "report_sent"}, "Report Sent")  : React.DOM.span({onClick: this.sendReport}, "Report Page Error")
       )
     );
   }
@@ -115,10 +118,12 @@ var ReportError = React.createClass({displayName: 'ReportError',
 
 var ReportDetails = React.createClass({displayName: 'ReportDetails',
   render: function() {
-    React.DOM.div({className: "reportDetails"}, 
-      React.DOM.textarea({placeholder: "Details?"}), 
-      React.DOM.input({type: "submit"})
-    )
+    return (
+      React.DOM.div({className: "reportDetails"}, 
+        React.DOM.textarea({placeholder: "Details?"}), 
+        React.DOM.input({type: "submit"})
+      )
+      );
   }
 });
 

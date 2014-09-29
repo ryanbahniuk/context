@@ -61,11 +61,12 @@ var SettingsButton = React.createClass({
 
 var SettingsPanel = React.createClass({
   onReportSend: function() {
-    this.setSate({reportSent: true});
+    this.setState({reportSent: true});
+    console.log("onReportSend");
   },
 
   getInitialState: function() {
-    return ({reportSent: false});
+    return {reportSent: false};
   },
 
   render: function() {
@@ -89,15 +90,17 @@ var ReportError = React.createClass({
     })
     .done(function() {
       console.log("report sent");
-      this.props.onSend;
-      this.setState({reportSent: true});
     }.bind(this))
     .fail(function() {
       console.log("error");
     })
     .always(function() {
+      // move after adding route
+      this.props.onSend();
+      this.setState({reportSent: true});
+      //
       console.log(errorReportUrl + url);
-    }); 
+    }.bind(this)); 
   },
 
   getInitialState: function() {
@@ -106,8 +109,8 @@ var ReportError = React.createClass({
 
   render: function() {
     return (
-      <div className="reportError">
-        {this.state.reportSent ? <div className="report_sent button">Report Sent</div>  : <div className="button" onClick={this.sendReport}>Report Page Error</div>}
+      <div className="reportError button">
+        {this.state.reportSent ? <span id="report_sent">Report Sent</span>  : <span onClick={this.sendReport}>Report Page Error</span>}
       </div>
     );
   }
@@ -115,10 +118,12 @@ var ReportError = React.createClass({
 
 var ReportDetails = React.createClass({
   render: function() {
-    <div className="reportDetails">
-      <textarea placeholder="Details?"></textarea>
-      <input type="submit"/>
-    </div>
+    return (
+      <div className="reportDetails">
+        <textarea placeholder="Details?"></textarea>
+        <input type="submit"/>
+      </div>
+      );
   }
 });
 

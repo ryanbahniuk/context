@@ -119,6 +119,11 @@ div.settingsPanel {
       color: $brand-secondary;
     }
   }
+
+  div.reportDetails {
+    width: 100%;
+    background-color: white;
+  }
 }
 
 div.userAuth, div.chatBox {
