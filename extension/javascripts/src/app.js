@@ -12,9 +12,9 @@ var App = React.createClass({
 
   getInitialState: function() {
     if(user !== undefined) {
-      return { showSettings: false, reportSent: false, detailsSent: false, userPresent: true };
+      return { showSettings: false, reportSent: false, detailsSent: false, userPresent: true, errorId: 0 };
     } else {
-      return { showSettings: false, reportSent: false, detailsSent: false, userPresent: false };
+      return { showSettings: false, reportSent: false, detailsSent: false, userPresent: false, errorId: 0 };
     };
   },
 
@@ -40,6 +40,7 @@ var App = React.createClass({
 
   handleSendReport: function(form) {
     this.setState({reportSent: true});
+    debugger;
     // chrome.runtime.getPlatformInfo(function(obj){
     //   form.find("#os").val(obj.os);
 
@@ -52,26 +53,26 @@ var App = React.createClass({
         data: form.serialize()
       })
       .done(function(data) {
-        console.log("error report submitted");
         console.log(data);
-        this.props.errorId = data;
-      })
+        this.setState({errorId: data});
+      }.bind(this))
       .fail(function() {
         console.log("error report error");
       });
     // })
+    debugger;
   },
 
   handleSendDetails: function(form) {
     this.setState({detailsSent: true});
+    var errorId = this.state.errorId;
       $.ajax({
-        url: errorReportUrl + "/" + this.props.errorId,
+        url: errorReportUrl + "/" + errorId,
         type: 'post',
         contentType: "application/x-www-form-urlencoded",
         data: form.serialize()
       })
       .done(function(data) {
-        console.log("error report submitted");
         console.log(data);
       })
       .fail(function() {
@@ -117,6 +118,7 @@ var SettingsPanel = React.createClass({
 
 var ReportError = React.createClass({
   sendReport: function() {
+    this.setState({reportSent: true});
     var container = this.getDOMNode();
     var form = $(container).find("form");
     console.log(form);
@@ -130,7 +132,7 @@ var ReportError = React.createClass({
   render: function() {
     return (
       <div className="reportError button">
-        {this.state.reportSent ? <span id="report_sent">Report Sent</span>  : <span onClick={this.sendReport}>Report Page Error</span>}
+        {this.props.reportSent ? <span id="report_sent">Report Sent</span>  : <span onClick={this.sendReport}>Report Page Error</span>}
         <form ref="errorForm">
           <input type="hidden" name="url" value={url}/>
           <input type="hidden" name="user_id" value={user["id"]}/>

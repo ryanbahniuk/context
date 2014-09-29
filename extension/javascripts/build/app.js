@@ -12,9 +12,9 @@ var App = React.createClass({displayName: 'App',
 
   getInitialState: function() {
     if(user !== undefined) {
-      return { showSettings: false, reportSent: false, detailsSent: false, userPresent: true };
+      return { showSettings: false, reportSent: false, detailsSent: false, userPresent: true, errorId: 0 };
     } else {
-      return { showSettings: false, reportSent: false, detailsSent: false, userPresent: false };
+      return { showSettings: false, reportSent: false, detailsSent: false, userPresent: false, errorId: 0 };
     };
   },
 
@@ -40,6 +40,7 @@ var App = React.createClass({displayName: 'App',
 
   handleSendReport: function(form) {
     this.setState({reportSent: true});
+    debugger;
     // chrome.runtime.getPlatformInfo(function(obj){
     //   form.find("#os").val(obj.os);
 
@@ -52,26 +53,26 @@ var App = React.createClass({displayName: 'App',
         data: form.serialize()
       })
       .done(function(data) {
-        console.log("error report submitted");
         console.log(data);
-        this.props.errorId = data;
-      })
+        this.setState({errorId: data});
+      }.bind(this))
       .fail(function() {
         console.log("error report error");
       });
     // })
+    debugger;
   },
 
   handleSendDetails: function(form) {
     this.setState({detailsSent: true});
+    var errorId = this.state.errorId;
       $.ajax({
-        url: errorReportUrl + "/" + this.props.errorId,
+        url: errorReportUrl + "/" + errorId,
         type: 'post',
         contentType: "application/x-www-form-urlencoded",
         data: form.serialize()
       })
       .done(function(data) {
-        console.log("error report submitted");
         console.log(data);
       })
       .fail(function() {
@@ -117,6 +118,7 @@ var SettingsPanel = React.createClass({displayName: 'SettingsPanel',
 
 var ReportError = React.createClass({displayName: 'ReportError',
   sendReport: function() {
+    this.setState({reportSent: true});
     var container = this.getDOMNode();
     var form = $(container).find("form");
     console.log(form);
@@ -130,7 +132,7 @@ var ReportError = React.createClass({displayName: 'ReportError',
   render: function() {
     return (
       React.DOM.div({className: "reportError button"}, 
-        this.state.reportSent ? React.DOM.span({id: "report_sent"}, "Report Sent")  : React.DOM.span({onClick: this.sendReport}, "Report Page Error"), 
+        this.props.reportSent ? React.DOM.span({id: "report_sent"}, "Report Sent")  : React.DOM.span({onClick: this.sendReport}, "Report Page Error"), 
         React.DOM.form({ref: "errorForm"}, 
           React.DOM.input({type: "hidden", name: "url", value: url}), 
           React.DOM.input({type: "hidden", name: "user_id", value: user["id"]})

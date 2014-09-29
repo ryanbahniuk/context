@@ -2,3 +2,16 @@
 I, [2014-09-29T14:29:14.319821 #11557]  INFO -- : URL: www.json.org/JSONRequest.html&lat=41.889812&lon=-87.6370264 ---- Object: 
 I, [2014-09-29T14:29:41.082886 #11557]  INFO -- : URL: www.json.org/JSONRequest.html ---- Object: #<Url:0x007f972c562618>
 I, [2014-09-29T14:37:22.133921 #11557]  INFO -- : URL: www.json.org/JSONRequest.html ---- Object: #<Url:0x007f972c4fa7e8>
+I, [2014-09-29T14:40:53.946934 #11557]  INFO -- : URL: www.json.org/JSONRequest.html ---- Object: #<Url:0x007f972b115ea8>
+I, [2014-09-29T14:41:25.437203 #11557]  INFO -- : URL: www.json.org/JSONRequest.html ---- Object: #<Url:0x007f972ab126a0>
+I, [2014-09-29T14:42:57.683475 #11557]  INFO -- : URL: www.json.org/JSONRequest.html ---- Object: #<Url:0x007f972e2aaea0>
+I, [2014-09-29T14:45:03.421031 #11557]  INFO -- : URL: www.json.org/JSONRequest.html ---- Object: #<Url:0x007f972ab474e0>
+I, [2014-09-29T14:45:48.763448 #11557]  INFO -- : URL: www.json.org/JSONRequest.html ---- Object: #<Url:0x007f972be77d80>
+I, [2014-09-29T14:46:17.466124 #11557]  INFO -- : URL: www.json.org/JSONRequest.html ---- Object: #<Url:0x007f972ab746e8>
+I, [2014-09-29T14:47:22.175891 #11557]  INFO -- : URL: www.json.org/JSONRequest.html ---- Object: #<Url:0x007f972e300e90>
+I, [2014-09-29T14:50:17.949489 #11557]  INFO -- : URL: www.json.org/JSONRequest.html ---- Object: #<Url:0x007f972aba9af0>
+I, [2014-09-29T14:51:15.409193 #11557]  INFO -- : URL: www.json.org/JSONRequest.html ---- Object: #<Url:0x007f972abca368>
+I, [2014-09-29T14:51:43.336019 #11751]  INFO -- : URL: www.json.org/JSONRequest.html ---- Object: #<Url:0x007fae81942640>
+I, [2014-09-29T14:53:24.201663 #11751]  INFO -- : URL: www.json.org/JSONRequest.html ---- Object: #<Url:0x007fae840c7238>
+I, [2014-09-29T14:54:43.870797 #11751]  INFO -- : URL: www.json.org/JSONRequest.html ---- Object: #<Url:0x007fae824df318>
+I, [2014-09-29T14:55:10.136629 #11751]  INFO -- : URL: www.json.org/JSONRequest.html ---- Object: #<Url:0x007fae8247e838>
