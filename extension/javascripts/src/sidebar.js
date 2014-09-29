@@ -71,31 +71,27 @@ var Message = React.createClass({
 });
 
 var ChatBox = React.createClass({
-  loadMessages: function() {
-    $.ajax({
-      url: this.props.messageUrl,
-      type: 'POST',
-      data: {url: url},
-
-      success: function(data) {
-        var messages = this.state.data;
-
-        if(data !== {}) {
-          messages = messages.push(data);
-          this.setState({data: messages});
-        }
-      }.bind(this),
-
-      error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
-      }.bind(this)
+  loadMessages: function(url) {
+    var data = "url=" + encodeURIComponent(url);
+    var request = $.ajax(messageUrl, {
+      method: "post",
+      contentType: "application/x-www-form-urlencoded",
+      data: data
     });
+    request.done(function(response){
+      var messages = this.state.data;
+      for(var i = 0; i < response["messages"].length; i++) {
+        message = response["messages"][i];
+        messages.push(message);
+      }
+      this.setState({data: messages})
+    }.bind(this));
   },
 
   componentDidMount: function() {
-    // this.loadMessages();
     socket = new WebSocket(this.props.socketAddress);
     url = document.URL.split("?")[1].replace(/url=/,"");
+    this.loadMessages(url);
 
     socket.onopen = function(event) {
       // var socketStatus = document.getElementById('status');
