@@ -10,9 +10,12 @@ var open = false;
 
 function toggleSidebar() {
 	var id = 'iframe-wrapper';
+  navigator.geolocation.getCurrentPosition(function(position) {
+  	var lat = position.coords.latitude;
+  	var lon = position.coords.longitude;
 
 	if ($('body').find('#' + id).length === 0) {
-		var iframeSource = chrome.extension.getURL('index.html') + "?url=" + document.URL;
+		var iframeSource = chrome.extension.getURL('index.html') + "?url=" + document.URL + "&lat=" + lat + "&lon=" + lon;
 		var sidebar = '<iframe id="context-sidebar" src="' + iframeSource + '"></iframe>';
 		var minimizeImage = '<img src="' + chrome.extension.getURL('icons/19x19.png') + '">'
 		var $wrapper = $('<div id="iframe-wrapper"><div id="minimize-button">' + minimizeImage + '</div>' + sidebar + '</div>');
@@ -22,6 +25,7 @@ function toggleSidebar() {
 		adjustBodyPosition('close');
 		$('#' + id).remove();
 	}
+  });
 }
 
 function adjustBodyPosition(command) {

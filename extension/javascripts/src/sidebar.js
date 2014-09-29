@@ -70,6 +70,14 @@ var Message = React.createClass({
   }
 });
 
+var DisplayConnection = React.createClass({
+  render: function() {
+    return (
+      <p> {this.props.status} </p>
+    );
+  }
+});
+
 var ChatBox = React.createClass({
   loadMessages: function() {
     $.ajax({
@@ -95,15 +103,17 @@ var ChatBox = React.createClass({
   componentDidMount: function() {
     // this.loadMessages();
     socket = new WebSocket(this.props.socketAddress);
-    url = document.URL.split("?")[1].replace(/url=/,"");
-
+    url = document.URL.split("?")[1].split("&")[0].replace(/url=/,"");
+    var lat = document.URL.split("?")[1].split("&")[1].replace("lat=", "");
+    var lon = document.URL.split("?")[1].split("&")[2].replace("lon=", "");
+    this.setState({userLat: lat, userLon: lon});
+    console.log(this.state.userLat);
+    console.log(this.state.userLon);
     socket.onopen = function(event) {
-      // var socketStatus = document.getElementById('status');
-      // socketStatus.innerHTML = 'Connected to: ' + event.currentTarget.URL;
-      // socketStatus.className = 'open';
+      this.setState({connectionStatus: 'Connected to: ' + event.currentTarget.URL});
       var msg = {url: url, initial: true};
       socket.send(JSON.stringify(msg));
-    };
+    }.bind(this);
     socket.onmessage = function(e) {
       var message = JSON.parse(e.data);
       this.add_message(message);
@@ -111,7 +121,7 @@ var ChatBox = React.createClass({
   },
 
   getInitialState: function() {
-    return { data: [] };
+    return { data: [], connectionStatus: "Disconnected", userLat: undefined, userLon: undefined};
   },
 
   handleMessageSubmit: function(m) {
@@ -131,6 +141,7 @@ var ChatBox = React.createClass({
     return (
       <div className="chatBox">
         < MessageList data={this.state.data} />
+        < DisplayConnection status={this.state.connectionStatus} />
         < ChatInput onMessageSubmit={this.handleMessageSubmit} />
         </div>
         );

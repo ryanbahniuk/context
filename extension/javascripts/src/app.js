@@ -16,7 +16,8 @@ var App = React.createClass({
   },
 
   onUserSuccess: function(u) {
-    this.setState({showChat: true, showAuth: false, userPresent: true});
+    user = u;
+    this.setState({userPresent: true});
   },
 
   handleClickSettings: function() {
