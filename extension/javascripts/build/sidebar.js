@@ -33,7 +33,7 @@ var MessageList = React.createClass({displayName: 'MessageList',
       React.DOM.ul({className: "messageList"},
       messageNodes
       )
-      );
+    );
   },
 
   componentWillUpdate: function() {
@@ -119,10 +119,11 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
   },
 
   add_message: function(message) {
-    linkedMessage = Autolinker.link(message["content"], {newWindow: true} );
-    console.log(linkedMessage);
+    console.log(message)
+    linkedMessage = {author: message["author"], content: Autolinker.link(message["content"], {newWindow: true} )};
+    console.log(linkedMessage)
     var messages = this.state.data;
-    messages.push(message);
+    messages.push(linkedMessage);
     this.setState({data: messages});
   },
 
