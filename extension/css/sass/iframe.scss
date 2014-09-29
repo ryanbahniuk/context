@@ -40,6 +40,7 @@ body {
 	list-style: none;
 	padding-left: 0;
 	width: 100%;
+  overflow: scroll;
 	.message {
 		width: 100%;
 		border-top: 1px solid $lighter-grey;
@@ -54,7 +55,7 @@ body {
 }
 
 .chatInput {
-	position: absolute;
+	position: fixed;
 	bottom: 0;
 	width: 100%;
   border-left: 0;

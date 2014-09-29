@@ -1692,7 +1692,8 @@ body {
 .messageList {
   list-style: none;
   padding-left: 0;
-  width: 100%; }
+  width: 100%;
+  overflow: scroll; }
   .messageList .message {
     width: 100%;
     border-top: 1px solid #d4d4d4;
@@ -1703,7 +1704,7 @@ body {
       display: inline; }
 
 .chatInput {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   width: 100%;
   border-left: 0;
