@@ -191,6 +191,28 @@ div.loginForm, div.registerForm {
     }
 }
 
+div.connection {
+  width: 100%;
+  margin-top: 30%;
+
+  i {
+    width: 100%;
+    text-align: center;
+    color: $light-grey;
+    display: block;
+    margin-bottom: 10%;
+  }
+
+  button {
+    width: 30%;
+    margin: 0 35%;
+    border: 1px solid $light-grey;
+    background-color: white;
+    color: $light-grey;
+    font-size: $button-font-size;
+  }
+}
+
 div.content {
   position: fixed;
   top: 0;

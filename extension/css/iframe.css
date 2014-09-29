@@ -1818,6 +1818,23 @@ div.loginForm, div.registerForm {
       background-color: #F48351;
       color: white; }
 
+div.connection {
+  width: 100%;
+  margin-top: 30%; }
+  div.connection i {
+    width: 100%;
+    text-align: center;
+    color: #bbbbbb;
+    display: block;
+    margin-bottom: 10%; }
+  div.connection button {
+    width: 30%;
+    margin: 0 35%;
+    border: 1px solid #bbbbbb;
+    background-color: white;
+    color: #bbbbbb;
+    font-size: 0.9rem; }
+
 div.content {
   position: fixed;
   top: 0;

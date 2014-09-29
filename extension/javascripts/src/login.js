@@ -8,7 +8,8 @@ var UserAuth = React.createClass({
     return {
       errors: "",
       showLogin: true,
-      showRegister: false
+      showRegister: false,
+      connection: true
     };
   },
 
@@ -40,12 +41,9 @@ var UserAuth = React.createClass({
 
     .fail(function() {
       console.log("error");
-      this.setState({errors: "login broken..."});
+      this.setState({errors: "login broken...", connection: false});
+      this.handleErrors();
     }.bind(this))
-
-    .always(function() {
-      console.log("complete");
-    });
   },
 
   handleRegisterRequest: function(data) {
@@ -70,18 +68,35 @@ var UserAuth = React.createClass({
 
     .fail(function() {
       console.log("error");
-      this.setState({errors: "register broken..."});      
+      this.setState({errors: "register broken...", connection: false});      
     }.bind(this))
   },
 
+  handleErrors: function() {
+    console.log("handling errors");
+    this.setState({connection: false});
+  },
+
+  handleTryAgain: function() {
+    this.setState({connection: true});
+  },
+
   render: function() {
-    return (
-      <div className="userAuth">
+    if(this.state.connection) {
+      return (
+        <div className="userAuth">
         <DisplayErrors errors={this.state.errors}/>
-      { this.state.showLogin ? <LoginForm onLogin={this.handleLoginRequest} onSwitchRegister={this.onClickRegister}/> : null }
-      { this.state.showRegister ? <RegisterForm onRegister={this.handleRegisterRequest} onSwitchLogin={this.onClickLogin}/> : null }
-      </div>
-    );
+        { this.state.showLogin ? <LoginForm onLogin={this.handleLoginRequest} onSwitchRegister={this.onClickRegister}/> : null }
+        { this.state.showRegister ? <RegisterForm onRegister={this.handleRegisterRequest} onSwitchLogin={this.onClickLogin}/> : null }
+        </div>
+      );
+    } else {
+      return(
+        <div className="userAuth">
+          <LoginConnection tryAgain={this.handleTryAgain}/> 
+        </div>
+      );
+    };
   }
 });
 
@@ -136,6 +151,17 @@ var RegisterForm = React.createClass({
       </form>
       <button onClick={this.props.onSwitchLogin}>Login</button>
       </div>
+    );
+  }
+});
+
+var LoginConnection = React.createClass({
+  render: function() {
+    return (
+      <div className="LoginConnection connection"> 
+        <i className="fa fa-frown-o"></i>
+        <button onClick={this.props.tryAgain}>Go Back</button>
+      </div> 
     );
   }
 });

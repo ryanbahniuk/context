@@ -8,7 +8,8 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
     return {
       errors: "",
       showLogin: true,
-      showRegister: false
+      showRegister: false,
+      connection: true
     };
   },
 
@@ -40,12 +41,9 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
 
     .fail(function() {
       console.log("error");
-      this.setState({errors: "login broken..."});
+      this.setState({errors: "login broken...", connection: false});
+      this.handleErrors();
     }.bind(this))
-
-    .always(function() {
-      console.log("complete");
-    });
   },
 
   handleRegisterRequest: function(data) {
@@ -70,18 +68,35 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
 
     .fail(function() {
       console.log("error");
-      this.setState({errors: "register broken..."});      
+      this.setState({errors: "register broken...", connection: false});      
     }.bind(this))
   },
 
+  handleErrors: function() {
+    console.log("handling errors");
+    this.setState({connection: false});
+  },
+
+  handleTryAgain: function() {
+    this.setState({connection: true});
+  },
+
   render: function() {
-    return (
-      React.DOM.div({className: "userAuth"}, 
+    if(this.state.connection) {
+      return (
+        React.DOM.div({className: "userAuth"}, 
         DisplayErrors({errors: this.state.errors}), 
-       this.state.showLogin ? LoginForm({onLogin: this.handleLoginRequest, onSwitchRegister: this.onClickRegister}) : null, 
-       this.state.showRegister ? RegisterForm({onRegister: this.handleRegisterRequest, onSwitchLogin: this.onClickLogin}) : null
-      )
-    );
+         this.state.showLogin ? LoginForm({onLogin: this.handleLoginRequest, onSwitchRegister: this.onClickRegister}) : null, 
+         this.state.showRegister ? RegisterForm({onRegister: this.handleRegisterRequest, onSwitchLogin: this.onClickLogin}) : null
+        )
+      );
+    } else {
+      return(
+        React.DOM.div({className: "userAuth"}, 
+          LoginConnection({tryAgain: this.handleTryAgain})
+        )
+      );
+    };
   }
 });
 
@@ -136,6 +151,17 @@ var RegisterForm = React.createClass({displayName: 'RegisterForm',
       ), 
       React.DOM.button({onClick: this.props.onSwitchLogin}, "Login")
       )
+    );
+  }
+});
+
+var LoginConnection = React.createClass({displayName: 'LoginConnection',
+  render: function() {
+    return (
+      React.DOM.div({className: "LoginConnection connection"}, 
+        React.DOM.i({className: "fa fa-frown-o"}), 
+        React.DOM.button({onClick: this.props.tryAgain}, "Go Back")
+      ) 
     );
   }
 });
