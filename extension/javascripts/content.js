@@ -9,6 +9,15 @@ chrome.extension.onRequest.addListener(handleRequest);
 var open = false;
 var windowWidth = $(window).width();
 
+$(window).resize(function(){
+	windowWidth = $(window).width();
+	if (open === true) {
+		adjustBodyPosition('open');
+	} else {
+		adjustBodyPosition('close');
+	}
+});
+
 function toggleSidebar() {
 	var id = 'iframe-wrapper';
 
@@ -19,9 +28,11 @@ function toggleSidebar() {
 		var $wrapper = $('<div id="iframe-wrapper"><div id="minimize-button">' + minimizeImage + '</div>' + sidebar + '</div>');
 		adjustBodyPosition('open');
 		$('body').prepend($wrapper);
+		open = true;
 	} else {
 		adjustBodyPosition('close');
 		$('#' + id).remove();
+		open = false;
 	}
 }
 
