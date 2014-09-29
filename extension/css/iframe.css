@@ -1747,13 +1747,13 @@ div.settingsPanel {
   right: 0;
   background-color: #fff;
   height: 30px;
-  border-bottom: 1px solid #bbbbbb; }
+  border-bottom: 1px solid #bbbbbb;
+  font-family: "Helventica Neue", Helvetica, Arial, sans-serif;
+  font-size: 0.9rem; }
   div.settingsPanel div.button {
     width: 50%;
     display: inline-block;
     text-align: center;
-    font-family: "Helventica Neue", Helvetica, Arial, sans-serif;
-    font-size: 0.9rem;
     padding: 0.3rem;
     color: #555555; }
     div.settingsPanel div.button:hover {
@@ -1762,6 +1762,26 @@ div.settingsPanel {
       -o-transition: all 0.4s ease;
       transition: all 0.4s ease;
       color: #F48351; }
+  div.settingsPanel .reportDetails {
+    width: 100%;
+    background-color: white; }
+    div.settingsPanel .reportDetails textarea, div.settingsPanel .reportDetails input[type="submit"] {
+      width: 95%;
+      margin: 0 2.5%;
+      border: 1px solid #318FCE; }
+    div.settingsPanel .reportDetails input[type="submit"] {
+      background-color: white;
+      color: #318FCE; }
+      div.settingsPanel .reportDetails input[type="submit"]:hover {
+        -webkit-transition: all 0.4s ease;
+        -moz-transition: all 0.4s ease;
+        -o-transition: all 0.4s ease;
+        transition: all 0.4s ease;
+        background-color: #318FCE;
+        color: white; }
+  div.settingsPanel #details_sent, div.settingsPanel #report_sent {
+    color: #318FCE;
+    text-align: center; }
 
 div.userAuth, div.chatBox {
   margin-top: 50px; }

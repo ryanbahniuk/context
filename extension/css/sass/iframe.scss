@@ -103,13 +103,13 @@ div.settingsPanel {
   background-color: #fff;
   height: 30px;
   border-bottom: 1px solid $light-grey;
+  font-family: $font-family-sans-serif;
+  font-size: $button-font-size;
 
   div.button {
     width: 50%;
     display: inline-block;
     text-align: center;
-    font-family: $font-family-sans-serif;
-    font-size: $button-font-size;
     padding: 0.3rem;
     color: $dark-grey;
 
@@ -117,6 +117,32 @@ div.settingsPanel {
       @include transition(0.4s);
       color: $brand-secondary;
     }
+  }
+
+  .reportDetails {
+    width: 100%;
+    background-color: white;
+
+    textarea, input[type="submit"] {
+      width: 95%;
+      margin: 0 2.5%;
+      border: 1px solid $brand-primary;
+    }
+
+    input[type="submit"] {
+      background-color: white;
+      color: $brand-primary;
+      &:hover {
+        @include transition(0.4s);
+        background-color: $brand-primary;
+        color: white;
+      }
+    }
+  }
+
+  #details_sent, #report_sent {
+    color: $brand-primary;
+    text-align: center;
   }
 }
 
