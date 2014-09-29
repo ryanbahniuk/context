@@ -1,0 +1,4 @@
+# Logfile created on 2014-09-29 14:29:14 -0500 by logger.rb/44203
+I, [2014-09-29T14:29:14.319821 #11557]  INFO -- : URL: www.json.org/JSONRequest.html&lat=41.889812&lon=-87.6370264 ---- Object: 
+I, [2014-09-29T14:29:41.082886 #11557]  INFO -- : URL: www.json.org/JSONRequest.html ---- Object: #<Url:0x007f972c562618>
+I, [2014-09-29T14:37:22.133921 #11557]  INFO -- : URL: www.json.org/JSONRequest.html ---- Object: #<Url:0x007f972c4fa7e8>

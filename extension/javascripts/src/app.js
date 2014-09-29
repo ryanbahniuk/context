@@ -43,7 +43,6 @@ var App = React.createClass({
     // chrome.runtime.getPlatformInfo(function(obj){
     //   form.find("#os").val(obj.os);
 
-      console.log(form.serialize());
       // console.log(obj.os);
 
       $.ajax({
@@ -55,6 +54,7 @@ var App = React.createClass({
       .done(function(data) {
         console.log("error report submitted");
         console.log(data);
+        this.props.errorId = data;
       })
       .fail(function() {
         console.log("error report error");
@@ -62,8 +62,21 @@ var App = React.createClass({
     // })
   },
 
-  handleSendDetails: function() {
+  handleSendDetails: function(form) {
     this.setState({detailsSent: true});
+      $.ajax({
+        url: errorReportUrl + "/" + this.props.errorId,
+        type: 'post',
+        contentType: "application/x-www-form-urlencoded",
+        data: form.serialize()
+      })
+      .done(function(data) {
+        console.log("error report submitted");
+        console.log(data);
+      })
+      .fail(function() {
+        console.log("error details error");
+      });
   },
 
   render: function() {
@@ -96,7 +109,7 @@ var SettingsPanel = React.createClass({
         <div className="button" onClick={this.props.clickLogout}>Logout</div>
         {/* <div className="button" onClick={this.props.clickView}>Change View</div> */}
         <ReportError onSend={this.props.sendReport} reportSent={this.props.reportSent}/>
-        { this.props.reportSent ? <ReportDetails detailsSent={this.props.detailsSent}/> : null }
+        { this.props.reportSent ? <ReportDetails onSend={this.props.sendDetails} detailsSent={this.props.detailsSent}/> : null }
       </div>
     );
   }
@@ -136,7 +149,8 @@ var ReportDetails = React.createClass({
   handleSend: function(e) {
     e.preventDefault();
     this.setState({detailsSent: true});
-    // MAKE AJAX REQUEST
+    var form = this.refs.detailsForm.getDOMNode();
+    this.props.onSend($(form));
   }, 
 
   render: function() {
@@ -146,8 +160,8 @@ var ReportDetails = React.createClass({
         );
     } else {
       return (
-        <form className="reportDetails" onSubmit={this.handleSend}>
-          <div><textarea placeholder="Details?"></textarea></div>
+        <form className="reportDetails" onSubmit={this.handleSend} ref="detailsForm">
+          <div><textarea placeholder="Details?" name="description"></textarea></div>
           <input type="submit"/>
         </form>
         );

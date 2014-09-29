@@ -43,7 +43,6 @@ var App = React.createClass({displayName: 'App',
     // chrome.runtime.getPlatformInfo(function(obj){
     //   form.find("#os").val(obj.os);
 
-      console.log(form.serialize());
       // console.log(obj.os);
 
       $.ajax({
@@ -55,6 +54,7 @@ var App = React.createClass({displayName: 'App',
       .done(function(data) {
         console.log("error report submitted");
         console.log(data);
+        this.props.errorId = data;
       })
       .fail(function() {
         console.log("error report error");
@@ -62,8 +62,21 @@ var App = React.createClass({displayName: 'App',
     // })
   },
 
-  handleSendDetails: function() {
+  handleSendDetails: function(form) {
     this.setState({detailsSent: true});
+      $.ajax({
+        url: errorReportUrl + "/" + this.props.errorId,
+        type: 'post',
+        contentType: "application/x-www-form-urlencoded",
+        data: form.serialize()
+      })
+      .done(function(data) {
+        console.log("error report submitted");
+        console.log(data);
+      })
+      .fail(function() {
+        console.log("error details error");
+      });
   },
 
   render: function() {
@@ -96,7 +109,7 @@ var SettingsPanel = React.createClass({displayName: 'SettingsPanel',
         React.DOM.div({className: "button", onClick: this.props.clickLogout}, "Logout"), 
         /* <div className="button" onClick={this.props.clickView}>Change View</div> */
         ReportError({onSend: this.props.sendReport, reportSent: this.props.reportSent}), 
-         this.props.reportSent ? ReportDetails({detailsSent: this.props.detailsSent}) : null
+         this.props.reportSent ? ReportDetails({onSend: this.props.sendDetails, detailsSent: this.props.detailsSent}) : null
       )
     );
   }
@@ -136,7 +149,8 @@ var ReportDetails = React.createClass({displayName: 'ReportDetails',
   handleSend: function(e) {
     e.preventDefault();
     this.setState({detailsSent: true});
-    // MAKE AJAX REQUEST
+    var form = this.refs.detailsForm.getDOMNode();
+    this.props.onSend($(form));
   }, 
 
   render: function() {
@@ -146,8 +160,8 @@ var ReportDetails = React.createClass({displayName: 'ReportDetails',
         );
     } else {
       return (
-        React.DOM.form({className: "reportDetails", onSubmit: this.handleSend}, 
-          React.DOM.div(null, React.DOM.textarea({placeholder: "Details?"})), 
+        React.DOM.form({className: "reportDetails", onSubmit: this.handleSend, ref: "detailsForm"}, 
+          React.DOM.div(null, React.DOM.textarea({placeholder: "Details?", name: "description"})), 
           React.DOM.input({type: "submit"})
         )
         );
