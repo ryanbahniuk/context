@@ -1721,4 +1721,27 @@ body {
       color: #fff;
       border: 0; }
 
+.settingsButton {
+  position: fixed;
+  top: 0;
+  right: 0;
+  padding: 0.3rem;
+  z-index: 100; }
+
+.settingsPanel {
+  width: 100%;
+  position: fixed;
+  top: 50px;
+  right: 0; }
+
+.settingsPanel div {
+  text-align: center;
+  font-family: "Helventica Neue", Helvetica, Arial, sans-serif;
+  border-bottom: 1px solid #bbbbbb;
+  width: 100%;
+  padding: 0.3rem; }
+
+.settingsPanel div:hover {
+  color: #bbbbbb; }
+
 /*# sourceMappingURL=iframe.css.map */

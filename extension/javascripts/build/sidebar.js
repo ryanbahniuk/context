@@ -18,7 +18,7 @@ var ChatInput = React.createClass({displayName: 'ChatInput',
       React.DOM.input({type: "text", ref: "content"}),
       React.DOM.input({type: "submit", value: "Send"})
       )
-      );
+    );
   }
 });
 
@@ -71,34 +71,33 @@ var Message = React.createClass({displayName: 'Message',
 });
 
 var ChatBox = React.createClass({displayName: 'ChatBox',
-  loadMessages: function(url) {
-    console.log(url);
-    var data = "url=" + encodeURIComponent(url);
-    console.log(data);
-    var request = $.ajax(messageUrl, {
-      method: "post",
-      contentType: "application/x-www-form-urlencoded",
-      data: data
-    });
-    request.done(function(response){
-      var messages = this.state.data;
-      for(var i = 0; i < response["messages"].length; i++) {
-        message = response["messages"][i];
-        messages.push(message);
+  loadMessages: function() {
+    $.ajax({
+      url: this.props.messageUrl,
+      type: 'POST',
+      data: {url: url},
+
+      success: function(data) {
+        var messages = this.state.data;
+        messages = messages.push(data);
         this.setState({data: messages});
-      }
-    }.bind(this));
+      }.bind(this),
+
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
   },
 
   componentDidMount: function() {
+    // this.loadMessages();
     socket = new WebSocket(this.props.socketAddress);
     url = document.URL.split("?")[1].replace(/url=/,"");
-    this.loadMessages(url);
 
     socket.onopen = function(event) {
-      var socketStatus = document.getElementById('status');
-      socketStatus.innerHTML = 'Connected to: ' + event.currentTarget.URL;
-      socketStatus.className = 'open';
+      // var socketStatus = document.getElementById('status');
+      // socketStatus.innerHTML = 'Connected to: ' + event.currentTarget.URL;
+      // socketStatus.className = 'open';
       var msg = {url: url, initial: true};
       socket.send(JSON.stringify(msg));
     };
