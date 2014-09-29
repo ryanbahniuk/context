@@ -39,7 +39,7 @@ var MessageList = React.createClass({
   componentWillUpdate: function() {
     var node = this.getDOMNode();
     this.shouldScroll = node.scrollTop + node.offsetHeight - 2 === node.scrollHeight;
-    
+
     // console.log("-----------------------------------------------")
     // console.log("scrollTop = " + node.scrollTop);
     // console.log("offsetHeight = " + node.offsetHeight);
@@ -57,13 +57,14 @@ var MessageList = React.createClass({
 
 var Message = React.createClass({
   render: function() {
+    var messageContent = $(Autolinker.link(this.props.content, {newWindow: true}))
+    console.log(Autolinker.link(this.props.content, {newWindow: true}))
     return (
       <li className="message">
       <span className="messageAuthor">
       {this.props.author}:&nbsp;
       </span>
-      <p className="messageContent">
-      {this.props.content}
+      <p className="messageContent" dangerouslySetInnerHTML={{__html: messageContent}}>
       </p>
       </li>
       );
