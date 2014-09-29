@@ -58,7 +58,6 @@ var MessageList = React.createClass({
 var Message = React.createClass({
   render: function() {
     var messageContent = Autolinker.link(this.props.content, {newWindow: true})
-    console.log(Autolinker.link(this.props.content, {newWindow: true}))
     return (
       <li className="message">
       <span className="messageAuthor">
