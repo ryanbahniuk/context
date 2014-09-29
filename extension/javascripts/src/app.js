@@ -11,9 +11,9 @@ var App = React.createClass({
 
   getInitialState: function() {
     if(user !== undefined) {
-      return { showSettings: false, userPresent: true };
+      return { showSettings: false, reportSent: false, userPresent: true };
     } else {
-      return { showSettings: false, userPresent: false };
+      return { showSettings: false, reportSent: false, userPresent: false };
     };
   },
 
@@ -36,13 +36,17 @@ var App = React.createClass({
     this.setState({showSettings: false, userPresent: false});
   },
 
+  handleSendReport: function() {
+    this.setState({reportSent: true});
+  },
+
   render: function() {
     return(
       <div className="App">
 
       {this.state.userPresent ? <SettingsButton clickSettings={this.handleClickSettings}/> : null}
 
-      {this.state.showSettings ? <SettingsPanel clickLogout={this.handleClickLogout} clickView={this.handleClickView}/> : null}
+      {this.state.showSettings ? <SettingsPanel clickLogout={this.handleClickLogout} clickView={this.handleClickView} sendReport={this.handleSendReport} reportSent={this.state.reportSent}/> : null}
 
       {this.state.userPresent ? <ChatBox socketAddress={socketAddress} messageUrl={messageUrl} user={user}/> : <UserAuth loginUrl={loginUrl} registerUrl={registerUrl} onSuccess={this.onUserSuccess}/> }
       </div>
@@ -60,22 +64,13 @@ var SettingsButton = React.createClass({
 });
 
 var SettingsPanel = React.createClass({
-  onReportSend: function() {
-    this.setState({reportSent: true});
-    console.log("onReportSend");
-  },
-
-  getInitialState: function() {
-    return {reportSent: false};
-  },
-
   render: function() {
     return (
       <div className="settingsPanel">
         <div className="button" onClick={this.props.clickLogout}>Logout</div>
         {/* <div className="button" onClick={this.props.clickView}>Change View</div> */}
-        <ReportError onSend={this.onReportSend}/>
-        { this.state.reportSent ? <ReportDetails/> : null }
+        <ReportError onSend={this.props.sendReport} reportSent={this.props.reportSent}/>
+        { this.props.reportSent ? <ReportDetails/> : null }
       </div>
     );
   }
@@ -104,7 +99,7 @@ var ReportError = React.createClass({
   },
 
   getInitialState: function() {
-    return ( {reportSent: false} );
+    return ( {reportSent: this.props.reportSent} );
   },
 
   render: function() {
@@ -117,13 +112,29 @@ var ReportError = React.createClass({
 });
 
 var ReportDetails = React.createClass({
+  getInitialState: function() {
+    return {detailsSent: false};
+  },
+
+  handleSend: function(e) {
+    e.preventDefault();
+    this.setState({detailsSent: true});
+    // MAKE AJAX REQUEST
+  }, 
+
   render: function() {
-    return (
-      <div className="reportDetails">
-        <textarea placeholder="Details?"></textarea>
-        <input type="submit"/>
-      </div>
-      );
+    if (this.state.detailsSent) {
+      return (
+        <div className="reportDetails" id="details_sent">Got it.</div>
+        );
+    } else {
+      return (
+        <form className="reportDetails" onSubmit={this.handleSend}>
+          <textarea placeholder="Details?"></textarea>
+          <input type="submit"/>
+        </form>
+        );
+    };
   }
 });
 

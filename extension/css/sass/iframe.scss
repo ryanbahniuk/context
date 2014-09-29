@@ -104,13 +104,13 @@ div.settingsPanel {
   background-color: #fff;
   height: 30px;
   border-bottom: 1px solid $light-grey;
+  font-family: $font-family-sans-serif;
+  font-size: $button-font-size;
 
   div.button {
     width: 50%;
     display: inline-block;
     text-align: center;
-    font-family: $font-family-sans-serif;
-    font-size: $button-font-size;
     padding: 0.3rem;
     color: $dark-grey;
 
@@ -120,9 +120,18 @@ div.settingsPanel {
     }
   }
 
-  div.reportDetails {
+  .reportDetails {
     width: 100%;
     background-color: white;
+
+    textarea {
+      width: 100%;
+    }
+  }
+
+  #details_sent, #report_sent {
+    color: $brand-primary;
+    text-align: center;
   }
 }
 
