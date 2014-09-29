@@ -45,10 +45,13 @@ class ChatManager
   def handle_message(ws, msg)
     query = Proc.new {
       user_id = msg["user_id"]
+      content = msg["content"]
+      lat = msg["lat"].to_f
+      lon = msg["lon"].to_f
       url = Url.rootify_find_create(msg["url"])
       start_time = Time.now
       $SERVER_LOG.info("Saving message -- #{msg["content"]}")
-      message = Message.create(content: msg["content"], url: url, user_id: user_id)
+      message = Message.create(content: content, url: url, user_id: user_id, latitude: lat, longitude: lon)
       $SERVER_LOG.info ("Message saved (#{msg["content"]}) -- #{Time.now - start_time}")
     }
     callback = Proc.new {
