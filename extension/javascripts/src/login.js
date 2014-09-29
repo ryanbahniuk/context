@@ -32,7 +32,6 @@ var UserAuth = React.createClass({
       if(data["error"]) {
         this.setState({errors: data["error"]});
       } else if(data["user"]) {
-        chrome.storage.sync.set({"user": data["user"]});
         this.props.onSuccess(data["user"]);
       } else {
         this.setState({errors: "??????"});
@@ -62,7 +61,6 @@ var UserAuth = React.createClass({
         this.setState({errors: data["error"]});
       }
       else if(data["user"]) {
-        chrome.storage.sync.set({"user": data["user"]});
         this.props.onSuccess(data["user"]);
       }
       else {

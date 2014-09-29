@@ -19,6 +19,7 @@ var App = React.createClass({displayName: 'App',
 
   onUserSuccess: function(u) {
     user = u;
+    chrome.storage.sync.set({"user": u});
     this.setState({userPresent: true});
   },
 
