@@ -2,7 +2,8 @@
   position: absolute;
   top: 0;
   height: 100%;
-  border-left: 2px solid #222;
+  /*border-left: 2px solid #222;*/
+  border: 0;
   width: 100%;
 }
 
@@ -11,6 +12,8 @@
   top: 0;
   right: 0;
   height: 100%;
+  border-left: 1px solid #bbb;
+  border-top: 0;
   width: 350px;
   z-index: 2147483647;
   box-sizing: border-box;
@@ -18,7 +21,7 @@
 
 #minimize-button {
   background-color: white;
-  border: 1px solid black;
+  border: 1px solid #bbb;
   border-right: 0;
   height: 30px;
   width: 30px;

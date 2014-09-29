@@ -40,6 +40,8 @@ body {
 	list-style: none;
 	padding-left: 0;
 	width: 100%;
+  margin-bottom: 2rem;
+  overflow: scroll;
 	.message {
 		width: 100%;
 		border-top: 1px solid $lighter-grey;
@@ -54,13 +56,17 @@ body {
 }
 
 .chatInput {
-	position: absolute;
+	position: fixed;
 	bottom: 0;
 	width: 100%;
+  border-left: 0;
+  border-right: 0;
 	input {
+      border-left: 0;
+  border-right: 0;
 		position: inline-block;
 		float: left;
-		font-size: 1.1em;
+		font-size: $button-font-size;
 		padding: 0.3em;
 		height: 2em;
 		outline: none;
@@ -76,30 +82,91 @@ body {
 	}
 }
 
-.settingsButton {
+i.settingsButton {
   position: fixed;
   top: 0;
   right: 0;
   padding: 0.3rem;
   z-index: 100;
+  color: $light-grey;
+
+  &:hover {
+    @include transition(0.4s);
+    color: $dark-grey;
+  }
 }
 
-.settingsPanel {
+div.settingsPanel {
   width: 100%;
   position: fixed;
-  top: 50px;
+  top: 0;
   right: 0;
+  margin-top: $header-height;
+
+  div.button {
+    width: 50%;
+    display: inline-block;
+    text-align: center;
+    font-family: $font-family-sans-serif;
+    font-size: $button-font-size;
+    border-bottom: 1px solid $light-grey;
+    padding: 0.3rem;
+    color: $dark-grey;
+
+    &:hover {
+      @include transition(0.4s);
+      color: $light-grey;
+    }
+  }
 }
 
-.settingsPanel div {
-  text-align: center;
-  font-family: $font-family-sans-serif;
-  border-bottom: 1px solid $light-grey;
-  width: 100%;
-  padding: 0.3rem;
+div.userAuth, div.chatBox {
+  margin-top: $header-height;
 }
 
-.settingsPanel div:hover {
-  color: $light-grey;
+// html, body, div.App, div.userAuth, div.chatBox {
+//   min-height: 100%;
+//   position: relative;
+//   height: 100%;
+// }
+
+div.loginForm, div.registerForm {
+  margin: 0 auto;
+  padding-top: 1rem;
+  font-size: $button-font-size;
+
+    input, button {
+      padding: 0.3rem;
+      display: block;
+      width: 80%;
+      margin: 0.3rem 10%;
+      border: 2px solid $light-grey;
+      color: $grey;
+      background-color: white;
+    }
+
+    input[type="submit"] {
+      background-color: $light-grey;
+      color: white;
+      &:hover {
+        background-color: $grey;
+        border: 2px solid $grey;
+      }
+    }
+
+    button {
+      color: $light-grey;
+      &:hover {
+        background-color: $grey;
+        border: 2px solid $grey;
+        color: white;
+      }
+    }
+}
+
+div.content {
+  position: fixed;
+  top: 0;
+  right: 0;
 }
 
