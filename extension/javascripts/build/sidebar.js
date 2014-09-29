@@ -3,7 +3,7 @@
 var socket;
 var url;
 
-var ChatInput = React.createClass({
+var ChatInput = React.createClass({displayName: 'ChatInput',
   handleSubmit: function(e) {
     e.preventDefault();
     var c = this.refs.content.getDOMNode().value.trim();
@@ -14,25 +14,25 @@ var ChatInput = React.createClass({
 
   render: function() {
     return (
-      <form className="chatInput" onSubmit={this.handleSubmit}>
-      <input type="text" ref="content"/>
-      <input type="submit" value="Send"/>
-      </form>
+      React.DOM.form({className: "chatInput", onSubmit: this.handleSubmit}, 
+      React.DOM.input({type: "text", ref: "content"}), 
+      React.DOM.input({type: "submit", value: "Send"})
+      )
       );
   }
 });
 
-var MessageList = React.createClass({
+var MessageList = React.createClass({displayName: 'MessageList',
   render: function() {
     var messageNodes = this.props.data.map(function(message, index) {
       return (
-        <Message author={message.author} content={message.content} key={index}/>
+        Message({author: message.author, content: message.content, key: index})
         );
     });
     return (
-      <ul className="messageList">
-      {messageNodes}
-      </ul>
+      React.DOM.ul({className: "messageList"}, 
+      messageNodes
+      )
       );
   },
 
@@ -55,32 +55,32 @@ var MessageList = React.createClass({
   }
 });
 
-var Message = React.createClass({
+var Message = React.createClass({displayName: 'Message',
   render: function() {
     var messageContent = Autolinker.link(this.props.content, {newWindow: true})
     return (
-      <li className="message">
-      <span className="messageAuthor">
-      {this.props.author}:&nbsp;
-      </span>
-      <p className="messageContent" dangerouslySetInnerHTML={{__html: messageContent}}>
-      </p>
-      </li>
+      React.DOM.li({className: "message"}, 
+      React.DOM.span({className: "messageAuthor"}, 
+      this.props.author, ": "
+      ), 
+      React.DOM.p({className: "messageContent", dangerouslySetInnerHTML: {__html: messageContent}}
+      )
+      )
       );
   }
 });
 
-var DisplayConnection = React.createClass({
+var DisplayConnection = React.createClass({displayName: 'DisplayConnection',
   render: function() {
     if(this.props.connection === false) {
-      return ( <div className="displayConnection"> <i className="fa fa-frown-o"></i> </div> );
+      return ( React.DOM.div({className: "displayConnection"}, " ", React.DOM.i({className: "fa fa-frown-o"}), " ") );
     } else {
       return null;
     }
   }
 });
 
-var ChatBox = React.createClass({
+var ChatBox = React.createClass({displayName: 'ChatBox',
   loadMessages: function(url) {
     var data = "url=" + encodeURIComponent(url);
     var request = $.ajax(messageUrl, {
@@ -147,11 +147,11 @@ var ChatBox = React.createClass({
 
   render: function() {
     return (
-      <div className="chatBox">
-        < MessageList data={this.state.data} />
-        < DisplayConnection connection={this.state.connected} />
-        < ChatInput onMessageSubmit={this.handleMessageSubmit} />
-        </div>
+      React.DOM.div({className: "chatBox"}, 
+        MessageList({data: this.state.data}), 
+        DisplayConnection({connection: this.state.connected}), 
+        ChatInput({onMessageSubmit: this.handleMessageSubmit})
+        )
         );
     }
   });
