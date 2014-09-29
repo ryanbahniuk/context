@@ -104,11 +104,7 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
     // this.loadMessages();
     socket = new WebSocket(this.props.socketAddress);
     url = document.URL.split("?")[1].split("&")[0].replace(/url=/,"");
-    var lat = document.URL.split("?")[1].split("&")[1].replace("lat=", "");
-    var lon = document.URL.split("?")[1].split("&")[2].replace("lon=", "");
-    this.setState({userLat: lat, userLon: lon});
-    console.log(this.state.userLat);
-    console.log(this.state.userLon);
+    
     socket.onopen = function(event) {
       this.setState({connectionStatus: 'Connected to: ' + event.currentTarget.URL});
       var msg = {url: url, initial: true};
@@ -121,13 +117,24 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
   },
 
   getInitialState: function() {
-    return { data: [], connectionStatus: "Disconnected", userLat: undefined, userLon: undefined};
+    return { data: [], connectionStatus: "Disconnected", coords: [] };
+  },
+
+  getCoords: function() {
+    chrome.storage.sync.get("coords", function(obj){
+      if (obj["coords"]) {
+        this.setState({ coords: obj["coords"] });
+        console.log(obj["coords"]);
+      };
+    });
+    console.log(this.state.coords);
   },
 
   handleMessageSubmit: function(m) {
     var messages = this.state.data;
+    var coords = this.state.coords;
     var user_id = user["id"];
-    var msg = {url: url, content: m.content, user_id: user_id};
+    var msg = {url: url, content: m.content, user_id: user_id, coords: coords };
     socket.send(JSON.stringify(msg));
   },
 
