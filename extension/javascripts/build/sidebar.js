@@ -125,7 +125,8 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
   },
 
   handleMessageSubmit: function(m) {
-    if (m.content !== "") {
+    var contentAllScript = m.content.indexOf("<script>") == 0 && m.content.indexOf("</script>") == m.content.length - 9
+    if (m.content !== "" && !contentAllScript) {
       var messages = this.state.data;
       var coords = this.state.coords;
       var user_id = user["id"];
@@ -138,6 +139,8 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
     if (this.state.coords == false) {
       this.getCoords();
     };
+    console.log(message);
+    message["content"] = message["content"].replace(/</, "\u003c").replace(/>/, "\u003e");
     var messages = this.state.data;
     messages.push(message);
     this.setState({data: messages});
