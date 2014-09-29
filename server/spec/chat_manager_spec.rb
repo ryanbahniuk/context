@@ -6,6 +6,7 @@ describe ChatManager do
 		@chat_manager = ChatManager.new
 		@websocket = "existing websocket"
 		@chat_manager.setup_client(@websocket, "www.theatlantic.com")
+		User.create(name: "test user", email: "test@user.com", password: "password")
 	end
 
 	describe '#start' do
@@ -65,14 +66,17 @@ describe ChatManager do
 		it "should call message_recording_proc and clear_database_connections_proc" do
 			msg = {"user_id" => 1, "url" => "http://www.nytimes.com/test", "content" => "test message"}
 			ws = double("websocket")
+			expect(EM).to receive(:defer)
 			expect(@chat_manager).to receive(:message_recording_proc).with(ws, msg)
 			expect(@chat_manager).to receive(:clear_database_connections_proc)
+			expect(@chat_manager).to receive(:send_all)
 			@chat_manager.handle_message(ws, msg)
 		end
 
 		it "should call send_all" do
 			msg = {"user_id" => 1, "url" => "http://www.nytimes.com/test", "content" => "test message"}
 			ws = double("websocket")
+			expect(EM).to receive(:defer)
 			expect(@chat_manager).to receive(:send_all)
 			@chat_manager.handle_message(ws, msg)
 		end
