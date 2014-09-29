@@ -1,10 +1,11 @@
 /** @jsx React.DOM */
 
-var httpServer = "http://104.131.117.55:3000/";
+// var httpServer = "http://104.131.117.55:3000/";
+var httpServer = "http://localhost:3000/";
 var loginUrl = httpServer + "login";
 var registerUrl = httpServer + "users";
 var messageUrl = httpServer + "urls/messages/10";
-var errorReportUrl = httpServer + "error/";
+var errorReportUrl = httpServer + "error";
 var socketAddress = 'ws://104.131.117.55:8080';
 
 var App = React.createClass({
@@ -37,8 +38,28 @@ var App = React.createClass({
     this.setState({showSettings: false, userPresent: false});
   },
 
-  handleSendReport: function() {
+  handleSendReport: function(form) {
     this.setState({reportSent: true});
+    // chrome.runtime.getPlatformInfo(function(obj){
+    //   form.find("#os").val(obj.os);
+
+      console.log(form.serialize());
+      // console.log(obj.os);
+
+      $.ajax({
+        url: errorReportUrl,
+        type: 'post',
+        contentType: "application/x-www-form-urlencoded",
+        data: form.serialize()
+      })
+      .done(function(data) {
+        console.log("error report submitted");
+        console.log(data);
+      })
+      .fail(function() {
+        console.log("error report error");
+      });
+    // })
   },
 
   handleSendDetails: function() {
@@ -83,24 +104,10 @@ var SettingsPanel = React.createClass({
 
 var ReportError = React.createClass({
   sendReport: function() {
-    $.ajax({
-      url: errorReportUrl + url,
-      type: 'post',
-      dataType: 'text'
-    })
-    .done(function() {
-      console.log("report sent");
-    }.bind(this))
-    .fail(function() {
-      console.log("error");
-    })
-    .always(function() {
-      // move after adding route
-      this.props.onSend();
-      this.setState({reportSent: true});
-      //
-      console.log(errorReportUrl + url);
-    }.bind(this)); 
+    var container = this.getDOMNode();
+    var form = $(container).find("form");
+    console.log(form);
+    this.props.onSend($(form));
   },
 
   getInitialState: function() {
@@ -111,6 +118,11 @@ var ReportError = React.createClass({
     return (
       <div className="reportError button">
         {this.state.reportSent ? <span id="report_sent">Report Sent</span>  : <span onClick={this.sendReport}>Report Page Error</span>}
+        <form ref="errorForm">
+          <input type="hidden" name="url" value={url}/>
+          <input type="hidden" name="user_id" value={user["id"]}/>
+          {/*{<input type="hidden" name="os" id="os"/>}*/}
+        </form>
       </div>
     );
   }
