@@ -81,14 +81,23 @@ var App = React.createClass({
   },
 
   render: function() {
+    if(this.state.userPresent){
+      var settingsButton = <SettingsButton clickSettings={this.handleClickSettings} />;
+      var chatBody = <ChatBox socketAddress={socketAddress} messageUrl={messageUrl} user={user}/>;
+    }
+    else {
+      var chatBody = <UserAuth loginUrl={loginUrl} registerUrl={registerUrl} onSuccess={this.onUserSuccess}/>;
+    }
+
+    if(this.state.showSettings) {
+      var settingsView = <SettingsPanel clickLogout={this.handleClickLogout} clickView={this.handleClickView} sendReport={this.handleSendReport} reportSent={this.state.reportSent} sendDetails={this.handleSendDetails} detailsSent={this.state.detailsSent}/>;
+    }
+
     return(
       <div className="App">
-
-      {this.state.userPresent ? <SettingsButton clickSettings={this.handleClickSettings}/> : null}
-
-      {this.state.showSettings ? <SettingsPanel clickLogout={this.handleClickLogout} clickView={this.handleClickView} sendReport={this.handleSendReport} reportSent={this.state.reportSent} sendDetails={this.handleSendDetails} detailsSent={this.state.detailsSent}/> : null}
-
-      {this.state.userPresent ? <ChatBox socketAddress={socketAddress} messageUrl={messageUrl} user={user}/> : <UserAuth loginUrl={loginUrl} registerUrl={registerUrl} onSuccess={this.onUserSuccess}/> }
+      {settingsButton}
+      {chatBody}
+      {settingsView}
       </div>
     );
   },
@@ -122,6 +131,7 @@ var ReportError = React.createClass({
     var container = this.getDOMNode();
     var form = $(container).find("form");
     console.log(form);
+    debugger;
     this.props.onSend($(form));
   },
 
@@ -153,7 +163,7 @@ var ReportDetails = React.createClass({
     this.setState({detailsSent: true});
     var form = this.refs.detailsForm.getDOMNode();
     this.props.onSend($(form));
-  }, 
+  },
 
   render: function() {
     if (this.state.detailsSent) {
