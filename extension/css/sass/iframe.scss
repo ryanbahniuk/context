@@ -86,7 +86,7 @@ i.settingsButton {
   position: fixed;
   top: 0;
   right: 0;
-  padding: 0.3rem;
+  padding: 8px;
   z-index: 100;
   color: $light-grey;
 
@@ -99,9 +99,11 @@ i.settingsButton {
 div.settingsPanel {
   width: 100%;
   position: fixed;
-  top: 0;
+  top: $header-height;
   right: 0;
-  margin-top: $header-height;
+  background-color: #fff;
+  height: 30px;
+  border-bottom: 1px solid $light-grey;
 
   div.button {
     width: 50%;
@@ -109,13 +111,12 @@ div.settingsPanel {
     text-align: center;
     font-family: $font-family-sans-serif;
     font-size: $button-font-size;
-    border-bottom: 1px solid $light-grey;
     padding: 0.3rem;
     color: $dark-grey;
 
     &:hover {
       @include transition(0.4s);
-      color: $light-grey;
+      color: $brand-secondary;
     }
   }
 }
@@ -140,25 +141,26 @@ div.loginForm, div.registerForm {
       display: block;
       width: 80%;
       margin: 0.3rem 10%;
-      border: 2px solid $light-grey;
       color: $grey;
       background-color: white;
     }
 
     input[type="submit"] {
+      border: 0;
       background-color: $light-grey;
       color: white;
       &:hover {
-        background-color: $grey;
-        border: 2px solid $grey;
+        @include transition(0.4s);
+        background-color: $brand-secondary;
       }
     }
 
     button {
       color: $light-grey;
+      border: 1px solid $light-grey;
       &:hover {
-        background-color: $grey;
-        border: 2px solid $grey;
+        @include transition(0.4s);
+        background-color: $brand-secondary;
         color: white;
       }
     }
