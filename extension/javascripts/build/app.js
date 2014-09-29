@@ -11,9 +11,9 @@ var App = React.createClass({displayName: 'App',
 
   getInitialState: function() {
     if(user !== undefined) {
-      return { showSettings: false, reportSent: false, userPresent: true };
+      return { showSettings: false, reportSent: false, detailsSent: false, userPresent: true };
     } else {
-      return { showSettings: false, reportSent: false, userPresent: false };
+      return { showSettings: false, reportSent: false, detailsSent: false, userPresent: false };
     };
   },
 
@@ -41,13 +41,17 @@ var App = React.createClass({displayName: 'App',
     this.setState({reportSent: true});
   },
 
+  handleSendDetails: function() {
+    this.setState({detailsSent: true});
+  },
+
   render: function() {
     return(
       React.DOM.div({className: "App"}, 
 
       this.state.userPresent ? SettingsButton({clickSettings: this.handleClickSettings}) : null, 
 
-      this.state.showSettings ? SettingsPanel({clickLogout: this.handleClickLogout, clickView: this.handleClickView, sendReport: this.handleSendReport, reportSent: this.state.reportSent}) : null, 
+      this.state.showSettings ? SettingsPanel({clickLogout: this.handleClickLogout, clickView: this.handleClickView, sendReport: this.handleSendReport, reportSent: this.state.reportSent, sendDetails: this.handleSendDetails, detailsSent: this.state.detailsSent}) : null, 
 
       this.state.userPresent ? ChatBox({socketAddress: socketAddress, messageUrl: messageUrl, user: user}) : UserAuth({loginUrl: loginUrl, registerUrl: registerUrl, onSuccess: this.onUserSuccess})
       )
@@ -71,7 +75,7 @@ var SettingsPanel = React.createClass({displayName: 'SettingsPanel',
         React.DOM.div({className: "button", onClick: this.props.clickLogout}, "Logout"), 
         /* <div className="button" onClick={this.props.clickView}>Change View</div> */
         ReportError({onSend: this.props.sendReport, reportSent: this.props.reportSent}), 
-         this.props.reportSent ? ReportDetails(null) : null
+         this.props.reportSent ? ReportDetails({detailsSent: this.props.detailsSent}) : null
       )
     );
   }
@@ -131,7 +135,7 @@ var ReportDetails = React.createClass({displayName: 'ReportDetails',
     } else {
       return (
         React.DOM.form({className: "reportDetails", onSubmit: this.handleSend}, 
-          React.DOM.textarea({placeholder: "Details?"}), 
+          React.DOM.div(null, React.DOM.textarea({placeholder: "Details?"})), 
           React.DOM.input({type: "submit"})
         )
         );

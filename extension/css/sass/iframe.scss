@@ -124,8 +124,20 @@ div.settingsPanel {
     width: 100%;
     background-color: white;
 
-    textarea {
-      width: 100%;
+    textarea, input[type="submit"] {
+      width: 95%;
+      margin: 0 2.5%;
+      border: 1px solid $brand-primary;
+    }
+
+    input[type="submit"] {
+      background-color: white;
+      color: $brand-primary;
+      &:hover {
+        @include transition(0.4s);
+        background-color: $brand-primary;
+        color: white;
+      }
     }
   }
 

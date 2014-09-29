@@ -1766,8 +1766,20 @@ div.settingsPanel {
   div.settingsPanel .reportDetails {
     width: 100%;
     background-color: white; }
-    div.settingsPanel .reportDetails textarea {
-      width: 100%; }
+    div.settingsPanel .reportDetails textarea, div.settingsPanel .reportDetails input[type="submit"] {
+      width: 95%;
+      margin: 0 2.5%;
+      border: 1px solid #318FCE; }
+    div.settingsPanel .reportDetails input[type="submit"] {
+      background-color: white;
+      color: #318FCE; }
+      div.settingsPanel .reportDetails input[type="submit"]:hover {
+        -webkit-transition: all 0.4s ease;
+        -moz-transition: all 0.4s ease;
+        -o-transition: all 0.4s ease;
+        transition: all 0.4s ease;
+        background-color: #318FCE;
+        color: white; }
   div.settingsPanel #details_sent, div.settingsPanel #report_sent {
     color: #318FCE;
     text-align: center; }
