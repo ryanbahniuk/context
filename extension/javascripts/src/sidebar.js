@@ -70,10 +70,14 @@ var Message = React.createClass({
   }
 });
 
-var DisplayConnection = React.createClass({
+var ChatConnection = React.createClass({
   render: function() {
-    return (
-      <p> {this.props.status} </p>
+    return ( 
+      <div className="chatConnection connection">
+        <i className="fa fa-frown-o fa-5x"></i> 
+        <p>Something went wrong</p>
+        <button onClick={this.props.onReload}>Reload</button>
+      </div> 
     );
   }
 });
@@ -99,23 +103,38 @@ var ChatBox = React.createClass({
   },
 
   componentDidMount: function() {
-    socket = new WebSocket(this.props.socketAddress);
+    this.openSocket();
     url = document.URL.split("?")[1].replace(/url=/,"");
     this.getCoords();
     this.loadMessages(url);
+  },
+
+  openSocket: function() {
+    socket = new WebSocket(this.props.socketAddress);
+
     socket.onopen = function(event) {
-      this.setState({connectionStatus: 'Connected to: ' + event.currentTarget.URL});
+      this.setState({connection: true});
       var msg = {url: url, initial: true};
       socket.send(JSON.stringify(msg));
     }.bind(this);
+
     socket.onmessage = function(e) {
+      this.setState({connection: true});
       var message = JSON.parse(e.data);
       this.add_message(message);
+    }.bind(this);
+
+    socket.onerror = function() {
+      this.setState({connection: false});
+    }.bind(this);
+
+    socket.onclose = function() {
+      this.setState({connection: false});
     }.bind(this);
   },
 
   getInitialState: function() {
-    return { data: [], connectionStatus: "Disconnected", coords: [] };
+    return { data: [], connection: false, coords: [] };
   },
 
   getCoords: function() {
@@ -146,13 +165,24 @@ var ChatBox = React.createClass({
     this.setState({data: messages});
   },
 
+  handleReload: function() {
+    this.openSocket();
+  },
+
   render: function() {
-    return (
-      <div className="chatBox">
-        < MessageList data={this.state.data} />
-        < DisplayConnection status={this.state.connectionStatus} />
-        < ChatInput onMessageSubmit={this.handleMessageSubmit} />
-        </div>
+    if(this.state.connection){
+        return (
+          <div className="chatBox">
+            < MessageList data={this.state.data} />
+            < ChatInput onMessageSubmit={this.handleMessageSubmit} />
+            </div>
+            );   
+      } else{
+        return (
+          <div className="chatBox">
+            < ChatConnection connection={this.state.connected} onReload={this.handleReload} />
+          </div>
         );
+      }
     }
   });
