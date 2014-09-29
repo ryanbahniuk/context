@@ -1821,12 +1821,15 @@ div.loginForm, div.registerForm {
 div.connection {
   width: 100%;
   margin-top: 30%; }
-  div.connection i {
+  div.connection i, div.connection p {
     width: 100%;
     text-align: center;
     color: #bbbbbb;
-    display: block;
+    display: block; }
+  div.connection i {
     margin-bottom: 10%; }
+  div.connection p {
+    font-size: 0.9rem; }
   div.connection button {
     width: 30%;
     margin: 0 35%;
@@ -1834,6 +1837,9 @@ div.connection {
     background-color: white;
     color: #bbbbbb;
     font-size: 0.9rem; }
+    div.connection button:hover {
+      color: #318FCE;
+      border: 1px solid #318FCE; }
 
 div.content {
   position: fixed;

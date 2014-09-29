@@ -35,13 +35,12 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
       } else if(data["user"]) {
         this.props.onSuccess(data["user"]);
       } else {
-        this.setState({errors: "??????"});
+        this.handleErrors();
       };
     }.bind(this))
 
     .fail(function() {
-      console.log("error");
-      this.setState({errors: "login broken...", connection: false});
+      // this.setState({errors: "login broken...", connection: false});
       this.handleErrors();
     }.bind(this))
   },
@@ -77,7 +76,8 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
     this.setState({connection: false});
   },
 
-  handleTryAgain: function() {
+  handleReload: function() {
+    console.log("handling reload");
     this.setState({connection: true});
   },
 
@@ -93,7 +93,7 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
     } else {
       return(
         React.DOM.div({className: "userAuth"}, 
-          LoginConnection({tryAgain: this.handleTryAgain})
+          LoginConnection({onReload: this.handleReload})
         )
       );
     };
@@ -158,9 +158,10 @@ var RegisterForm = React.createClass({displayName: 'RegisterForm',
 var LoginConnection = React.createClass({displayName: 'LoginConnection',
   render: function() {
     return (
-      React.DOM.div({className: "LoginConnection connection"}, 
-        React.DOM.i({className: "fa fa-frown-o"}), 
-        React.DOM.button({onClick: this.props.tryAgain}, "Go Back")
+      React.DOM.div({className: "loginConnection connection"}, 
+        React.DOM.i({className: "fa fa-frown-o fa-5x"}), 
+        React.DOM.p(null, "Something went wrong"), 
+        React.DOM.button({onClick: this.props.onReload}, "Reload")
       ) 
     );
   }
