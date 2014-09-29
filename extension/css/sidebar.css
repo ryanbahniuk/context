@@ -20,6 +20,7 @@
 }
 
 #minimize-button {
+  box-sizing: border-box;
   background-color: white;
   border: 1px solid #bbb;
   border-right: 0;

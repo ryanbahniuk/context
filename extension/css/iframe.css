@@ -1700,7 +1700,7 @@ body {
     border-top: 1px solid #d4d4d4;
     padding: 0.4em 8px; }
     .messageList .message .messageAuthor {
-      color: #4682B4; }
+      color: #318FCE; }
     .messageList .message .messageContent {
       display: inline; }
 
@@ -1723,7 +1723,7 @@ body {
       width: 80%; }
     .chatInput input[type=submit] {
       width: 20%;
-      background: #4682B4;
+      background: #318FCE;
       color: #fff;
       border: 0; }
 
@@ -1731,7 +1731,7 @@ i.settingsButton {
   position: fixed;
   top: 0;
   right: 0;
-  padding: 0.3rem;
+  padding: 8px;
   z-index: 100;
   color: #bbbbbb; }
   i.settingsButton:hover {
@@ -1744,16 +1744,17 @@ i.settingsButton {
 div.settingsPanel {
   width: 100%;
   position: fixed;
-  top: 0;
+  top: 50px;
   right: 0;
-  margin-top: 50px; }
+  background-color: #fff;
+  height: 30px;
+  border-bottom: 1px solid #bbbbbb; }
   div.settingsPanel div.button {
     width: 50%;
     display: inline-block;
     text-align: center;
     font-family: "Helventica Neue", Helvetica, Arial, sans-serif;
     font-size: 0.9rem;
-    border-bottom: 1px solid #bbbbbb;
     padding: 0.3rem;
     color: #555555; }
     div.settingsPanel div.button:hover {
@@ -1761,7 +1762,7 @@ div.settingsPanel {
       -moz-transition: all 0.4s ease;
       -o-transition: all 0.4s ease;
       transition: all 0.4s ease;
-      color: #bbbbbb; }
+      color: #F48351; }
 
 div.userAuth, div.chatBox {
   margin-top: 50px; }
@@ -1775,20 +1776,27 @@ div.loginForm, div.registerForm {
     display: block;
     width: 80%;
     margin: 0.3rem 10%;
-    border: 2px solid #bbbbbb;
     color: #888888;
     background-color: white; }
   div.loginForm input[type="submit"], div.registerForm input[type="submit"] {
+    border: 0;
     background-color: #bbbbbb;
     color: white; }
     div.loginForm input[type="submit"]:hover, div.registerForm input[type="submit"]:hover {
-      background-color: #888888;
-      border: 2px solid #888888; }
+      -webkit-transition: all 0.4s ease;
+      -moz-transition: all 0.4s ease;
+      -o-transition: all 0.4s ease;
+      transition: all 0.4s ease;
+      background-color: #F48351; }
   div.loginForm button, div.registerForm button {
-    color: #bbbbbb; }
+    color: #bbbbbb;
+    border: 1px solid #bbbbbb; }
     div.loginForm button:hover, div.registerForm button:hover {
-      background-color: #888888;
-      border: 2px solid #888888;
+      -webkit-transition: all 0.4s ease;
+      -moz-transition: all 0.4s ease;
+      -o-transition: all 0.4s ease;
+      transition: all 0.4s ease;
+      background-color: #F48351;
       color: white; }
 
 div.content {
