@@ -55,3 +55,4 @@ I, [2014-09-30T10:10:28.559404 #34544]  INFO -- : URL: www.emoji-cheat-sheet.com
 I, [2014-09-30T10:11:23.574763 #34544]  INFO -- : URL: www.emoji-cheat-sheet.com/ ---- Object: #<Url:0x00000101ec19c0>
 I, [2014-09-30T10:12:37.079899 #34544]  INFO -- : URL: www.emoji-cheat-sheet.com/ ---- Object: #<Url:0x000001022e1370>
 I, [2014-09-30T10:13:42.455036 #34544]  INFO -- : URL: www.emoji-cheat-sheet.com/ ---- Object: #<Url:0x000001024f3ac8>
+I, [2014-09-30T10:27:12.220089 #34806]  INFO -- : URL: espn.go.com/ ---- Object: #<Url:0x00000101682908>

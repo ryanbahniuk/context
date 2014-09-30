@@ -56,6 +56,10 @@ var MessageList = React.createClass({displayName: 'MessageList',
 });
 
 var Message = React.createClass({displayName: 'Message',
+  emojifyText: function(message) {
+    return emojify.replace(message);
+  },
+
   render: function() {
     var messageContent = Autolinker.link(this.props.content, {newWindow: true});
     var imagedMessage = messageContent.replace(/<a href="(.+).(gif|jpg|jpeg|png)(.+)<\/a>/, function(hrefTag) {
@@ -64,7 +68,7 @@ var Message = React.createClass({displayName: 'Message',
       console.log("<img src=\"" + link + "\">");
       return "<img src=\"http://" + link + "\" class='user-inserted-image'>";
     });
-    var imagedMessage = emojify.replace(imagedMessage);
+    var imagedMessage = this.emojifyText(imagedMessage);
     return (
       React.DOM.li({className: "message"}, 
       React.DOM.span({className: "messageAuthor"}, 

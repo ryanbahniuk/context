@@ -58,7 +58,7 @@ var MessageList = React.createClass({
 var Message = React.createClass({
   emojifyText: function(message) {
     return emojify.replace(message);
-  }
+  },
 
   render: function() {
     var messageContent = Autolinker.link(this.props.content, {newWindow: true});
