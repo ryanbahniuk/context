@@ -83,7 +83,7 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
   },
 
   render: function() {
-    if(this.state.connection) {
+    if(this.state.connection===true) {
       return (
         React.DOM.div({className: "userAuth"}, 
         DisplayErrors({errors: this.state.errors}), 
@@ -95,7 +95,7 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
       return(
         React.DOM.div({className: "userAuth"}, 
           LoginConnection({onReload: this.handleReload}), 
-          ReportConnection({onSend: this.props.onConnectionReport})
+          ReportConnection({onSend: this.props.onConnectionReport, onReload: this.handleReload})
         )
       );
     };
@@ -111,6 +111,41 @@ var DisplayErrors = React.createClass({displayName: 'DisplayErrors',
     );
   }
 });
+
+var ReportConnection = React.createClass({displayName: 'ReportConnection',
+  getInitialState: function() {
+    return {submitted: false};
+  },
+
+  onSend: function(e) {
+    e.preventDefault();
+    this.setState({submitted: true});
+    var form = this.refs.connectionForm.getDOMNode();
+    this.props.onSend($(form));
+    setTimeout(function() {
+      this.props.onReload()}.bind(this), 1500);
+  },
+
+  render: function() {
+    if(this.state.submitted) {
+      return (
+        React.DOM.div({className: "reportConnection"}, 
+          React.DOM.p(null, "Thanks")
+        )
+      );
+    } else {
+      return (
+        React.DOM.form({className: "reportConnection", ref: "connectionForm", onClick: this.onSend}, 
+          React.DOM.input({type: "hidden", name: "url", value: url}), 
+          React.DOM.input({type: "hidden", name: "type", value: "chat_connection"}), 
+          React.DOM.textarea({placeholder: "Help us fix bugs. Describe what you were doing when the connection was lost.", name: "description"}), 
+          React.DOM.input({type: "submit"})
+        )   
+      );
+    }
+  }
+})
+
 
 var LoginForm = React.createClass({displayName: 'LoginForm',
 

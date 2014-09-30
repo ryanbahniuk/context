@@ -83,7 +83,7 @@ var UserAuth = React.createClass({
   },
 
   render: function() {
-    if(this.state.connection) {
+    if(this.state.connection===true) {
       return (
         <div className="userAuth">
         <DisplayErrors errors={this.state.errors}/>
@@ -95,7 +95,7 @@ var UserAuth = React.createClass({
       return(
         <div className="userAuth">
           <LoginConnection onReload={this.handleReload}/> 
-          <ReportConnection onSend={this.props.onConnectionReport}/>
+          <ReportConnection onSend={this.props.onConnectionReport} onReload={this.handleReload}/>
         </div>
       );
     };
@@ -111,6 +111,41 @@ var DisplayErrors = React.createClass({
     );
   }
 });
+
+var ReportConnection = React.createClass({
+  getInitialState: function() {
+    return {submitted: false};
+  },
+
+  onSend: function(e) {
+    e.preventDefault();
+    this.setState({submitted: true});
+    var form = this.refs.connectionForm.getDOMNode();
+    this.props.onSend($(form));
+    setTimeout(function() {
+      this.props.onReload()}.bind(this), 1500);
+  },
+
+  render: function() {
+    if(this.state.submitted) {
+      return (
+        <div className="reportConnection">
+          <p>Thanks</p>
+        </div>
+      );
+    } else {
+      return (
+        <form className="reportConnection" ref="connectionForm" onClick={this.onSend}>
+          <input type="hidden" name="url" value={url}/>
+          <input type="hidden" name="type" value="chat_connection"/>
+          <textarea placeholder="Help us fix bugs. Describe what you were doing when the connection was lost." name="description"></textarea>
+          <input type="submit"/>
+        </form>   
+      );
+    }
+  }
+})
+
 
 var LoginForm = React.createClass({
 

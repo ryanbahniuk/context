@@ -82,26 +82,6 @@ var ChatConnection = React.createClass({displayName: 'ChatConnection',
   }
 });
 
-var ReportConnection = React.createClass({displayName: 'ReportConnection',
-  onSend: function(e) {
-    e.preventDefault();
-    var form = this.refs.connectionForm.getDOMNode();
-    this.props.onSend($(form));
-  },
-
-  render: function() {
-    return (
-      React.DOM.form({ref: "connectionForm", onClick: this.onSend}, 
-        React.DOM.input({type: "hidden", name: "url", value: url}), 
-        React.DOM.input({type: "hidden", name: "user_id", value: user["id"]}), 
-        React.DOM.input({type: "hidden", name: "type", value: "chat_connection"}), 
-        React.DOM.textarea({placeholder: "Help us fix bugs. Describe what you were doing when the connection was lost.", name: "description"}), 
-        React.DOM.input({type: "submit"})
-      )
-    );
-  }
-})
-
 var ChatBox = React.createClass({displayName: 'ChatBox',
   loadMessages: function(url) {
     var data = "url=" + encodeURIComponent(url);

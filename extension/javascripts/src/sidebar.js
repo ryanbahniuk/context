@@ -82,26 +82,6 @@ var ChatConnection = React.createClass({
   }
 });
 
-var ReportConnection = React.createClass({
-  onSend: function(e) {
-    e.preventDefault();
-    var form = this.refs.connectionForm.getDOMNode();
-    this.props.onSend($(form));
-  },
-
-  render: function() {
-    return (
-      <form ref="connectionForm" onClick={this.onSend}>
-        <input type="hidden" name="url" value={url}/>
-        <input type="hidden" name="user_id" value={user["id"]}/>
-        <input type="hidden" name="type" value="chat_connection"/>
-        <textarea placeholder="Help us fix bugs. Describe what you were doing when the connection was lost." name="description"></textarea>
-        <input type="submit"/>
-      </form>
-    );
-  }
-})
-
 var ChatBox = React.createClass({
   loadMessages: function(url) {
     var data = "url=" + encodeURIComponent(url);
