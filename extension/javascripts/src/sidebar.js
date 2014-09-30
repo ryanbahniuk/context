@@ -150,12 +150,20 @@ var ChatBox = React.createClass({
     }.bind(this));
   },
 
-  handleMessageSubmit: function(m) {
+  changeScriptTags: function(m) {
     var contentAllScript = m.content.indexOf("<script>") == 0 && m.content.indexOf("</script>") == m.content.length - 9
-    if (m.content !== "" && !contentAllScript) {
+    if (contentAllScript) {
+      m.content = "http://www.tehcute.com/pics/201204/bunny-falls-asleep-at-desk.jpg";
+    }
+    return m;
+  },
+
+  handleMessageSubmit: function(m) {
+    m = this.changeScriptTags(m);
+    var coords = this.state.coords;
+    var user_id = user["id"];
+    if (m.content !== "") {
       var messages = this.state.data;
-      var coords = this.state.coords;
-      var user_id = user["id"];
       var msg = {url: url, content: m.content, user_id: user_id, coords: coords };
       socket.send(JSON.stringify(msg));
     }
