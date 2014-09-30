@@ -121,12 +121,12 @@ var ChatBox = React.createClass({
     socket.onmessage = function(e) {
       this.setState({connection: true});
       var message = JSON.parse(e.data);
-      debugger;
       if (message["content"] !== undefined) {
         this.add_message(message);
       }
       else{
-        this.showUsers(message);
+        this.setState({userMsg: this.showUsers(message)});
+        debugger;
       }
     }.bind(this);
 
@@ -140,9 +140,14 @@ var ChatBox = React.createClass({
   },
 
   showUsers: function(message) {
-    var users = message["num"] + " users currently on this page";
-      this.setsState({numUsersMsg: users})
-    debugger;
+    if (message["num"] === 1) {
+      var usersMessage = "You're all alone!";
+    } else {
+    var usersMessage = message["num"] + " users currently on this page";
+    };
+    return (
+      usersMessage
+      )
   },
 
   getInitialState: function() {
@@ -184,6 +189,7 @@ var ChatBox = React.createClass({
     if(this.state.connection){
       return (
         <div className="chatBox">
+          < UsersCount usrMsg={this.state.userMsg} />
           < MessageList data={this.state.data} />
           < ChatInput onMessageSubmit={this.handleMessageSubmit} />
         </div>
@@ -200,11 +206,11 @@ var ChatBox = React.createClass({
 
 var UsersCount = React.createClass({
   render: function(){
-    msg = this.props.users;
+    msg = this.props.usrMsg;
     return (
       <div className ="userCount settingsPanel">
         {msg}
       </div>
       );
-  }.bind(this)
+  }
 });
