@@ -148,7 +148,13 @@ var ChatBox = React.createClass({
     socket.onmessage = function(e) {
       this.setState({connection: true, waiting: false});
       var message = JSON.parse(e.data);
-      this.add_message(message);
+      debugger;
+      if (message["content"] !== undefined) {
+        this.add_message(message);
+      }
+      else{
+        this.showUsers(message);
+      }
     }.bind(this);
 
     socket.onerror = function() {
@@ -158,6 +164,12 @@ var ChatBox = React.createClass({
     socket.onclose = function() {
       this.setConnectionError();
     }.bind(this);
+  },
+
+  showUsers: function(message) {
+    var users = message["num"] + " users currently on this page";
+      this.setsState({numUsersMsg: users})
+    debugger;
   },
 
   getInitialState: function() {
@@ -229,4 +241,15 @@ var ChatBox = React.createClass({
       );
     }
   }
+});
+
+var UsersCount = React.createClass({
+  render: function(){
+    msg = this.props.users;
+    return (
+      <div className ="userCount settingsPanel">
+        {msg}
+      </div>
+      );
+  }.bind(this)
 });
