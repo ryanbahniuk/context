@@ -40,7 +40,6 @@ var App = React.createClass({displayName: 'App',
 
   handleSendReport: function(form) {
     this.setState({reportSent: true});
-    debugger;
     // chrome.runtime.getPlatformInfo(function(obj){
     //   form.find("#os").val(obj.os);
 
@@ -60,7 +59,6 @@ var App = React.createClass({displayName: 'App',
         console.log("error report error");
       });
     // })
-    debugger;
   },
 
   handleSendDetails: function(form) {
@@ -78,6 +76,24 @@ var App = React.createClass({displayName: 'App',
       .fail(function() {
         console.log("error details error");
       });
+  },
+
+  handleConnectionReport: function(form) {
+    $.ajax({
+      url: errorReportUrl,
+      type: 'post',
+      contentType: "application/x-www-form-urlencoded",
+      data: form.serialize(),
+    })
+    .done(function() {
+      console.log("success");
+    })
+    .fail(function() {
+      console.log("error");
+    })
+    .always(function() {
+      console.log("complete");
+    });
   },
 
   render: function() {

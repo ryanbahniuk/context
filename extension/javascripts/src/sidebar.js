@@ -175,7 +175,7 @@ var ChatBox = React.createClass({
         <div className="chatBox">
           < MessageList data={this.state.data} />
           < ChatInput onMessageSubmit={this.handleMessageSubmit} />
-          </div>
+        </div>
       );
     } else{
       return (

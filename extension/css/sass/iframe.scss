@@ -225,6 +225,38 @@ div.connection {
   }
 }
 
+form.reportConnection {
+  margin-top: 10%;
+  textarea {
+    width: 80%;
+    height: 130px;
+    margin: 0 10%;
+    display: block;
+    border: 1px solid $light-grey;
+    margin-bottom: 5%;
+  }
+
+  input[type="submit"] {
+    width: 30%;
+    margin: 0 35%;
+    border: 1px solid $light-grey;
+    background-color: white;
+    color: $light-grey;
+    font-size: $button-font-size;
+
+    &:hover {
+      color: $brand-primary;
+      border: 1px solid $brand-primary;
+    }
+  }
+}
+
+.reportConnection p {
+  text-align: center;
+  font-size: $button-font-size;
+  color: $brand-primary;
+}
+
 div.content {
   position: fixed;
   top: 0;
