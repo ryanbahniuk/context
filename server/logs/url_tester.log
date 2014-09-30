@@ -26,3 +26,32 @@ I, [2014-09-29T20:28:53.266263 #43958]  INFO -- : URL: www.wikipedia.org/ ---- O
 I, [2014-09-29T20:29:13.784606 #43958]  INFO -- : URL: www.wikipedia.org/ ---- Object: 
 I, [2014-09-29T20:29:57.231116 #43958]  INFO -- : URL: www.wikipedia.org/ ---- Object: 
 I, [2014-09-29T20:30:49.485357 #43958]  INFO -- : URL: www.wikipedia.org/ ---- Object: 
+I, [2014-09-30T10:06:22.698609 #42211]  INFO -- : URL: mangastream.com/ ---- Object: #<Url:0x007fe513678838>
+I, [2014-09-30T10:07:50.972304 #42211]  INFO -- : URL: mangastream.com/ ---- Object: #<Url:0x007fe5134a2f90>
+I, [2014-09-30T10:08:34.362614 #42435]  INFO -- : URL: mangastream.com/ ---- Object: #<Url:0x007feebdda3258>
+I, [2014-09-30T10:08:57.258103 #42472]  INFO -- : URL: mangastream.com/ ---- Object: #<Url:0x007fd2aea88788>
+I, [2014-09-30T10:10:35.123207 #42472]  INFO -- : URL: mangastream.com/ ---- Object: #<Url:0x007fd2ae8b1ce8>
+I, [2014-09-30T10:11:08.810295 #42472]  INFO -- : URL: mangastream.com/ ---- Object: #<Url:0x007fd2ae989c88>
+I, [2014-09-30T10:12:15.311233 #42472]  INFO -- : URL: mangastream.com/ ---- Object: #<Url:0x007fd2aea19e00>
+I, [2014-09-30T10:54:36.123500 #42472]  INFO -- : URL: mangastream.com/ ---- Object: #<Url:0x007fd2aeaa1468>
+I, [2014-09-30T10:59:42.429705 #42472]  INFO -- : URL: mangastream.com/ ---- Object: #<Url:0x007fd2aeb22798>
+I, [2014-09-30T11:01:13.588456 #42472]  INFO -- : URL: mangastream.com/ ---- Object: #<Url:0x007fd2ac2aae50>
+I, [2014-09-30T11:02:24.127312 #42472]  INFO -- : URL: mangastream.com/ ---- Object: #<Url:0x007fd2ab945c70>
+I, [2014-09-30T11:03:08.050534 #42472]  INFO -- : URL: mangastream.com/ ---- Object: #<Url:0x007fd2ab95ecc0>
+I, [2014-09-30T11:50:36.742253 #42472]  INFO -- : URL: mangastream.com/ ---- Object: #<Url:0x007fd2ac343588>
+I, [2014-09-30T11:51:39.198543 #42472]  INFO -- : URL: mangastream.com/ ---- Object: #<Url:0x007fd2ab984588>
+I, [2014-09-30T11:54:32.435044 #42472]  INFO -- : URL: mangastream.com/ ---- Object: #<Url:0x007fd2ab9a52d8>
+I, [2014-09-30T11:55:09.109733 #42472]  INFO -- : URL: mangastream.com/ ---- Object: #<Url:0x007fd2ac97e308>
+I, [2014-09-30T12:07:51.376895 #42472]  INFO -- : URL: www.youtube.com/ ---- Object: 
+I, [2014-09-30T12:08:17.367244 #42472]  INFO -- : URL: www.youtube.com/ ---- Object: 
+I, [2014-09-30T12:08:31.788099 #42472]  INFO -- : URL: mangastream.com/ ---- Object: #<Url:0x007fd2ac9ae260>
+I, [2014-09-30T12:09:18.770826 #42472]  INFO -- : URL: mangastream.com/ ---- Object: #<Url:0x007fd2ab9ff008>
+I, [2014-09-30T12:20:55.991538 #42472]  INFO -- : URL: mangastream.com/ ---- Object: #<Url:0x007fd2ac456f38>
+I, [2014-09-30T13:14:38.718346 #42472]  INFO -- : URL: mangastream.com/ ---- Object: #<Url:0x007fd2aec91fc0>
+I, [2014-09-30T13:16:24.260960 #42472]  INFO -- : URL: mangastream.com/ ---- Object: #<Url:0x007fd2aba7ed80>
+I, [2014-09-30T13:17:27.709705 #42472]  INFO -- : URL: mangastream.com/ ---- Object: #<Url:0x007fd2ad363558>
+I, [2014-09-30T13:19:15.453670 #42472]  INFO -- : URL: mangastream.com/ ---- Object: #<Url:0x007fd2ad4dae90>
+I, [2014-09-30T13:19:39.144141 #42472]  INFO -- : URL: mangastream.com/ ---- Object: #<Url:0x007fd2ad6fd768>
+I, [2014-09-30T13:22:26.323991 #42472]  INFO -- : URL: mangastream.com/ ---- Object: #<Url:0x007fd2ae8a1e60>
+I, [2014-09-30T13:31:09.895181 #42472]  INFO -- : URL: mangastream.com/ ---- Object: #<Url:0x007fd2ae982460>
+I, [2014-09-30T13:36:14.112143 #42472]  INFO -- : URL: mangastream.com/ ---- Object: #<Url:0x007fd2aea11408>

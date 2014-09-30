@@ -1,12 +1,12 @@
 /** @jsx React.DOM */
 
-var httpServer = "http://104.131.117.55:3000/";
-// var httpServer = "http://localhost:3000/";
+// var httpServer = "http://104.131.117.55:3000/";
+var httpServer = "http://localhost:3000/";
 var loginUrl = httpServer + "login";
 var registerUrl = httpServer + "users";
 var messageUrl = httpServer + "urls/messages/10";
 var errorReportUrl = httpServer + "error";
-var socketAddress = 'ws://104.131.117.55:8080';
+var socketAddress = 'ws://localhost:8080';
 
 var App = React.createClass({displayName: 'App',
 
@@ -99,7 +99,7 @@ var App = React.createClass({displayName: 'App',
       var chatBody = ChatBox({socketAddress: socketAddress, messageUrl: messageUrl, user: user});
     }
     else {
-      var chatBody = UserAuth({loginUrl: loginUrl, registerUrl: registerUrl, onSuccess: this.onUserSuccess});
+      var chatBody=UserAuth({loginUrl: loginUrl, registerUrl: registerUrl, onSuccess: this.onUserSuccess});
     }
 
     if(this.state.showSettings) {

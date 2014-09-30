@@ -19,6 +19,7 @@ class ChatManager
         # $SERVER_LOG.info("Deleting #{ws}")
         arr.delete(ws)
         # $SERVER_LOG.error("Delete failed--#{ws}") if arr.include?(ws)
+        ws.send({num: @open_urls.length}.to_json)
       end
     end
   end
@@ -39,6 +40,7 @@ class ChatManager
     else
       @open_urls[url] = [ws]
     end
+    ws.send({num: @open_urls.length}.to_json)
     # $SERVER_LOG.info url_log
   end
 

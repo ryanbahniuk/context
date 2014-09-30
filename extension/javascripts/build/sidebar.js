@@ -121,7 +121,13 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
     socket.onmessage = function(e) {
       this.setState({connection: true});
       var message = JSON.parse(e.data);
-      this.add_message(message);
+      debugger;
+      if (message["content"] !== undefined) {
+        this.add_message(message);
+      }
+      else{
+        this.showUsers(message);
+      }
     }.bind(this);
 
     socket.onerror = function() {
@@ -131,6 +137,12 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
     socket.onclose = function() {
       this.setState({connection: false});
     }.bind(this);
+  },
+
+  showUsers: function(message) {
+    var users = message["num"] + " users currently on this page";
+      this.setsState({numUsersMsg: users})
+    debugger;
   },
 
   getInitialState: function() {
@@ -184,4 +196,15 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
       );
     }
   }
+});
+
+var UsersCount = React.createClass({displayName: 'UsersCount',
+  render: function(){
+    msg = this.props.users;
+    return (
+      React.DOM.div({className: "userCount settingsPanel"}, 
+        msg
+      )
+      );
+  }.bind(this)
 });
