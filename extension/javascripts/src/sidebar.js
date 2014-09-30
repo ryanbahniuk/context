@@ -158,7 +158,6 @@ var ChatBox = React.createClass({
     if (this.state.coords == false) {
       this.getCoords();
     };
-    console.log(message);
     message["content"] = message["content"].replace(/</, "\u003c").replace(/>/, "\u003e");
     var messages = this.state.data;
     messages.push(message);
