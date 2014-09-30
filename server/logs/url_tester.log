@@ -139,3 +139,6 @@ I, [2014-09-30T11:34:22.604284 #15991]  INFO -- : URL: fortawesome.github.io/Fon
 I, [2014-09-30T11:49:30.946454 #16114]  INFO -- : URL: fortawesome.github.io/Font-Awesome/examples/ ---- Object: 
 I, [2014-09-30T11:51:08.714785 #16114]  INFO -- : URL: fortawesome.github.io/Font-Awesome/examples/ ---- Object: 
 I, [2014-09-30T11:51:19.464602 #16114]  INFO -- : URL: fortawesome.github.io/Font-Awesome/examples/ ---- Object: 
+I, [2014-09-30T12:04:37.540275 #16313]  INFO -- : URL: www.google.com/webhp ---- Object: 
+I, [2014-09-30T12:05:28.761083 #16313]  INFO -- : URL: www.google.com/webhp ---- Object: #<Url:0x007f8155dd77b8>
+I, [2014-09-30T12:06:15.130893 #16463]  INFO -- : URL: www.google.com/webhp ---- Object: #<Url:0x007ff973c53838>

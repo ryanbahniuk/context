@@ -33,8 +33,10 @@ configure do
 	enable :sessions
 	set :session_secret, ENV['SESSION_SECRET'] || 'hellloooooooooo live chats!'
 
-	# Set the views to
-	set :views, File.join(Sinatra::Application.root, "server", "views")
+	set :public_folder, File.join(Sinatra::Application.root, "server", "public")
+  
+  # Set the views to
+  set :views, File.join(Sinatra::Application.root, "server", "views")
 end
 
 # Set up the controllers and helpers
