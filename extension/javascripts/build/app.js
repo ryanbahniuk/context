@@ -81,14 +81,23 @@ var App = React.createClass({displayName: 'App',
   },
 
   render: function() {
+    if(this.state.userPresent){
+      var settingsButton = SettingsButton({clickSettings: this.handleClickSettings});
+      var chatBody = ChatBox({socketAddress: socketAddress, messageUrl: messageUrl, user: user});
+    }
+    else {
+      var chatBody = UserAuth({loginUrl: loginUrl, registerUrl: registerUrl, onSuccess: this.onUserSuccess});
+    }
+
+    if(this.state.showSettings) {
+      var settingsView = SettingsPanel({clickLogout: this.handleClickLogout, clickView: this.handleClickView, sendReport: this.handleSendReport, reportSent: this.state.reportSent, sendDetails: this.handleSendDetails, detailsSent: this.state.detailsSent});
+    }
+
     return(
       React.DOM.div({className: "App"}, 
-
-      this.state.userPresent ? SettingsButton({clickSettings: this.handleClickSettings}) : null, 
-
-      this.state.showSettings ? SettingsPanel({clickLogout: this.handleClickLogout, clickView: this.handleClickView, sendReport: this.handleSendReport, reportSent: this.state.reportSent, sendDetails: this.handleSendDetails, detailsSent: this.state.detailsSent}) : null, 
-
-      this.state.userPresent ? ChatBox({socketAddress: socketAddress, messageUrl: messageUrl, user: user}) : UserAuth({loginUrl: loginUrl, registerUrl: registerUrl, onSuccess: this.onUserSuccess})
+      settingsButton, 
+      chatBody, 
+      settingsView
       )
     );
   },
@@ -116,6 +125,34 @@ var SettingsPanel = React.createClass({displayName: 'SettingsPanel',
   }
 });
 
+var ReportDetails = React.createClass({displayName: 'ReportDetails',
+  getInitialState: function() {
+    return {detailsSent: false};
+  },
+
+  handleSend: function(e) {
+    e.preventDefault();
+    this.setState({detailsSent: true});
+    var form = this.refs.detailsForm.getDOMNode();
+    this.props.onSend($(form));
+  },
+
+  render: function() {
+    if (this.state.detailsSent) {
+      return (
+        React.DOM.div({className: "reportDetails", id: "details_sent"}, "Got it.")
+        );
+    } else {
+      return (
+        React.DOM.form({className: "reportDetails", onSubmit: this.handleSend, ref: "detailsForm"}, 
+          React.DOM.div(null, React.DOM.textarea({placeholder: "Details?", name: "description"})), 
+          React.DOM.input({type: "submit"})
+        )
+        );
+    };
+  }
+});
+
 var ReportError = React.createClass({displayName: 'ReportError',
   sendReport: function() {
     this.setState({reportSent: true});
@@ -140,34 +177,6 @@ var ReportError = React.createClass({displayName: 'ReportError',
         )
       )
     );
-  }
-});
-
-var ReportDetails = React.createClass({displayName: 'ReportDetails',
-  getInitialState: function() {
-    return {detailsSent: false};
-  },
-
-  handleSend: function(e) {
-    e.preventDefault();
-    this.setState({detailsSent: true});
-    var form = this.refs.detailsForm.getDOMNode();
-    this.props.onSend($(form));
-  }, 
-
-  render: function() {
-    if (this.state.detailsSent) {
-      return (
-        React.DOM.div({className: "reportDetails", id: "details_sent"}, "Got it.")
-        );
-    } else {
-      return (
-        React.DOM.form({className: "reportDetails", onSubmit: this.handleSend, ref: "detailsForm"}, 
-          React.DOM.div(null, React.DOM.textarea({placeholder: "Details?", name: "description"})), 
-          React.DOM.input({type: "submit"})
-        )
-        );
-    };
   }
 });
 
