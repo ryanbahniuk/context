@@ -40,7 +40,6 @@ var App = React.createClass({
 
   handleSendReport: function(form) {
     this.setState({reportSent: true});
-    debugger;
     // chrome.runtime.getPlatformInfo(function(obj){
     //   form.find("#os").val(obj.os);
 
@@ -60,7 +59,6 @@ var App = React.createClass({
         console.log("error report error");
       });
     // })
-    debugger;
   },
 
   handleSendDetails: function(form) {
