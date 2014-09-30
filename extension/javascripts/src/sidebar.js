@@ -30,20 +30,26 @@ var MessageList = React.createClass({
         );
     });
     return (
-      <ul className="messageList">
+      <ul className="messageList" onScroll={this.logScrollPosition} >
       {messageNodes}
       </ul>
       );
   },
 
-  componentWillUpdate: function() {
+  logScrollPosition: function() {
     var node = this.getDOMNode();
-    this.shouldScroll = node.scrollTop + node.offsetHeight - 2 === node.scrollHeight;
-
+    var shouldScroll = Math.abs(node.scrollTop + node.offsetHeight - node.scrollHeight) < 20;
     // console.log("-----------------------------------------------")
     // console.log("scrollTop = " + node.scrollTop);
     // console.log("offsetHeight = " + node.offsetHeight);
     // console.log("scrollHeight = " + node.scrollHeight);
+    // console.log("shouldScroll = " + shouldScroll);
+  },
+  
+  componentWillUpdate: function() {
+    var node = this.getDOMNode();
+    this.shouldScroll = Math.abs(node.scrollTop + node.offsetHeight - node.scrollHeight) < 20;
+    // console.log("-----------------------------------------------")
     // console.log("shouldScroll = " + this.shouldScroll);
   },
 
@@ -56,15 +62,19 @@ var MessageList = React.createClass({
 });
 
 var Message = React.createClass({
+  emojifyText: function(message) {
+    return emojify.replace(message);
+  },
+
   render: function() {
-    var messageContent = Autolinker.link(this.props.content, {newWindow: true})
+    var messageContent = Autolinker.link(this.props.content, {newWindow: true});
     var imagedMessage = messageContent.replace(/<a href="(.+).(gif|jpg|jpeg|png)(.+)<\/a>/, function(hrefTag) {
       var link = hrefTag.match(/>(.+)</)[0]
       var link = link.substring(1, link.length - 1)
       console.log("<img src=\"" + link + "\">");
       return "<img src=\"http://" + link + "\" class='user-inserted-image'>";
-    })
-    console.log("imaged message : " + imagedMessage)
+    });
+    var imagedMessage = this.emojifyText(imagedMessage);
     return (
       <li className="message">
       <span className="messageAuthor">
