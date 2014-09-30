@@ -8,10 +8,14 @@ post '/error' do
   "#{error.id}"
 end
 
-post '/error/:id' do 
+post '/error/:id' do
   response['Access-Control-Allow-Origin'] = '*'
-  error = PageError.find(params[:id])
-  error.update(description: params[:description])
-  content_type :text
-  "Added description to #{error.id}"
+  error = PageError.find_by_id(params[:id])
+  if error
+    error.update(description: params[:description])
+    content_type :text
+    "Added description to #{error.id}"
+  else
+    "Could not find this error"
+  end
 end

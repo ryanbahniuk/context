@@ -130,3 +130,4 @@ I, [2014-09-30T10:12:37.079899 #34544]  INFO -- : URL: www.emoji-cheat-sheet.com
 I, [2014-09-30T10:13:42.455036 #34544]  INFO -- : URL: www.emoji-cheat-sheet.com/ ---- Object: #<Url:0x000001024f3ac8>
 I, [2014-09-30T10:27:12.220089 #34806]  INFO -- : URL: espn.go.com/ ---- Object: #<Url:0x00000101682908>
 >>>>>>> 53e530599f3eb34e57b1f5ec49ed7e6edcfedd3d
+I, [2014-09-30T10:59:34.789352 #50923]  INFO -- : URL: stackoverflow.com/questions/831347/rails-why-does-findid-raise-an-exception-in-rails ---- Object: 
