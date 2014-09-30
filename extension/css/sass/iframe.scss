@@ -77,6 +77,10 @@ body {
 			background: $brand-primary;
   		color: #fff;
   		border: 0;
+      &:hover {
+        @include transition(0.4s);
+        background: $brand-secondary;
+      }
 		}
 	}
 }
@@ -112,6 +116,7 @@ div.settingsPanel {
     text-align: center;
     padding: 0.3rem;
     color: $dark-grey;
+    cursor: pointer;
 
     &:hover {
       @include transition(0.4s);
@@ -122,6 +127,10 @@ div.settingsPanel {
   .reportDetails {
     width: 100%;
     background-color: white;
+
+    textarea {
+      resize: none;
+    }
 
     textarea, input[type="submit"] {
       width: 95%;
@@ -148,6 +157,11 @@ div.settingsPanel {
 
 div.userAuth, div.chatBox {
   margin-top: $header-height;
+  .displayErrors {
+    text-align: center;
+    padding-top: 1em;
+    margin-bottom: -1em;
+  }
 }
 
 // html, body, div.App, div.userAuth, div.chatBox {
@@ -166,13 +180,13 @@ div.loginForm, div.registerForm {
       display: block;
       width: 80%;
       margin: 0.3rem 10%;
-      color: $grey;
+      color: $off-black;
       background-color: white;
     }
 
     input[type="submit"] {
       border: 0;
-      background-color: $light-grey;
+      background-color: $brand-primary;
       color: white;
       &:hover {
         @include transition(0.4s);
@@ -181,11 +195,12 @@ div.loginForm, div.registerForm {
     }
 
     button {
-      color: $light-grey;
-      border: 1px solid $light-grey;
+      color: $brand-primary;
+      border: 1px solid $brand-primary;
       &:hover {
         @include transition(0.4s);
         background-color: $brand-secondary;
+        border-color: $brand-secondary;
         color: white;
       }
     }
