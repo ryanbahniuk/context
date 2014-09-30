@@ -1,6 +1,10 @@
 @import "variables";
 @import "FontAwesome/font-awesome";
 
+body {
+  margin: 0 auto;
+}
+
 table {
   width: 100%;
 }
@@ -18,4 +22,16 @@ td {
 td.small {
   width: 20px;
   text-align: center;
+}
+
+h1.user-count {
+  font-size: 10rem;
+}
+
+.user-count {
+  width: 100%;
+  text-align: center;
+  margin: 0 auto;
+  display: block;
+  padding: 0;
 }

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Context Dev</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="/css/dev.css">
+  <link rel="stylesheet" href="/css/foundation.css">
+  <script type="text/javascript" src="/js/vendor/jquery-2.1.1.min.js"></script>
+   <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
+</head>
+<nav>
+  <div class="icon-bar four-up">
+  <a class="item" href="/dev/errors">
+    <i class="fa fa-bug"></i>
+  </a>
+  <a class="item" href="/dev/errors/complete">
+    <i class="fa fa-check"></i>
+  </a>
+  <a class="item" href="/dev/errors/all">
+    <i class="fa fa-crosshairs"></i>
+  </a>
+  <a class="item" href="/dev/stats">
+    <i class="fa fa-pie-chart"></i>
+  </a>
+</div>
+</nav>
+<body>
+  <div class="container">
+    <%= yield %>
+  </div>
+  <script type="text/javascript" src="/js/dev.js"></script>
+</body>
+</html>

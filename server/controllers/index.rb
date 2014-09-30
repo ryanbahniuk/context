@@ -8,15 +8,20 @@ end
 
 get '/dev/errors' do
   @errors = PageError.where(resolved?: false)
-  erb :dev
+  erb :error_table, :layout => :dev_layout
 end
 
 get '/dev/errors/complete' do
   @errors = PageError.where(resolved?: true)
-  erb :dev
+  erb :error_table, :layout => :dev_layout
 end
 
 get '/dev/errors/all' do
   @errors = PageError.all
-  erb :dev
+  erb :error_table, :layout => :dev_layout
+end
+
+get '/dev/stats' do
+  @user_count = User.count
+  erb :stats, :layout => :dev_layout
 end
