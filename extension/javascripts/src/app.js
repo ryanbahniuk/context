@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 
-var runFromLocal = true;
+var runFromLocal = false;
 var socketAddress, httpServer;
 
 if(runFromLocal) {
