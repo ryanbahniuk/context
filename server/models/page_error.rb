@@ -5,4 +5,12 @@ class PageError < ActiveRecord::Base
   def self.all_with_description
     PageError.where("description <> ''")
   end
+
+  def self.resolved
+    PageError.where(resolved?: true)
+  end
+
+  def self.unresolved
+    PageError.where(resolved?: false)
+  end
 end

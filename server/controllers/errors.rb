@@ -8,6 +8,20 @@ post '/error' do
   "#{error.id}"
 end
 
+post '/error/check/:id' do
+  error = PageError.find_by_id(params[:id])
+
+  if error
+    error.update(resolved?: true)
+
+    content_type :text
+    "Error ##{error.id} taken care of"
+  else
+    content_type :text
+    "Couldn't find error ##{params[:id]}"
+  end
+end
+
 post '/error/:id' do
   response['Access-Control-Allow-Origin'] = '*'
   error = PageError.find_by_id(params[:id])
