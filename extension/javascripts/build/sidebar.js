@@ -135,6 +135,10 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
     this.loadMessages(url);
   },
 
+  componentWillMount: function() {
+    this.setState({waiting: false});
+  },
+
   openSocket: function() {
     socket = new WebSocket(this.props.socketAddress);
 
@@ -146,7 +150,7 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
 
     socket.onmessage = function(e) {
       // debugger;
-      this.setState({connection: true, waiting: false});
+      this.isMounted() ? this.setState({connection: true, waiting: false}) : null;
       var message = JSON.parse(e.data);
       if (message["content"] !== undefined) {
         this.add_message(message);
