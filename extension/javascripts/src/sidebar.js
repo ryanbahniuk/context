@@ -72,12 +72,12 @@ var Message = React.createClass({
 
 var ChatConnection = React.createClass({
   render: function() {
-    return ( 
+    return (
       <div className="chatConnection connection">
-        <i className="fa fa-frown-o fa-5x"></i> 
+        <i className="fa fa-frown-o fa-5x"></i>
         <p>Something went wrong</p>
         <button onClick={this.props.onReload}>Reload</button>
-      </div> 
+      </div>
     );
   }
 });
@@ -171,18 +171,18 @@ var ChatBox = React.createClass({
 
   render: function() {
     if(this.state.connection){
-        return (
-          <div className="chatBox">
-            < MessageList data={this.state.data} />
-            < ChatInput onMessageSubmit={this.handleMessageSubmit} />
-            </div>
-            );   
-      } else{
-        return (
-          <div className="chatBox">
-            < ChatConnection connection={this.state.connected} onReload={this.handleReload} />
-          </div>
-        );
-      }
+      return (
+        <div className="chatBox">
+          < MessageList data={this.state.data} />
+          < ChatInput onMessageSubmit={this.handleMessageSubmit} />
+        </div>
+      );
+    } else{
+      return (
+        <div className="chatBox">
+          < ChatConnection connection={this.state.connected} onReload={this.handleReload} />
+        </div>
+      );
     }
-  });
+  }
+});

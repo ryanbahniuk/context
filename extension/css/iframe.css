@@ -1855,6 +1855,31 @@ div.connection {
       color: #318FCE;
       border: 1px solid #318FCE; }
 
+form.reportConnection {
+  margin-top: 10%; }
+  form.reportConnection textarea {
+    width: 80%;
+    height: 130px;
+    margin: 0 10%;
+    display: block;
+    border: 1px solid #cccccc;
+    margin-bottom: 5%; }
+  form.reportConnection input[type="submit"] {
+    width: 30%;
+    margin: 0 35%;
+    border: 1px solid #cccccc;
+    background-color: white;
+    color: #cccccc;
+    font-size: 0.9rem; }
+    form.reportConnection input[type="submit"]:hover {
+      color: #318FCE;
+      border: 1px solid #318FCE; }
+
+.reportConnection p {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #318FCE; }
+
 div.content {
   position: fixed;
   top: 0;

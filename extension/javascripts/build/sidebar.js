@@ -72,12 +72,12 @@ var Message = React.createClass({displayName: 'Message',
 
 var ChatConnection = React.createClass({displayName: 'ChatConnection',
   render: function() {
-    return ( 
+    return (
       React.DOM.div({className: "chatConnection connection"}, 
         React.DOM.i({className: "fa fa-frown-o fa-5x"}), 
         React.DOM.p(null, "Something went wrong"), 
         React.DOM.button({onClick: this.props.onReload}, "Reload")
-      ) 
+      )
     );
   }
 });
@@ -171,18 +171,18 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
 
   render: function() {
     if(this.state.connection){
-        return (
-          React.DOM.div({className: "chatBox"}, 
-            MessageList({data: this.state.data}), 
-            ChatInput({onMessageSubmit: this.handleMessageSubmit})
-            )
-            );   
-      } else{
-        return (
-          React.DOM.div({className: "chatBox"}, 
-            ChatConnection({connection: this.state.connected, onReload: this.handleReload})
-          )
-        );
-      }
+      return (
+        React.DOM.div({className: "chatBox"}, 
+          MessageList({data: this.state.data}), 
+          ChatInput({onMessageSubmit: this.handleMessageSubmit})
+        )
+      );
+    } else{
+      return (
+        React.DOM.div({className: "chatBox"}, 
+          ChatConnection({connection: this.state.connected, onReload: this.handleReload})
+        )
+      );
     }
-  });
+  }
+});
