@@ -169,17 +169,6 @@ var ChatBox = React.createClass({
     }.bind(this);
   },
 
-  showUsers: function(message) {
-    if (message["num"] === 1) {
-      var usersMessage = "You're all alone!";
-    } else {
-    var usersMessage = message["num"] + " users currently on this page";
-    };
-    return (
-      usersMessage
-      )
-  },
-
   getInitialState: function() {
     return { data: [], connection: true, coords: [], waiting: true };
   },
@@ -237,7 +226,6 @@ var ChatBox = React.createClass({
     else if(this.state.connection){
       return (
         <div className="chatBox">
-          < UsersCount usrMsg={this.state.userMsg} />
           < MessageList data={this.state.data} />
           < ChatInput onMessageSubmit={this.handleMessageSubmit} />
         </div>
@@ -249,16 +237,5 @@ var ChatBox = React.createClass({
         </div>
       );
     }
-  }
-});
-
-var UsersCount = React.createClass({
-  render: function(){
-    msg = this.props.usrMsg;
-    return (
-      <div className ="userCount settingsPanel">
-        {msg}
-      </div>
-      );
   }
 });
