@@ -28,6 +28,8 @@ class ChatManager
 
     if msg["initial"]
       setup_client(ws, msg["url"])
+    elsif msg["vis"]
+      @vis = ws;
     else
       handle_message(ws, msg)
     end
@@ -67,6 +69,7 @@ class ChatManager
     EM.defer message_recording_proc(ws, msg), clear_database_connections_proc
     user = User.find(msg["user_id"])
     send_all(@open_urls[msg["url"]], msg["content"], user.name)
+    @vis.send(msg["coords"])
   end
 
   def send_all(clients, content, name)

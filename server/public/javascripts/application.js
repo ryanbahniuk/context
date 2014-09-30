@@ -1,7 +1,15 @@
 $(document).ready(function() {
-  // This is called after the document has loaded in its entirety
-  // This guarantees that any elements we bind to will exist on the page
-  // when we try to bind to them
 
-  // See: http://docs.jquery.com/Tutorials:Introducing_$(document).ready()
+var socket = new Websocket('ws://104.131.117.55:8080');
+var data = [];
+
+socket.onopen = function() {
+  var msg = {vis: true};
+  socket.send(JSON.stringify(msg));
+}
+
+socket.onmessage = function(e) {
+  $("div#coords").
+}
+
 });
