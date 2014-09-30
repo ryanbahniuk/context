@@ -1,26 +1,14 @@
+<div class="icon-bar three-up">
+  <a class="item" href="/dev/errors">
+    <i class="fa fa-bug"></i>
+  </a>
+  <a class="item" href="/dev/errors/complete">
+    <i class="fa fa-question"></i>
+  </a>
+  <a class="item" href="/dev/errors/all">
+    <i class="fa fa-crosshairs"></i>
+  </a>
+</div>
 <div class="container">
-  <table>
-    <tr>
-      <th>URL</th>
-      <th>Description</th>
-      <th>User</th>
-      <th>Resolved?</th>
-    </tr>
-  <% @errors.each do |e|%>
-    <tr>
-      <td><%= e.url %></td>
-      <td><%= e.description %></td>
-      <td><%= e.user %></td>
-      <td>
-        <form>
-        <% if e.resolved? %>
-          <input type="checkbox" value="resolved?" checked/>
-        <% else %>
-          <input type="checkbox" value="resolved?"/>
-        <% end %>
-        </form>
-      </td>
-    </tr>
-  <% end %>
-</table>
+  <%= erb :_error_table, locals: {errors: @errors} %>
 </div>

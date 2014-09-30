@@ -1,0 +1,21 @@
+@import "variables";
+@import "FontAwesome/font-awesome";
+
+table {
+  width: 100%;
+}
+
+th {
+  text-align: center;
+}
+
+td {
+  padding: 3px;
+  width: calc(33.3333% - 40px);
+  width: -webkit-calc(33.3333% - 40px);
+}
+
+td.small {
+  width: 20px;
+  text-align: center;
+}
