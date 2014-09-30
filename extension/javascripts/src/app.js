@@ -90,18 +90,27 @@ var App = React.createClass({
     })
     .always(function() {
       console.log("complete");
-    });   
+    });
   },
 
   render: function() {
+    if(this.state.userPresent){
+      var settingsButton = <SettingsButton clickSettings={this.handleClickSettings} />;
+      var chatBody = <ChatBox socketAddress={socketAddress} messageUrl={messageUrl} user={user}/>;
+    }
+    else {
+      var chatBody = <UserAuth loginUrl={loginUrl} registerUrl={registerUrl} onSuccess={this.onUserSuccess}/>;
+    }
+
+    if(this.state.showSettings) {
+      var settingsView = <SettingsPanel clickLogout={this.handleClickLogout} clickView={this.handleClickView} sendReport={this.handleSendReport} reportSent={this.state.reportSent} sendDetails={this.handleSendDetails} detailsSent={this.state.detailsSent}/>;
+    }
+
     return(
       <div className="App">
-
-      {this.state.userPresent ? <SettingsButton clickSettings={this.handleClickSettings}/> : null}
-
-      {this.state.showSettings ? <SettingsPanel clickLogout={this.handleClickLogout} clickView={this.handleClickView} sendReport={this.handleSendReport} reportSent={this.state.reportSent} sendDetails={this.handleSendDetails} detailsSent={this.state.detailsSent}/> : null}
-
-      {this.state.userPresent ? <ChatBox socketAddress={socketAddress} messageUrl={messageUrl} user={user} onConnectionReport={this.handleConnectionReport}/> : <UserAuth loginUrl={loginUrl} registerUrl={registerUrl} onSuccess={this.onUserSuccess} onConnectionReport={this.handleConnectionReport}/> }
+      {settingsButton}
+      {chatBody}
+      {settingsView}
       </div>
     );
   },
@@ -129,6 +138,34 @@ var SettingsPanel = React.createClass({
   }
 });
 
+var ReportDetails = React.createClass({
+  getInitialState: function() {
+    return {detailsSent: false};
+  },
+
+  handleSend: function(e) {
+    e.preventDefault();
+    this.setState({detailsSent: true});
+    var form = this.refs.detailsForm.getDOMNode();
+    this.props.onSend($(form));
+  },
+
+  render: function() {
+    if (this.state.detailsSent) {
+      return (
+        <div className="reportDetails" id="details_sent">Got it.</div>
+        );
+    } else {
+      return (
+        <form className="reportDetails" onSubmit={this.handleSend} ref="detailsForm">
+          <div><textarea placeholder="Details?" name="description"></textarea></div>
+          <input type="submit"/>
+        </form>
+        );
+    };
+  }
+});
+
 var ReportError = React.createClass({
   sendReport: function() {
     this.setState({reportSent: true});
@@ -148,39 +185,11 @@ var ReportError = React.createClass({
         {this.props.reportSent ? <span id="report_sent">Report Sent</span>  : <span onClick={this.sendReport}>Report Page Error</span>}
         <form ref="errorForm">
           <input type="hidden" name="url" value={url}/>
-          {/*<input type="hidden" name="user_id" value={user["id"]}/>*/}
+          <input type="hidden" name="user_id" value={user["id"]}/>
           {/*{<input type="hidden" name="os" id="os"/>}*/}
         </form>
       </div>
     );
-  }
-});
-
-var ReportDetails = React.createClass({
-  getInitialState: function() {
-    return {detailsSent: false};
-  },
-
-  handleSend: function(e) {
-    e.preventDefault();
-    this.setState({detailsSent: true});
-    var form = this.refs.detailsForm.getDOMNode();
-    this.props.onSend($(form));
-  }, 
-
-  render: function() {
-    if (this.state.detailsSent) {
-      return (
-        <div className="reportDetails" id="details_sent">Got it.</div>
-        );
-    } else {
-      return (
-        <form className="reportDetails" onSubmit={this.handleSend} ref="detailsForm">
-          <div><textarea placeholder="Details?" name="description"></textarea></div>
-          <input type="submit"/>
-        </form>
-        );
-    };
   }
 });
 
