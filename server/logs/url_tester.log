@@ -131,3 +131,11 @@ I, [2014-09-30T10:13:42.455036 #34544]  INFO -- : URL: www.emoji-cheat-sheet.com
 I, [2014-09-30T10:27:12.220089 #34806]  INFO -- : URL: espn.go.com/ ---- Object: #<Url:0x00000101682908>
 >>>>>>> 53e530599f3eb34e57b1f5ec49ed7e6edcfedd3d
 I, [2014-09-30T10:59:34.789352 #50923]  INFO -- : URL: stackoverflow.com/questions/831347/rails-why-does-findid-raise-an-exception-in-rails ---- Object: 
+I, [2014-09-30T11:23:23.106965 #15991]  INFO -- : URL: facebook.github.io/react/docs/events.html ---- Object: 
+I, [2014-09-30T11:23:52.875339 #15991]  INFO -- : URL: facebook.github.io/react/docs/events.html ---- Object: 
+I, [2014-09-30T11:24:07.658154 #15991]  INFO -- : URL: facebook.github.io/react/docs/events.html ---- Object: #<Url:0x007fb4e3561f40>
+I, [2014-09-30T11:24:38.032096 #15991]  INFO -- : URL: facebook.github.io/react/docs/events.html ---- Object: #<Url:0x007fb4e37a7e30>
+I, [2014-09-30T11:34:22.604284 #15991]  INFO -- : URL: fortawesome.github.io/Font-Awesome/examples/ ---- Object: 
+I, [2014-09-30T11:49:30.946454 #16114]  INFO -- : URL: fortawesome.github.io/Font-Awesome/examples/ ---- Object: 
+I, [2014-09-30T11:51:08.714785 #16114]  INFO -- : URL: fortawesome.github.io/Font-Awesome/examples/ ---- Object: 
+I, [2014-09-30T11:51:19.464602 #16114]  INFO -- : URL: fortawesome.github.io/Font-Awesome/examples/ ---- Object: 

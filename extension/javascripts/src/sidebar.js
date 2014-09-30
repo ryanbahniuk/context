@@ -99,6 +99,16 @@ var ChatConnection = React.createClass({
   }
 });
 
+var ChatWaiting = React.createClass({
+  render: function() {
+    return(
+      <div className="chatWaiting">
+        <i className="fa fa-circle-o-notch fa-spin fa-4x"></i>
+      </div>
+    );
+  }
+});
+
 var ChatBox = React.createClass({
   loadMessages: function(url) {
     var data = "url=" + encodeURIComponent(url);
@@ -130,28 +140,28 @@ var ChatBox = React.createClass({
     socket = new WebSocket(this.props.socketAddress);
 
     socket.onopen = function(event) {
-      this.setState({connection: true});
+      this.setState({connection: true, waiting: false});
       var msg = {url: url, initial: true};
       socket.send(JSON.stringify(msg));
     }.bind(this);
 
     socket.onmessage = function(e) {
-      this.setState({connection: true});
+      this.setState({connection: true, waiting: false});
       var message = JSON.parse(e.data);
       this.add_message(message);
     }.bind(this);
 
     socket.onerror = function() {
-      this.setState({connection: false});
+      this.setConnectionError();
     }.bind(this);
 
     socket.onclose = function() {
-      this.setState({connection: false});
+      this.setConnectionError();
     }.bind(this);
   },
 
   getInitialState: function() {
-    return { data: [], connection: false, coords: [] };
+    return { data: [], connection: true, coords: [], waiting: true };
   },
 
   getCoords: function() {
@@ -166,6 +176,12 @@ var ChatBox = React.createClass({
       m.content = "http://www.tehcute.com/pics/201204/bunny-falls-asleep-at-desk.jpg";
     }
     return m;
+  },
+
+  setConnectionError: function() {
+    setTimeout(function() {
+      this.setState({connection: false});
+    }.bind(this), 1500);
   },
 
   handleMessageSubmit: function(m) {
@@ -194,7 +210,11 @@ var ChatBox = React.createClass({
   },
 
   render: function() {
-    if(this.state.connection){
+    if (this.state.waiting){
+      return ( 
+        <div className="chatBox"><ChatWaiting/></div>)
+    }
+    else if(this.state.connection){
       return (
         <div className="chatBox">
           < MessageList data={this.state.data} />
