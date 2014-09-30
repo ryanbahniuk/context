@@ -40,25 +40,22 @@ var App = React.createClass({
 
   handleSendReport: function(form) {
     this.setState({reportSent: true});
-    // chrome.runtime.getPlatformInfo(function(obj){
-    //   form.find("#os").val(obj.os);
-
-      // console.log(obj.os);
-
-      $.ajax({
-        url: errorReportUrl,
-        type: 'post',
-        contentType: "application/x-www-form-urlencoded",
-        data: form.serialize()
-      })
-      .done(function(data) {
-        console.log(data);
-        this.setState({errorId: data});
-      }.bind(this))
-      .fail(function() {
-        console.log("error report error");
-      });
-    // })
+    $.ajax({
+      url: errorReportUrl,
+      type: 'post',
+      contentType: "application/x-www-form-urlencoded",
+      data: form.serialize()
+    })
+    .done(function(data) {
+      console.log(data);
+      this.setState({errorId: data});
+    }.bind(this))
+    .fail(function() {
+      console.log("error report error");
+    })
+    .always(function() {
+      console.log("ajax report send complete");
+    });
   },
 
   handleSendDetails: function(form) {
@@ -151,7 +148,7 @@ var ReportError = React.createClass({
         {this.props.reportSent ? <span id="report_sent">Report Sent</span>  : <span onClick={this.sendReport}>Report Page Error</span>}
         <form ref="errorForm">
           <input type="hidden" name="url" value={url}/>
-          <input type="hidden" name="user_id" value={user["id"]}/>
+          {/*<input type="hidden" name="user_id" value={user["id"]}/>*/}
           {/*{<input type="hidden" name="os" id="os"/>}*/}
         </form>
       </div>

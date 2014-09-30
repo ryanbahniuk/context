@@ -61,7 +61,7 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
         this.props.onSuccess(data["user"]);
       }
       else {
-        this.setState({errors: "??????"});        
+        this.handleErrors();        
       };
     }.bind(this))
 
