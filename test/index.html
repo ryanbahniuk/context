@@ -1,10 +1,23 @@
 <!Doctype>
 <html>
 <head>
+	<link rel="stylesheet" type="text/css" href="../extension/css/emojify.min.css">
 	<script src="../extension/javascripts/jquery-2.1.1.min.js"></script>
+	<script src="../extension/javascripts/emojify.min.js"></script>
 	<script src="test.js"></script>
+
+	<style>
+		.emoji {
+			width: 20px;
+		}
+	</style>
 </head>
 <body>
+	<h1>Emoji Test Area</h1>
+	<div class="message">I was feeling like this :confounded:</div>
+	<div class="message">:laughing:</div>
+	<div class="message">:confused:</div>
+	<h1>HTTP Server Test Area</h1>
 	<h3>Login</h3>
 	<form id="login">
 		<input type="text" name="email" placeholder="Email">

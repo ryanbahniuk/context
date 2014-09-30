@@ -62,14 +62,25 @@ var MessageList = React.createClass({
 });
 
 var Message = React.createClass({
+  emojifyText: function(message) {
+    return emojify.replace(message);
+  },
+
   render: function() {
-    var messageContent = Autolinker.link(this.props.content, {newWindow: true})
+    var messageContent = Autolinker.link(this.props.content, {newWindow: true});
+    var imagedMessage = messageContent.replace(/<a href="(.+).(gif|jpg|jpeg|png)(.+)<\/a>/, function(hrefTag) {
+      var link = hrefTag.match(/>(.+)</)[0]
+      var link = link.substring(1, link.length - 1)
+      console.log("<img src=\"" + link + "\">");
+      return "<img src=\"http://" + link + "\" class='user-inserted-image'>";
+    });
+    var imagedMessage = this.emojifyText(imagedMessage);
     return (
       <li className="message">
       <span className="messageAuthor">
       {this.props.author}:&nbsp;
       </span>
-      <p className="messageContent" dangerouslySetInnerHTML={{__html: messageContent}}>
+      <p className="messageContent" dangerouslySetInnerHTML={{__html: imagedMessage}}>
       </p>
       </li>
       );

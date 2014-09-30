@@ -1709,6 +1709,8 @@ div.userAuth, div.chatBox {
       color: #318FCE; }
     .messageList .message .messageContent {
       display: inline; }
+    .messageList .message .emoji {
+      width: 20px; }
 
 .chatInput {
   position: fixed;
@@ -1892,5 +1894,9 @@ div.content {
   position: fixed;
   top: 0;
   right: 0; }
+
+img.user-inserted-image {
+  max-width: 200px;
+  height: auto; }
 
 /*# sourceMappingURL=iframe.css.map */

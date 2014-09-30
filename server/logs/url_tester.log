@@ -26,6 +26,7 @@ I, [2014-09-29T20:28:53.266263 #43958]  INFO -- : URL: www.wikipedia.org/ ---- O
 I, [2014-09-29T20:29:13.784606 #43958]  INFO -- : URL: www.wikipedia.org/ ---- Object: 
 I, [2014-09-29T20:29:57.231116 #43958]  INFO -- : URL: www.wikipedia.org/ ---- Object: 
 I, [2014-09-29T20:30:49.485357 #43958]  INFO -- : URL: www.wikipedia.org/ ---- Object: 
+<<<<<<< HEAD
 I, [2014-09-30T08:54:12.219835 #14933]  INFO -- : URL: en.wikipedia.org/wiki/Main_Page ---- Object: 
 I, [2014-09-30T08:54:59.076374 #15001]  INFO -- : URL: en.wikipedia.org/wiki/Main_Page ---- Object: 
 I, [2014-09-30T08:55:44.442810 #15001]  INFO -- : URL: en.wikipedia.org/wiki/Main_Page ---- Object: #<Url:0x007fc5db96c8e8>
@@ -97,3 +98,35 @@ I, [2014-09-30T10:26:22.489587 #15001]  INFO -- : URL: en.wikipedia.org/wiki/Mai
 I, [2014-09-30T10:28:12.903118 #15001]  INFO -- : URL: en.wikipedia.org/wiki/Main_Page ---- Object: #<Url:0x007fc5db91cdc0>
 I, [2014-09-30T10:29:29.099660 #15001]  INFO -- : URL: en.wikipedia.org/wiki/Main_Page ---- Object: #<Url:0x007fc5da824a40>
 I, [2014-09-30T10:29:55.712812 #15001]  INFO -- : URL: en.wikipedia.org/wiki/Main_Page ---- Object: #<Url:0x007fc5dc240168>
+=======
+I, [2014-09-30T07:41:39.197258 #43958]  INFO -- : URL: en.wikipedia.org/wiki/Image_file_formats ---- Object: 
+I, [2014-09-30T07:43:09.398256 #43958]  INFO -- : URL: en.wikipedia.org/wiki/Image_file_formats ---- Object: 
+I, [2014-09-30T07:43:20.013625 #43958]  INFO -- : URL: en.wikipedia.org/wiki/Image_file_formats ---- Object: 
+I, [2014-09-30T07:44:23.222153 #43958]  INFO -- : URL: en.wikipedia.org/wiki/Image_file_formats ---- Object: 
+I, [2014-09-30T07:44:39.830125 #43958]  INFO -- : URL: en.wikipedia.org/wiki/Image_file_formats ---- Object: 
+I, [2014-09-30T07:44:51.473657 #43958]  INFO -- : URL: en.wikipedia.org/wiki/Image_file_formats ---- Object: 
+I, [2014-09-30T07:51:08.524399 #43958]  INFO -- : URL: en.wikipedia.org/wiki/Wikipedia ---- Object: 
+I, [2014-09-30T07:51:34.022629 #43958]  INFO -- : URL: en.wikipedia.org/wiki/Wikipedia ---- Object: 
+I, [2014-09-30T07:51:59.001705 #43958]  INFO -- : URL: ruby-doc.org/core-2.1.3/ ---- Object: 
+I, [2014-09-30T07:52:15.510548 #46438]  INFO -- : URL: ruby-doc.org/core-2.1.3/ ---- Object: 
+I, [2014-09-30T07:53:03.900162 #46438]  INFO -- : URL: ruby-doc.org/core-2.1.3/ ---- Object: 
+I, [2014-09-30T07:53:24.253112 #46438]  INFO -- : URL: ruby-doc.org/core-2.1.3/ ---- Object: 
+I, [2014-09-30T08:47:31.153001 #46438]  INFO -- : URL: ruby-doc.org/core-2.1.3/ ---- Object: 
+I, [2014-09-30T08:47:40.121487 #46438]  INFO -- : URL: ruby-doc.org/core-2.1.3/ ---- Object: 
+I, [2014-09-30T08:48:57.938083 #46438]  INFO -- : URL: ruby-doc.org/core-2.1.3/ ---- Object: 
+I, [2014-09-30T08:49:08.683045 #46438]  INFO -- : URL: ruby-doc.org/core-2.1.3/ ---- Object: 
+I, [2014-09-30T08:50:16.969552 #46438]  INFO -- : URL: ruby-doc.org/core-2.1.3/ ---- Object: #<Url:0x007fe40241c6a0>
+I, [2014-09-30T08:52:50.551372 #46438]  INFO -- : URL: ruby-doc.org/core-2.1.3/ ---- Object: #<Url:0x007fe402da8188>
+I, [2014-09-30T08:54:35.805265 #46438]  INFO -- : URL: ruby-doc.org/core-2.1.3/ ---- Object: #<Url:0x007fe4025cc810>
+I, [2014-09-30T08:56:52.168491 #46438]  INFO -- : URL: ruby-doc.org/core-2.1.3/ ---- Object: #<Url:0x007fe402e031a0>
+I, [2014-09-30T08:59:08.479807 #46438]  INFO -- : URL: ruby-doc.org/core-2.1.3/ ---- Object: #<Url:0x007fe40262f410>
+I, [2014-09-30T10:05:47.279500 #34515]  INFO -- : URL: www.emoji-cheat-sheet.com/ ---- Object: 
+I, [2014-09-30T10:07:13.131469 #34544]  INFO -- : URL: www.emoji-cheat-sheet.com/ ---- Object: #<Url:0x00000101a0b6d8>
+I, [2014-09-30T10:08:02.785702 #34544]  INFO -- : URL: www.emoji-cheat-sheet.com/ ---- Object: #<Url:0x000001023175d8>
+I, [2014-09-30T10:08:17.928205 #34544]  INFO -- : URL: www.emoji-cheat-sheet.com/ ---- Object: #<Url:0x000001023d3328>
+I, [2014-09-30T10:10:28.559404 #34544]  INFO -- : URL: www.emoji-cheat-sheet.com/ ---- Object: #<Url:0x0000010111a4e8>
+I, [2014-09-30T10:11:23.574763 #34544]  INFO -- : URL: www.emoji-cheat-sheet.com/ ---- Object: #<Url:0x00000101ec19c0>
+I, [2014-09-30T10:12:37.079899 #34544]  INFO -- : URL: www.emoji-cheat-sheet.com/ ---- Object: #<Url:0x000001022e1370>
+I, [2014-09-30T10:13:42.455036 #34544]  INFO -- : URL: www.emoji-cheat-sheet.com/ ---- Object: #<Url:0x000001024f3ac8>
+I, [2014-09-30T10:27:12.220089 #34806]  INFO -- : URL: espn.go.com/ ---- Object: #<Url:0x00000101682908>
+>>>>>>> 53e530599f3eb34e57b1f5ec49ed7e6edcfedd3d
