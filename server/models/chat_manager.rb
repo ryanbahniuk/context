@@ -70,10 +70,15 @@ class ChatManager
   end
 
   def handle_message(ws, msg)
-    user = User.find_by_id(msg["user_id"])
+    decoded = Base64.decode64(msg["cookie"].encode('ascii-8bit'))
+    decrypted = Encryptor.decrypt(decoded, key: SECRET_KEY)
+    user_id = decrypted
+    user = User.find_by_id(user_id)
+    msg["user_id"] = user_id
     if user
       EM.defer message_recording_proc(ws, msg), clear_database_connections_proc
-      send_all(@open_urls[msg["url"]], msg["content"], user.name)
+      ws_array = @open_urls[msg["url"]]
+      send_all(ws_array, msg["content"], user.name)
     else
       return_error(ws)
     end

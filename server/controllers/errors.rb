@@ -2,6 +2,9 @@ post '/error' do
   response['Access-Control-Allow-Origin'] = '*'
 
   url_id = Url.rootify_find_create(params[:url]).id
+  decoded = Base64.decode64(params[:user_id].encode('ascii-8bit'))
+  decrypted = Encryptor.decrypt(decoded, key: SECRET_KEY)
+  params[:user_id] = decrypted
   error = PageError.create(url_id: url_id, user_id: params[:user_id], os: params[:os], type: params[:type], description: params[:description])
 
   content_type :text

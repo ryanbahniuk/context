@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 
-var runFromLocal = false;
+var runFromLocal = true;
 var socketAddress, httpServer;
 
 if(runFromLocal) {
@@ -26,9 +26,9 @@ var App = React.createClass({
     };
   },
 
-  onUserSuccess: function(u) {
-    user = u;
-    chrome.storage.sync.set({"user": u});
+  onUserSuccess: function(object) {
+    user = {"cookie": object};
+    chrome.storage.sync.set(user);
     this.setState({userPresent: true});
   },
 
@@ -193,7 +193,7 @@ var ReportError = React.createClass({
         {this.props.reportSent ? <span id="report_sent">Report Sent</span>  : <span onClick={this.sendReport}>Report Page Error</span>}
         <form ref="errorForm">
           <input type="hidden" name="url" value={url}/>
-          <input type="hidden" name="user_id" value={user["id"]}/>
+          <input type="hidden" name="user_id" value={user["cookie"]}/>
           {/*{<input type="hidden" name="os" id="os"/>}*/}
         </form>
       </div>
@@ -216,7 +216,7 @@ function run() {
   );
 };
 
-chrome.storage.sync.get("user", function(obj){
-  user = obj["user"];
+chrome.storage.sync.get("cookie", function(obj){
+  user = obj["cookie"];
   run();
 });

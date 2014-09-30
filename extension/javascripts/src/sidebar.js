@@ -45,7 +45,7 @@ var MessageList = React.createClass({
     // console.log("scrollHeight = " + node.scrollHeight);
     // console.log("shouldScroll = " + shouldScroll);
   },
-  
+
   componentWillUpdate: function() {
     var node = this.getDOMNode();
     this.shouldScroll = Math.abs(node.scrollTop + node.offsetHeight - node.scrollHeight) < 20;
@@ -153,7 +153,6 @@ var ChatBox = React.createClass({
       }
       else{
         this.setState({userMsg: this.showUsers(message)});
-        debugger;
       }
     }.bind(this);
 
@@ -204,10 +203,9 @@ var ChatBox = React.createClass({
   handleMessageSubmit: function(m) {
     m = this.changeScriptTags(m);
     var coords = this.state.coords;
-    var user_id = user["id"];
     if (m.content !== "") {
       var messages = this.state.data;
-      var msg = {url: url, content: m.content, user_id: user_id, coords: coords };
+      var msg = {url: url, content: m.content, cookie: user["cookie"], coords: coords };
       socket.send(JSON.stringify(msg));
     }
   },
@@ -228,7 +226,7 @@ var ChatBox = React.createClass({
 
   render: function() {
     if (this.state.waiting){
-      return ( 
+      return (
         <div className="chatBox"><ChatWaiting/></div>)
     }
     else if(this.state.connection){
