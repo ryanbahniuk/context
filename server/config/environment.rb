@@ -20,6 +20,7 @@ require 'logger'
 require 'pg/em'
 require 'json'
 require 'active_record'
+require 'encryptor'
 
 # Some helper constants for path-centric logic
 APP_ROOT = Pathname.new(File.expand_path('../../../', __FILE__))
@@ -34,10 +35,13 @@ configure do
 	set :session_secret, ENV['SESSION_SECRET'] || 'hellloooooooooo live chats!'
 
 	set :public_folder, File.join(Sinatra::Application.root, "server", "public")
-  
+
   # Set the views to
   set :views, File.join(Sinatra::Application.root, "server", "views")
 end
+
+# Encryption of user information
+SECRET_KEY = "tomato"
 
 # Set up the controllers and helpers
 Dir[APP_ROOT.join('server', 'controllers', '*.rb')].each { |file| require file }

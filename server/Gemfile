@@ -22,3 +22,5 @@ gem 'rake'
 gem 'rspec'
 
 gem 'faker'
+
+gem 'encryptor'

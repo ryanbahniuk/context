@@ -45,7 +45,7 @@ var MessageList = React.createClass({displayName: 'MessageList',
     // console.log("scrollHeight = " + node.scrollHeight);
     // console.log("shouldScroll = " + shouldScroll);
   },
-  
+
   componentWillUpdate: function() {
     var node = this.getDOMNode();
     this.shouldScroll = Math.abs(node.scrollTop + node.offsetHeight - node.scrollHeight) < 20;
@@ -71,7 +71,6 @@ var Message = React.createClass({displayName: 'Message',
     var imagedMessage = messageContent.replace(/<a href="(.+).(gif|jpg|jpeg|png)(.+)<\/a>/, function(hrefTag) {
       var link = hrefTag.match(/>(.+)</)[0]
       var link = link.substring(1, link.length - 1)
-      console.log("<img src=\"" + link + "\">");
       return "<img src=\"http://" + link + "\" class='user-inserted-image'>";
     });
     var imagedMessage = this.emojifyText(imagedMessage);
@@ -136,6 +135,10 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
     this.loadMessages(url);
   },
 
+  componentWillMount: function() {
+    this.setState({waiting: false});
+  },
+
   openSocket: function() {
     socket = new WebSocket(this.props.socketAddress);
 
@@ -146,9 +149,15 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
     }.bind(this);
 
     socket.onmessage = function(e) {
-      this.setState({connection: true, waiting: false});
+      // debugger;
+      this.isMounted() ? this.setState({connection: true, waiting: false}) : null;
       var message = JSON.parse(e.data);
-      this.add_message(message);
+      if (message["content"] !== undefined) {
+        this.add_message(message);
+      }
+      else{
+        this.setState({userMsg: this.showUsers(message)});
+      }
     }.bind(this);
 
     socket.onerror = function() {
@@ -187,10 +196,10 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
   handleMessageSubmit: function(m) {
     m = this.changeScriptTags(m);
     var coords = this.state.coords;
-    var user_id = user["id"];
     if (m.content !== "") {
       var messages = this.state.data;
-      var msg = {url: url, content: m.content, user_id: user_id, coords: coords };
+      var msg = {url: url, content: m.content, cookie: user["cookie"], coords: coords };
+      console.log(msg);
       socket.send(JSON.stringify(msg));
     }
   },
@@ -211,7 +220,7 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
 
   render: function() {
     if (this.state.waiting){
-      return ( 
+      return (
         React.DOM.div({className: "chatBox"}, ChatWaiting(null)))
     }
     else if(this.state.connection){

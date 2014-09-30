@@ -2,9 +2,13 @@ post '/users' do
 	response['Access-Control-Allow-Origin'] = '*'
 
 	user = User.create(params[:user])
-
+  puts "created user"
+  puts user.errors.inspect
 	if user.errors.empty?
-		object = {user: {id: user.id, name: user.name, email: user.email}}.to_json
+    encrypted = Encryptor.encrypt(user.id.to_s, key: SECRET_KEY)
+    encoded = Base64.encode64(encrypted).encode('utf-8')
+    object = {cookie: encoded}.to_json
+    puts object
 	else
     puts user.errors
     error_string = ""

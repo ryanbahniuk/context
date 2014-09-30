@@ -26,9 +26,9 @@ var App = React.createClass({displayName: 'App',
     };
   },
 
-  onUserSuccess: function(u) {
-    user = u;
-    chrome.storage.sync.set({"user": u});
+  onUserSuccess: function(object) {
+    user = {"cookie": object};
+    chrome.storage.sync.set(user);
     this.setState({userPresent: true});
   },
 
@@ -193,7 +193,7 @@ var ReportError = React.createClass({displayName: 'ReportError',
         this.props.reportSent ? React.DOM.span({id: "report_sent"}, "Report Sent")  : React.DOM.span({onClick: this.sendReport}, "Report Page Error"), 
         React.DOM.form({ref: "errorForm"}, 
           React.DOM.input({type: "hidden", name: "url", value: url}), 
-          React.DOM.input({type: "hidden", name: "user_id", value: user["id"]})
+          React.DOM.input({type: "hidden", name: "user_id", value: user["cookie"]})
           /*{<input type="hidden" name="os" id="os"/>}*/
         )
       )
@@ -216,7 +216,7 @@ function run() {
   );
 };
 
-chrome.storage.sync.get("user", function(obj){
-  user = obj["user"];
+chrome.storage.sync.get("cookie", function(obj){
+  user = obj;
   run();
 });
