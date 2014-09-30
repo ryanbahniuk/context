@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 
-// var httpServer = "http://104.131.117.55:3000/";
-var httpServer = "http://localhost:3000/";
+var httpServer = "http://104.131.117.55:3000/";
+// var httpServer = "http://localhost:3000/";
 var loginUrl = httpServer + "login";
 var registerUrl = httpServer + "users";
 var messageUrl = httpServer + "urls/messages/10";
