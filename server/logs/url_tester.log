@@ -26,8 +26,6 @@ I, [2014-09-29T20:28:53.266263 #43958]  INFO -- : URL: www.wikipedia.org/ ---- O
 I, [2014-09-29T20:29:13.784606 #43958]  INFO -- : URL: www.wikipedia.org/ ---- Object:
 I, [2014-09-29T20:29:57.231116 #43958]  INFO -- : URL: www.wikipedia.org/ ---- Object:
 I, [2014-09-29T20:30:49.485357 #43958]  INFO -- : URL: www.wikipedia.org/ ---- Object:
-<<<<<<< HEAD
-<<<<<<< HEAD
 I, [2014-09-30T08:54:12.219835 #14933]  INFO -- : URL: en.wikipedia.org/wiki/Main_Page ---- Object:
 I, [2014-09-30T08:54:59.076374 #15001]  INFO -- : URL: en.wikipedia.org/wiki/Main_Page ---- Object:
 I, [2014-09-30T08:55:44.442810 #15001]  INFO -- : URL: en.wikipedia.org/wiki/Main_Page ---- Object: #<Url:0x007fc5db96c8e8>
