@@ -1,0 +1,18 @@
+<div class="container">
+  <table>
+    <tr>
+      <th>URL</th>
+      <th>Description</th>
+      <th>User</th>
+      <th>Resolved?</th>
+    </tr>
+  <% @errors.each do |e|%>
+    <tr>
+      <td><%= e.url %></td>
+      <td><%= e.description %></td>
+      <td><%= e.user %></td>
+      <td><%= e.resolved? %></td>
+    </tr>
+  <% end %>
+</table>
+</div>
