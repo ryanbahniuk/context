@@ -26,3 +26,24 @@ I, [2014-09-29T20:28:53.266263 #43958]  INFO -- : URL: www.wikipedia.org/ ---- O
 I, [2014-09-29T20:29:13.784606 #43958]  INFO -- : URL: www.wikipedia.org/ ---- Object: 
 I, [2014-09-29T20:29:57.231116 #43958]  INFO -- : URL: www.wikipedia.org/ ---- Object: 
 I, [2014-09-29T20:30:49.485357 #43958]  INFO -- : URL: www.wikipedia.org/ ---- Object: 
+I, [2014-09-30T07:41:39.197258 #43958]  INFO -- : URL: en.wikipedia.org/wiki/Image_file_formats ---- Object: 
+I, [2014-09-30T07:43:09.398256 #43958]  INFO -- : URL: en.wikipedia.org/wiki/Image_file_formats ---- Object: 
+I, [2014-09-30T07:43:20.013625 #43958]  INFO -- : URL: en.wikipedia.org/wiki/Image_file_formats ---- Object: 
+I, [2014-09-30T07:44:23.222153 #43958]  INFO -- : URL: en.wikipedia.org/wiki/Image_file_formats ---- Object: 
+I, [2014-09-30T07:44:39.830125 #43958]  INFO -- : URL: en.wikipedia.org/wiki/Image_file_formats ---- Object: 
+I, [2014-09-30T07:44:51.473657 #43958]  INFO -- : URL: en.wikipedia.org/wiki/Image_file_formats ---- Object: 
+I, [2014-09-30T07:51:08.524399 #43958]  INFO -- : URL: en.wikipedia.org/wiki/Wikipedia ---- Object: 
+I, [2014-09-30T07:51:34.022629 #43958]  INFO -- : URL: en.wikipedia.org/wiki/Wikipedia ---- Object: 
+I, [2014-09-30T07:51:59.001705 #43958]  INFO -- : URL: ruby-doc.org/core-2.1.3/ ---- Object: 
+I, [2014-09-30T07:52:15.510548 #46438]  INFO -- : URL: ruby-doc.org/core-2.1.3/ ---- Object: 
+I, [2014-09-30T07:53:03.900162 #46438]  INFO -- : URL: ruby-doc.org/core-2.1.3/ ---- Object: 
+I, [2014-09-30T07:53:24.253112 #46438]  INFO -- : URL: ruby-doc.org/core-2.1.3/ ---- Object: 
+I, [2014-09-30T08:47:31.153001 #46438]  INFO -- : URL: ruby-doc.org/core-2.1.3/ ---- Object: 
+I, [2014-09-30T08:47:40.121487 #46438]  INFO -- : URL: ruby-doc.org/core-2.1.3/ ---- Object: 
+I, [2014-09-30T08:48:57.938083 #46438]  INFO -- : URL: ruby-doc.org/core-2.1.3/ ---- Object: 
+I, [2014-09-30T08:49:08.683045 #46438]  INFO -- : URL: ruby-doc.org/core-2.1.3/ ---- Object: 
+I, [2014-09-30T08:50:16.969552 #46438]  INFO -- : URL: ruby-doc.org/core-2.1.3/ ---- Object: #<Url:0x007fe40241c6a0>
+I, [2014-09-30T08:52:50.551372 #46438]  INFO -- : URL: ruby-doc.org/core-2.1.3/ ---- Object: #<Url:0x007fe402da8188>
+I, [2014-09-30T08:54:35.805265 #46438]  INFO -- : URL: ruby-doc.org/core-2.1.3/ ---- Object: #<Url:0x007fe4025cc810>
+I, [2014-09-30T08:56:52.168491 #46438]  INFO -- : URL: ruby-doc.org/core-2.1.3/ ---- Object: #<Url:0x007fe402e031a0>
+I, [2014-09-30T08:59:08.479807 #46438]  INFO -- : URL: ruby-doc.org/core-2.1.3/ ---- Object: #<Url:0x007fe40262f410>

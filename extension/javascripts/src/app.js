@@ -7,6 +7,7 @@ var registerUrl = httpServer + "users";
 var messageUrl = httpServer + "urls/messages/10";
 var errorReportUrl = httpServer + "error";
 var socketAddress = 'ws://104.131.117.55:8080';
+// var socketAddress = 'ws://localhost:8080';
 
 var App = React.createClass({
 
