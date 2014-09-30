@@ -1,7 +1,7 @@
 @import "variables";
 @import "mixins";
 
-* {  
+* {
 	box-sizing: border-box;
 }
 
@@ -279,3 +279,7 @@ div.content {
   right: 0;
 }
 
+img.user-inserted-image {
+  max-width: 200px;
+  height: auto;
+}
