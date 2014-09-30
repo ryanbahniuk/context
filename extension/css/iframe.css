@@ -1679,6 +1679,7 @@ body {
     height: 31px;
     background-image: url(../icons/logo.png);
     background-repeat: no-repeat;
+    background-size: 200px 31px;
     margin: 8px 0 0 8px; }
 
 #status {
