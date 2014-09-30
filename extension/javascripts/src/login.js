@@ -15,14 +15,16 @@ var UserAuth = React.createClass({
   },
 
   onClickRegister: function() {
-    this.setState({showRegister: true, showLogin: false});
+    this.setState({showRegister: true, showLogin: false, errors: "", waiting: false});
   },
 
   onClickLogin: function() {
-    this.setState({showLogin: true, showRegister: false});
+    this.setState({showLogin: true, showRegister: false, errors: "", waiting: false});
   },
 
   handleLoginRequest: function(data) {
+    this.displayWaiting(true);
+    
     var url = this.props.loginUrl;
     $.ajax(url, {
       method: "post",
@@ -31,6 +33,7 @@ var UserAuth = React.createClass({
     })
 
     .done(function(data) {
+      this.displayWaiting(false);
       if(data["error"]) {
         this.setState({errors: data["error"]});
       } else if(data["user"]) {
@@ -41,25 +44,23 @@ var UserAuth = React.createClass({
     }.bind(this))
 
     .fail(function() {
-      // this.setState({errors: "login broken...", connection: false});
       this.handleErrors();
     }.bind(this))
-
-    .always(function(){
-      console.log("waiting");
-      this.displayWaiting();
-    }.bind(this));
   },
 
   handleRegisterRequest: function(data) {
+    this.displayWaiting(true);
+    var url = this.props.registerUrl;
+
     $.ajax({
-      url: this.props.registerUrl,
+      url: url,
       type: 'POST',
       contentType: "application/x-www-form-urlencoded",
       data: data.serialize(),
     })
 
     .done(function(data) {
+      this.displayWaiting(false);
       if(data["error"]) {
         this.setState({errors: data["error"]});
       }
@@ -67,29 +68,25 @@ var UserAuth = React.createClass({
         this.props.onSuccess(data["user"]);
       }
       else {
-        this.handleErrors();        
+        this.handleErrors();
       };
     }.bind(this))
 
     .fail(function() {
-      console.log("error");
-      this.setState({errors: "register broken...", connection: false});      
+      this.handleErrors();
     }.bind(this))
-
-    .always(function(){
-      this.displayWaiting();
-    }.bind(this));
   },
 
-  displayWaiting: function() {
+  displayWaiting: function(status) {
     if(this.isMounted()){
-      this.setState({waiting: true});
+      this.setState({waiting: status});
     };
   },
 
   handleErrors: function() {
     console.log("handling errors");
     this.setState({connection: false});
+    this.displayWaiting(false);
     this.forceUpdate();
   },
 
