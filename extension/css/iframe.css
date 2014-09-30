@@ -1679,20 +1679,27 @@ body {
     height: 31px;
     background-image: url(../icons/logo.png);
     background-repeat: no-repeat;
+    background-size: 200px 31px;
     margin: 8px 0 0 8px; }
 
 #status {
   margin-top: 50px; }
 
-.chatBox {
+div.userAuth, div.chatBox {
   width: 100%;
-  height: 100%; }
+  height: 100%;
+  position: fixed;
+  padding: 0;
+  overflow: scroll;
+  top: 50px; }
 
 .messageList {
-  list-style: none;
-  padding-left: 0;
   width: 100%;
-  margin-bottom: 2rem;
+  height: calc(100% - 29px - 50px);
+  height: -webkit-calc(100% - 29px - 50px);
+  list-style: none;
+  padding: 0;
+  margin: 0;
   overflow: scroll; }
   .messageList .message {
     width: 100%;
@@ -1702,9 +1709,12 @@ body {
       color: #318FCE; }
     .messageList .message .messageContent {
       display: inline; }
+    .messageList .message .emoji {
+      width: 20px; }
 
 .chatInput {
   position: fixed;
+  height: 29px;
   bottom: 0;
   width: 100%;
   border-left: 0;
@@ -1749,6 +1759,7 @@ i.settingsButton {
 div.settingsPanel {
   width: 100%;
   position: fixed;
+  z-index: 20;
   top: 50px;
   right: 0;
   background-color: #fff;
@@ -1762,7 +1773,8 @@ div.settingsPanel {
     text-align: center;
     padding: 0.3rem;
     color: #666666;
-    cursor: pointer; }
+    cursor: pointer;
+    background-color: #fff; }
     div.settingsPanel div.button:hover {
       -webkit-transition: all 0.4s ease;
       -moz-transition: all 0.4s ease;
@@ -1792,12 +1804,10 @@ div.settingsPanel {
     color: #318FCE;
     text-align: center; }
 
-div.userAuth, div.chatBox {
-  margin-top: 50px; }
-  div.userAuth .displayErrors, div.chatBox .displayErrors {
-    text-align: center;
-    padding-top: 1em;
-    margin-bottom: -1em; }
+div.userAuth .displayErrors, div.chatBox .displayErrors {
+  text-align: center;
+  padding-top: 1em;
+  margin-bottom: -1em; }
 
 div.loginForm, div.registerForm {
   margin: 0 auto;
@@ -1884,5 +1894,9 @@ div.content {
   position: fixed;
   top: 0;
   right: 0; }
+
+img.user-inserted-image {
+  max-width: 200px;
+  height: auto; }
 
 /*# sourceMappingURL=iframe.css.map */
