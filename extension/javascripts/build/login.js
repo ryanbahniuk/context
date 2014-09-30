@@ -24,7 +24,7 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
 
   handleLoginRequest: function(data) {
     this.displayWaiting(true);
-    
+
     var url = this.props.loginUrl;
     $.ajax(url, {
       method: "post",
@@ -36,8 +36,8 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
       this.displayWaiting(false);
       if(data["error"]) {
         this.setState({errors: data["error"]});
-      } else if(data["user"]) {
-        this.props.onSuccess(data["user"]);
+      } else if(data["cookie"]) {
+        this.props.onSuccess(data["cookie"]);
       } else {
         this.handleErrors();
       };
@@ -64,8 +64,8 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
       if(data["error"]) {
         this.setState({errors: data["error"]});
       }
-      else if(data["user"]) {
-        this.props.onSuccess(data["user"]);
+      else if(data["cookie"]) {
+        this.props.onSuccess(data["cookie"]);
       }
       else {
         this.handleErrors();
@@ -164,7 +164,7 @@ var ReportConnection = React.createClass({displayName: 'ReportConnection',
           React.DOM.input({type: "hidden", name: "type", value: "chat_connection"}), 
           React.DOM.textarea({placeholder: "Help us fix bugs. Describe what you were doing when the connection was lost.", name: "description"}), 
           React.DOM.input({type: "submit"})
-        )   
+        )
       );
     }
   }
@@ -223,7 +223,7 @@ var LoginConnection = React.createClass({displayName: 'LoginConnection',
         React.DOM.i({className: "fa fa-frown-o fa-5x"}), 
         React.DOM.p(null, "Something went wrong"), 
         React.DOM.button({onClick: this.props.onReload}, "Reload")
-      ) 
+      )
     );
   }
 });

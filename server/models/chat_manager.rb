@@ -58,7 +58,6 @@ class ChatManager
       start_time = Time.now
       # $SERVER_LOG.info("Saving message -- #{msg["content"]}")
       message = Message.create(content: content, url: url, user_id: user_id, latitude: lat, longitude: lon)
-      p "message #{message.id}: #{message}"
       # $SERVER_LOG.info ("Message saved (#{msg["content"]}) -- #{Time.now - start_time}")
     }
   end

@@ -71,7 +71,6 @@ var Message = React.createClass({
     var imagedMessage = messageContent.replace(/<a href="(.+).(gif|jpg|jpeg|png)(.+)<\/a>/, function(hrefTag) {
       var link = hrefTag.match(/>(.+)</)[0]
       var link = link.substring(1, link.length - 1)
-      console.log("<img src=\"" + link + "\">");
       return "<img src=\"http://" + link + "\" class='user-inserted-image'>";
     });
     var imagedMessage = this.emojifyText(imagedMessage);
@@ -146,6 +145,7 @@ var ChatBox = React.createClass({
     }.bind(this);
 
     socket.onmessage = function(e) {
+      // debugger;
       this.setState({connection: true, waiting: false});
       var message = JSON.parse(e.data);
       if (message["content"] !== undefined) {
@@ -206,6 +206,7 @@ var ChatBox = React.createClass({
     if (m.content !== "") {
       var messages = this.state.data;
       var msg = {url: url, content: m.content, cookie: user["cookie"], coords: coords };
+      console.log(msg);
       socket.send(JSON.stringify(msg));
     }
   },

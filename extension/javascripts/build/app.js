@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 
-var runFromLocal = false;
+var runFromLocal = true;
 var socketAddress, httpServer;
 
 if(runFromLocal) {
@@ -26,9 +26,9 @@ var App = React.createClass({displayName: 'App',
     };
   },
 
-  onUserSuccess: function(u) {
-    user = u;
-    chrome.storage.sync.set({"user": u});
+  onUserSuccess: function(object) {
+    user = {"cookie": object};
+    chrome.storage.sync.set(user);
     this.setState({userPresent: true});
   },
 
@@ -115,9 +115,9 @@ var App = React.createClass({displayName: 'App',
     }
 
     return(
-      React.DOM.div({className: "App"},
-      settingsButton,
-      chatBody,
+      React.DOM.div({className: "App"}, 
+      settingsButton, 
+      chatBody, 
       settingsView
       )
     );
@@ -136,10 +136,10 @@ var SettingsButton = React.createClass({displayName: 'SettingsButton',
 var SettingsPanel = React.createClass({displayName: 'SettingsPanel',
   render: function() {
     return (
-      React.DOM.div({className: "settingsPanel"},
-        React.DOM.div({className: "button", onClick: this.props.clickLogout}, "Logout"),
+      React.DOM.div({className: "settingsPanel"}, 
+        React.DOM.div({className: "button", onClick: this.props.clickLogout}, "Logout"), 
         /* <div className="button" onClick={this.props.clickView}>Change View</div> */
-        ReportError({onSend: this.props.sendReport, reportSent: this.props.reportSent}),
+        ReportError({onSend: this.props.sendReport, reportSent: this.props.reportSent}), 
          this.props.reportSent ? ReportDetails({onSend: this.props.sendDetails, detailsSent: this.props.detailsSent}) : null
       )
     );
@@ -165,8 +165,8 @@ var ReportDetails = React.createClass({displayName: 'ReportDetails',
         );
     } else {
       return (
-        React.DOM.form({className: "reportDetails", onSubmit: this.handleSend, ref: "detailsForm"},
-          React.DOM.div(null, React.DOM.textarea({placeholder: "Details?", name: "description"})),
+        React.DOM.form({className: "reportDetails", onSubmit: this.handleSend, ref: "detailsForm"}, 
+          React.DOM.div(null, React.DOM.textarea({placeholder: "Details?", name: "description"})), 
           React.DOM.input({type: "submit"})
         )
         );
@@ -189,11 +189,11 @@ var ReportError = React.createClass({displayName: 'ReportError',
 
   render: function() {
     return (
-      React.DOM.div({className: "reportError button"},
-        this.props.reportSent ? React.DOM.span({id: "report_sent"}, "Report Sent")  : React.DOM.span({onClick: this.sendReport}, "Report Page Error"),
-        React.DOM.form({ref: "errorForm"},
-          React.DOM.input({type: "hidden", name: "url", value: url}),
-          React.DOM.input({type: "hidden", name: "user_id", value: user["id"]})
+      React.DOM.div({className: "reportError button"}, 
+        this.props.reportSent ? React.DOM.span({id: "report_sent"}, "Report Sent")  : React.DOM.span({onClick: this.sendReport}, "Report Page Error"), 
+        React.DOM.form({ref: "errorForm"}, 
+          React.DOM.input({type: "hidden", name: "url", value: url}), 
+          React.DOM.input({type: "hidden", name: "user_id", value: user["cookie"]})
           /*{<input type="hidden" name="os" id="os"/>}*/
         )
       )
@@ -216,7 +216,7 @@ function run() {
   );
 };
 
-chrome.storage.sync.get("user", function(obj){
-  user = obj["user"];
+chrome.storage.sync.get("cookie", function(obj){
+  user = obj;
   run();
 });

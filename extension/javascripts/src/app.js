@@ -217,6 +217,6 @@ function run() {
 };
 
 chrome.storage.sync.get("cookie", function(obj){
-  user = obj["cookie"];
+  user = obj;
   run();
 });
