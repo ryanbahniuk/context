@@ -9,7 +9,8 @@ var UserAuth = React.createClass({
       errors: "",
       showLogin: true,
       showRegister: false,
-      connection: true
+      connection: true,
+      waiting: false
     };
   },
 
@@ -43,6 +44,11 @@ var UserAuth = React.createClass({
       // this.setState({errors: "login broken...", connection: false});
       this.handleErrors();
     }.bind(this))
+
+    .always(function(){
+      console.log("waiting");
+      this.displayWaiting();
+    }.bind(this));
   },
 
   handleRegisterRequest: function(data) {
@@ -69,6 +75,16 @@ var UserAuth = React.createClass({
       console.log("error");
       this.setState({errors: "register broken...", connection: false});      
     }.bind(this))
+
+    .always(function(){
+      this.displayWaiting();
+    }.bind(this));
+  },
+
+  displayWaiting: function() {
+    if(this.isMounted()){
+      this.setState({waiting: true});
+    };
   },
 
   handleErrors: function() {
@@ -79,7 +95,7 @@ var UserAuth = React.createClass({
 
   handleReload: function() {
     console.log("handling reload");
-    this.setState({connection: true});
+    this.setState({connection: true, waiting: false});
   },
 
   render: function() {
@@ -89,6 +105,7 @@ var UserAuth = React.createClass({
         <DisplayErrors errors={this.state.errors}/>
         { this.state.showLogin ? <LoginForm onLogin={this.handleLoginRequest} onSwitchRegister={this.onClickRegister}/> : null }
         { this.state.showRegister ? <RegisterForm onRegister={this.handleRegisterRequest} onSwitchLogin={this.onClickLogin}/> : null }
+        { this.state.waiting ? <AuthWaiting/> : null}
         </div>
       );
     } else {
@@ -108,6 +125,16 @@ var DisplayErrors = React.createClass({
     <div className="displayErrors">
       <p>{this.props.errors}</p>
     </div>
+    );
+  }
+});
+
+var AuthWaiting = React.createClass({
+  render: function() {
+    return(
+      <div className="authWaiting">
+        <i className="fa fa-circle-o-notch fa-spin fa-4x"></i>
+      </div>
     );
   }
 });

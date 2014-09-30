@@ -99,6 +99,16 @@ var ChatConnection = React.createClass({displayName: 'ChatConnection',
   }
 });
 
+var ChatWaiting = React.createClass({displayName: 'ChatWaiting',
+  render: function() {
+    return(
+      React.DOM.div({className: "chatWaiting"}, 
+        React.DOM.i({className: "fa fa-circle-o-notch fa-spin fa-4x"})
+      )
+    );
+  }
+});
+
 var ChatBox = React.createClass({displayName: 'ChatBox',
   loadMessages: function(url) {
     var data = "url=" + encodeURIComponent(url);
@@ -130,28 +140,28 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
     socket = new WebSocket(this.props.socketAddress);
 
     socket.onopen = function(event) {
-      this.setState({connection: true});
+      this.setState({connection: true, waiting: false});
       var msg = {url: url, initial: true};
       socket.send(JSON.stringify(msg));
     }.bind(this);
 
     socket.onmessage = function(e) {
-      this.setState({connection: true});
+      this.setState({connection: true, waiting: false});
       var message = JSON.parse(e.data);
       this.add_message(message);
     }.bind(this);
 
     socket.onerror = function() {
-      this.setState({connection: false});
+      this.setConnectionError();
     }.bind(this);
 
     socket.onclose = function() {
-      this.setState({connection: false});
+      this.setConnectionError();
     }.bind(this);
   },
 
   getInitialState: function() {
-    return { data: [], connection: false, coords: [] };
+    return { data: [], connection: true, coords: [], waiting: true };
   },
 
   getCoords: function() {
@@ -160,12 +170,26 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
     }.bind(this));
   },
 
-  handleMessageSubmit: function(m) {
+  changeScriptTags: function(m) {
     var contentAllScript = m.content.indexOf("<script>") == 0 && m.content.indexOf("</script>") == m.content.length - 9
-    if (m.content !== "" && !contentAllScript) {
+    if (contentAllScript) {
+      m.content = "http://www.tehcute.com/pics/201204/bunny-falls-asleep-at-desk.jpg";
+    }
+    return m;
+  },
+
+  setConnectionError: function() {
+    setTimeout(function() {
+      this.setState({connection: false});
+    }.bind(this), 1500);
+  },
+
+  handleMessageSubmit: function(m) {
+    m = this.changeScriptTags(m);
+    var coords = this.state.coords;
+    var user_id = user["id"];
+    if (m.content !== "") {
       var messages = this.state.data;
-      var coords = this.state.coords;
-      var user_id = user["id"];
       var msg = {url: url, content: m.content, user_id: user_id, coords: coords };
       socket.send(JSON.stringify(msg));
     }
@@ -186,7 +210,11 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
   },
 
   render: function() {
-    if(this.state.connection){
+    if (this.state.waiting){
+      return ( 
+        React.DOM.div({className: "chatBox"}, ChatWaiting(null)))
+    }
+    else if(this.state.connection){
       return (
         React.DOM.div({className: "chatBox"}, 
           MessageList({data: this.state.data}), 

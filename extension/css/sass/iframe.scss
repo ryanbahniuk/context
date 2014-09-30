@@ -294,3 +294,13 @@ img.user-inserted-image {
   max-width: 200px;
   height: auto;
 }
+
+.authWaiting, .chatWaiting {
+  width: 100%;
+  padding: 0.5rem;
+  text-align: center;
+
+  i {
+    color: $light-grey;
+  }
+}
