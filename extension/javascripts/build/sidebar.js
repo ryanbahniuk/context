@@ -148,12 +148,12 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
     socket.onmessage = function(e) {
       this.setState({connection: true, waiting: false});
       var message = JSON.parse(e.data);
-      debugger;
       if (message["content"] !== undefined) {
         this.add_message(message);
       }
       else{
-        this.showUsers(message);
+        this.setState({userMsg: this.showUsers(message)});
+        debugger;
       }
     }.bind(this);
 
@@ -167,9 +167,14 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
   },
 
   showUsers: function(message) {
-    var users = message["num"] + " users currently on this page";
-      this.setsState({numUsersMsg: users})
-    debugger;
+    if (message["num"] === 1) {
+      var usersMessage = "You're all alone!";
+    } else {
+    var usersMessage = message["num"] + " users currently on this page";
+    };
+    return (
+      usersMessage
+      )
   },
 
   getInitialState: function() {
@@ -229,6 +234,7 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
     else if(this.state.connection){
       return (
         React.DOM.div({className: "chatBox"}, 
+          UsersCount({usrMsg: this.state.userMsg}), 
           MessageList({data: this.state.data}), 
           ChatInput({onMessageSubmit: this.handleMessageSubmit})
         )
@@ -245,11 +251,11 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
 
 var UsersCount = React.createClass({displayName: 'UsersCount',
   render: function(){
-    msg = this.props.users;
+    msg = this.props.usrMsg;
     return (
       React.DOM.div({className: "userCount settingsPanel"}, 
         msg
       )
       );
-  }.bind(this)
+  }
 });
