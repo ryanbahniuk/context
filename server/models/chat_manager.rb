@@ -65,7 +65,7 @@ class ChatManager
 
   def handle_message(ws, msg)
     EM.defer message_recording_proc(ws, msg), clear_database_connections_proc
-    user = User.find(msg["user_id"])
+    user = User.find_by_id(msg["user_id"])
     send_all(@open_urls[msg["url"]], msg["content"], user.name)
   end
 
