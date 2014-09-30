@@ -1,12 +1,20 @@
 /** @jsx React.DOM */
 
-var httpServer = "http://104.131.117.55:3000/";
-// var httpServer = "http://localhost:3000/";
+var runFromLocal = false;
+var socketAddress, httpServer;
+
+if(runFromLocal) {
+  socketAddress = "ws://localhost:8080/";
+  httpServer = "http://localhost:3000/";
+} else {
+  socketAddress = 'ws://104.131.117.55:8080';
+  httpServer = "http://104.131.117.55:3000/";
+};
+
 var loginUrl = httpServer + "login";
 var registerUrl = httpServer + "users";
 var messageUrl = httpServer + "urls/messages/10";
 var errorReportUrl = httpServer + "error";
-var socketAddress = 'ws://104.131.117.55:8080';
 
 var App = React.createClass({
 
@@ -40,27 +48,22 @@ var App = React.createClass({
 
   handleSendReport: function(form) {
     this.setState({reportSent: true});
-    debugger;
-    // chrome.runtime.getPlatformInfo(function(obj){
-    //   form.find("#os").val(obj.os);
-
-      // console.log(obj.os);
-
-      $.ajax({
-        url: errorReportUrl,
-        type: 'post',
-        contentType: "application/x-www-form-urlencoded",
-        data: form.serialize()
-      })
-      .done(function(data) {
-        console.log(data);
-        this.setState({errorId: data});
-      }.bind(this))
-      .fail(function() {
-        console.log("error report error");
-      });
-    // })
-    debugger;
+    $.ajax({
+      url: errorReportUrl,
+      type: 'post',
+      contentType: "application/x-www-form-urlencoded",
+      data: form.serialize()
+    })
+    .done(function(data) {
+      console.log(data);
+      this.setState({errorId: data});
+    }.bind(this))
+    .fail(function() {
+      console.log("error report error");
+    })
+    .always(function() {
+      console.log("ajax report send complete");
+    });
   },
 
   handleSendDetails: function(form) {
@@ -80,15 +83,42 @@ var App = React.createClass({
       });
   },
 
+  handleConnectionReport: function(form) {
+    $.ajax({
+      url: errorReportUrl,
+      type: 'post',
+      contentType: "application/x-www-form-urlencoded",
+      data: form.serialize(),
+    })
+    .done(function() {
+      console.log("success");
+    })
+    .fail(function() {
+      console.log("error");
+    })
+    .always(function() {
+      console.log("complete");
+    });
+  },
+
   render: function() {
+    if(this.state.userPresent){
+      var settingsButton = <SettingsButton clickSettings={this.handleClickSettings} />;
+      var chatBody = <ChatBox socketAddress={socketAddress} messageUrl={messageUrl} user={user}/>;
+    }
+    else {
+      var chatBody = <UserAuth loginUrl={loginUrl} registerUrl={registerUrl} onSuccess={this.onUserSuccess}/>;
+    }
+
+    if(this.state.showSettings) {
+      var settingsView = <SettingsPanel clickLogout={this.handleClickLogout} clickView={this.handleClickView} sendReport={this.handleSendReport} reportSent={this.state.reportSent} sendDetails={this.handleSendDetails} detailsSent={this.state.detailsSent}/>;
+    }
+
     return(
       <div className="App">
-
-      {this.state.userPresent ? <SettingsButton clickSettings={this.handleClickSettings}/> : null}
-
-      {this.state.showSettings ? <SettingsPanel clickLogout={this.handleClickLogout} clickView={this.handleClickView} sendReport={this.handleSendReport} reportSent={this.state.reportSent} sendDetails={this.handleSendDetails} detailsSent={this.state.detailsSent}/> : null}
-
-      {this.state.userPresent ? <ChatBox socketAddress={socketAddress} messageUrl={messageUrl} user={user}/> : <UserAuth loginUrl={loginUrl} registerUrl={registerUrl} onSuccess={this.onUserSuccess}/> }
+      {settingsButton}
+      {chatBody}
+      {settingsView}
       </div>
     );
   },
@@ -116,6 +146,34 @@ var SettingsPanel = React.createClass({
   }
 });
 
+var ReportDetails = React.createClass({
+  getInitialState: function() {
+    return {detailsSent: false};
+  },
+
+  handleSend: function(e) {
+    e.preventDefault();
+    this.setState({detailsSent: true});
+    var form = this.refs.detailsForm.getDOMNode();
+    this.props.onSend($(form));
+  },
+
+  render: function() {
+    if (this.state.detailsSent) {
+      return (
+        <div className="reportDetails" id="details_sent">Got it.</div>
+        );
+    } else {
+      return (
+        <form className="reportDetails" onSubmit={this.handleSend} ref="detailsForm">
+          <div><textarea placeholder="Details?" name="description"></textarea></div>
+          <input type="submit"/>
+        </form>
+        );
+    };
+  }
+});
+
 var ReportError = React.createClass({
   sendReport: function() {
     this.setState({reportSent: true});
@@ -140,34 +198,6 @@ var ReportError = React.createClass({
         </form>
       </div>
     );
-  }
-});
-
-var ReportDetails = React.createClass({
-  getInitialState: function() {
-    return {detailsSent: false};
-  },
-
-  handleSend: function(e) {
-    e.preventDefault();
-    this.setState({detailsSent: true});
-    var form = this.refs.detailsForm.getDOMNode();
-    this.props.onSend($(form));
-  }, 
-
-  render: function() {
-    if (this.state.detailsSent) {
-      return (
-        <div className="reportDetails" id="details_sent">Got it.</div>
-        );
-    } else {
-      return (
-        <form className="reportDetails" onSubmit={this.handleSend} ref="detailsForm">
-          <div><textarea placeholder="Details?" name="description"></textarea></div>
-          <input type="submit"/>
-        </form>
-        );
-    };
   }
 });
 

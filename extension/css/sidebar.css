@@ -29,4 +29,11 @@
   margin-left: -30px;
   margin-top: 50px;
   padding: 5px;
+  cursor: pointer;
+  border-radius: 5px 0 0 5px;
+}
+
+#minimize-button img {
+  width: 20px;
+  height: 20px;
 }

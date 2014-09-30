@@ -1,2 +1,3 @@
 .git
 /extension/javascripts/build/.module-cache
+/extension/css/.sass-cache

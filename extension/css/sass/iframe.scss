@@ -1,7 +1,7 @@
 @import "variables";
 @import "mixins";
 
-* {  
+* {
 	box-sizing: border-box;
 }
 
@@ -22,6 +22,7 @@ body {
 		height: 31px;
 		background-image: url(../icons/logo.png);
 		background-repeat: no-repeat;
+    background-size: 200px 31px;
 		margin: 8px 0 0 8px;
 	}
 }
@@ -30,16 +31,22 @@ body {
 	margin-top: $header-height;
 }
 
-.chatBox {
+div.userAuth, div.chatBox {
 	width: 100%;
 	height: 100%;
+  position: fixed;
+  padding: 0;
+  overflow: scroll;
+  top: $header-height;
 }
 
 .messageList {
-	list-style: none;
-	padding-left: 0;
-	width: 100%;
-  margin-bottom: 2rem;
+  width: 100%;
+  height: calc(100% - 29px - 50px);
+  height: -webkit-calc(100% - 29px - 50px);
+  list-style: none;
+  padding: 0;
+  margin: 0;
   overflow: scroll;
 	.message {
 		width: 100%;
@@ -51,11 +58,15 @@ body {
 		.messageContent {
 			display: inline;
 		}
+    .emoji {
+      width: 20px;
+    }
 	}
 }
 
 .chatInput {
 	position: fixed;
+  height: 29px;
 	bottom: 0;
 	width: 100%;
   border-left: 0;
@@ -77,6 +88,10 @@ body {
 			background: $brand-primary;
   		color: #fff;
   		border: 0;
+      &:hover {
+        @include transition(0.4s);
+        background: $brand-secondary;
+      }
 		}
 	}
 }
@@ -98,6 +113,7 @@ i.settingsButton {
 div.settingsPanel {
   width: 100%;
   position: fixed;
+  z-index: 20;
   top: $header-height;
   right: 0;
   background-color: #fff;
@@ -112,6 +128,8 @@ div.settingsPanel {
     text-align: center;
     padding: 0.3rem;
     color: $dark-grey;
+    cursor: pointer;
+    background-color: #fff;
 
     &:hover {
       @include transition(0.4s);
@@ -122,6 +140,10 @@ div.settingsPanel {
   .reportDetails {
     width: 100%;
     background-color: white;
+
+    textarea {
+      resize: none;
+    }
 
     textarea, input[type="submit"] {
       width: 95%;
@@ -147,7 +169,11 @@ div.settingsPanel {
 }
 
 div.userAuth, div.chatBox {
-  margin-top: $header-height;
+  .displayErrors {
+    text-align: center;
+    padding-top: 1em;
+    margin-bottom: -1em;
+  }
 }
 
 // html, body, div.App, div.userAuth, div.chatBox {
@@ -166,13 +192,13 @@ div.loginForm, div.registerForm {
       display: block;
       width: 80%;
       margin: 0.3rem 10%;
-      color: $grey;
+      color: $off-black;
       background-color: white;
     }
 
     input[type="submit"] {
       border: 0;
-      background-color: $light-grey;
+      background-color: $brand-primary;
       color: white;
       &:hover {
         @include transition(0.4s);
@@ -181,11 +207,12 @@ div.loginForm, div.registerForm {
     }
 
     button {
-      color: $light-grey;
-      border: 1px solid $light-grey;
+      color: $brand-primary;
+      border: 1px solid $brand-primary;
       &:hover {
         @include transition(0.4s);
         background-color: $brand-secondary;
+        border-color: $brand-secondary;
         color: white;
       }
     }
@@ -225,9 +252,55 @@ div.connection {
   }
 }
 
+form.reportConnection {
+  margin-top: 10%;
+  textarea {
+    width: 80%;
+    height: 130px;
+    margin: 0 10%;
+    display: block;
+    border: 1px solid $light-grey;
+    margin-bottom: 5%;
+  }
+
+  input[type="submit"] {
+    width: 30%;
+    margin: 0 35%;
+    border: 1px solid $light-grey;
+    background-color: white;
+    color: $light-grey;
+    font-size: $button-font-size;
+
+    &:hover {
+      color: $brand-primary;
+      border: 1px solid $brand-primary;
+    }
+  }
+}
+
+.reportConnection p {
+  text-align: center;
+  font-size: $button-font-size;
+  color: $brand-primary;
+}
+
 div.content {
   position: fixed;
   top: 0;
   right: 0;
 }
 
+img.user-inserted-image {
+  max-width: 200px;
+  height: auto;
+}
+
+.authWaiting, .chatWaiting {
+  width: 100%;
+  padding: 0.5rem;
+  text-align: center;
+
+  i {
+    color: $light-grey;
+  }
+}

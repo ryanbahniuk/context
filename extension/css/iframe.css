@@ -1673,38 +1673,48 @@ body {
   background-color: #fff;
   width: 100%;
   height: 50px;
-  border-bottom: 1px solid #bbbbbb; }
+  border-bottom: 1px solid #cccccc; }
   .titleBar .logo {
     width: 200px;
     height: 31px;
     background-image: url(../icons/logo.png);
     background-repeat: no-repeat;
+    background-size: 200px 31px;
     margin: 8px 0 0 8px; }
 
 #status {
   margin-top: 50px; }
 
-.chatBox {
+div.userAuth, div.chatBox {
   width: 100%;
-  height: 100%; }
+  height: 100%;
+  position: fixed;
+  padding: 0;
+  overflow: scroll;
+  top: 50px; }
 
 .messageList {
-  list-style: none;
-  padding-left: 0;
   width: 100%;
-  margin-bottom: 2rem;
+  height: calc(100% - 29px - 50px);
+  height: -webkit-calc(100% - 29px - 50px);
+  list-style: none;
+  padding: 0;
+  margin: 0;
   overflow: scroll; }
   .messageList .message {
     width: 100%;
-    border-top: 1px solid #d4d4d4;
+    border-top: 1px solid #e6e6e6;
     padding: 0.4em 8px; }
     .messageList .message .messageAuthor {
       color: #318FCE; }
     .messageList .message .messageContent {
       display: inline; }
+    .messageList .message .emoji {
+      width: 20px; }
 
 .chatInput {
   position: fixed;
+  height: 29px;
   bottom: 0;
   width: 100%;
   border-left: 0;
@@ -1725,6 +1735,12 @@ body {
       background: #318FCE;
       color: #fff;
       border: 0; }
+      .chatInput input[type=submit]:hover {
+        -webkit-transition: all 0.4s ease;
+        -moz-transition: all 0.4s ease;
+        -o-transition: all 0.4s ease;
+        transition: all 0.4s ease;
+        background: #F48351; }
 
 i.settingsButton {
   position: fixed;
@@ -1732,22 +1748,23 @@ i.settingsButton {
   right: 0;
   padding: 8px;
   z-index: 100;
-  color: #bbbbbb; }
+  color: #cccccc; }
   i.settingsButton:hover {
     -webkit-transition: all 0.4s ease;
     -moz-transition: all 0.4s ease;
     -o-transition: all 0.4s ease;
     transition: all 0.4s ease;
-    color: #555555; }
+    color: #666666; }
 
 div.settingsPanel {
   width: 100%;
   position: fixed;
+  z-index: 20;
   top: 50px;
   right: 0;
   background-color: #fff;
   height: 30px;
-  border-bottom: 1px solid #bbbbbb;
+  border-bottom: 1px solid #cccccc;
   font-family: "Helventica Neue", Helvetica, Arial, sans-serif;
   font-size: 0.9rem; }
   div.settingsPanel div.button {
@@ -1755,7 +1772,9 @@ div.settingsPanel {
     display: inline-block;
     text-align: center;
     padding: 0.3rem;
-    color: #555555; }
+    color: #666666;
+    cursor: pointer;
+    background-color: #fff; }
     div.settingsPanel div.button:hover {
       -webkit-transition: all 0.4s ease;
       -moz-transition: all 0.4s ease;
@@ -1765,6 +1784,8 @@ div.settingsPanel {
   div.settingsPanel .reportDetails {
     width: 100%;
     background-color: white; }
+    div.settingsPanel .reportDetails textarea {
+      resize: none; }
     div.settingsPanel .reportDetails textarea, div.settingsPanel .reportDetails input[type="submit"] {
       width: 95%;
       margin: 0 2.5%;
@@ -1783,8 +1804,10 @@ div.settingsPanel {
     color: #318FCE;
     text-align: center; }
 
-div.userAuth, div.chatBox {
-  margin-top: 50px; }
+div.userAuth .displayErrors, div.chatBox .displayErrors {
+  text-align: center;
+  padding-top: 1em;
+  margin-bottom: -1em; }
 
 div.loginForm, div.registerForm {
   margin: 0 auto;
@@ -1795,11 +1818,11 @@ div.loginForm, div.registerForm {
     display: block;
     width: 80%;
     margin: 0.3rem 10%;
-    color: #888888;
+    color: #333;
     background-color: white; }
   div.loginForm input[type="submit"], div.registerForm input[type="submit"] {
     border: 0;
-    background-color: #bbbbbb;
+    background-color: #318FCE;
     color: white; }
     div.loginForm input[type="submit"]:hover, div.registerForm input[type="submit"]:hover {
       -webkit-transition: all 0.4s ease;
@@ -1808,14 +1831,15 @@ div.loginForm, div.registerForm {
       transition: all 0.4s ease;
       background-color: #F48351; }
   div.loginForm button, div.registerForm button {
-    color: #bbbbbb;
-    border: 1px solid #bbbbbb; }
+    color: #318FCE;
+    border: 1px solid #318FCE; }
     div.loginForm button:hover, div.registerForm button:hover {
       -webkit-transition: all 0.4s ease;
       -moz-transition: all 0.4s ease;
       -o-transition: all 0.4s ease;
       transition: all 0.4s ease;
       background-color: #F48351;
+      border-color: #F48351;
       color: white; }
 
 div.connection {
@@ -1824,7 +1848,7 @@ div.connection {
   div.connection i, div.connection p {
     width: 100%;
     text-align: center;
-    color: #bbbbbb;
+    color: #cccccc;
     display: block; }
   div.connection i {
     margin-bottom: 10%; }
@@ -1833,17 +1857,53 @@ div.connection {
   div.connection button {
     width: 30%;
     margin: 0 35%;
-    border: 1px solid #bbbbbb;
+    border: 1px solid #cccccc;
     background-color: white;
-    color: #bbbbbb;
+    color: #cccccc;
     font-size: 0.9rem; }
     div.connection button:hover {
       color: #318FCE;
       border: 1px solid #318FCE; }
 
+form.reportConnection {
+  margin-top: 10%; }
+  form.reportConnection textarea {
+    width: 80%;
+    height: 130px;
+    margin: 0 10%;
+    display: block;
+    border: 1px solid #cccccc;
+    margin-bottom: 5%; }
+  form.reportConnection input[type="submit"] {
+    width: 30%;
+    margin: 0 35%;
+    border: 1px solid #cccccc;
+    background-color: white;
+    color: #cccccc;
+    font-size: 0.9rem; }
+    form.reportConnection input[type="submit"]:hover {
+      color: #318FCE;
+      border: 1px solid #318FCE; }
+
+.reportConnection p {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #318FCE; }
+
 div.content {
   position: fixed;
   top: 0;
   right: 0; }
+
+img.user-inserted-image {
+  max-width: 200px;
+  height: auto; }
+
+.authWaiting, .chatWaiting {
+  width: 100%;
+  padding: 0.5rem;
+  text-align: center; }
+  .authWaiting i, .chatWaiting i {
+    color: #cccccc; }
 
 /*# sourceMappingURL=iframe.css.map */

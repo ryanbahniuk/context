@@ -29,7 +29,7 @@ function toggleSidebar() {
 	if ($('body').find('#' + id).length === 0) {
 		var iframeSource = chrome.extension.getURL('index.html') + "?url=" + document.URL;
 		var sidebar = '<iframe id="context-sidebar" src="' + iframeSource + '"></iframe>';
-		var minimizeImage = '<img src="' + chrome.extension.getURL('icons/19x19.png') + '">'
+		var minimizeImage = '<img src="' + chrome.extension.getURL('icons/right.png') + '">'
 		var $wrapper = $('<div id="iframe-wrapper"><div id="minimize-button">' + minimizeImage + '</div>' + sidebar + '</div>');
 		adjustBodyPosition('open');
 		$('body').prepend($wrapper);
@@ -54,11 +54,13 @@ function adjustBodyPosition(command) {
 
 $(document).on("click", "#minimize-button", function() {
 	if(open === true) {
+		$(this).find('img').attr("src", chrome.extension.getURL('icons/left.png'));
 		$(this).parent().css("width", "0px");
 		open = false;
 		adjustBodyPosition("close");
 	}
 	else {
+		$(this).find('img').attr("src", chrome.extension.getURL('icons/right.png'));
 		$(this).parent().css("width", "350px");
 		open = true;
 		adjustBodyPosition("open");

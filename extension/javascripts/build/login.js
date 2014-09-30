@@ -9,19 +9,22 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
       errors: "",
       showLogin: true,
       showRegister: false,
-      connection: true
+      connection: true,
+      waiting: false
     };
   },
 
   onClickRegister: function() {
-    this.setState({showRegister: true, showLogin: false});
+    this.setState({showRegister: true, showLogin: false, errors: "", waiting: false});
   },
 
   onClickLogin: function() {
-    this.setState({showLogin: true, showRegister: false});
+    this.setState({showLogin: true, showRegister: false, errors: "", waiting: false});
   },
 
   handleLoginRequest: function(data) {
+    this.displayWaiting(true);
+    
     var url = this.props.loginUrl;
     $.ajax(url, {
       method: "post",
@@ -30,6 +33,7 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
     })
 
     .done(function(data) {
+      this.displayWaiting(false);
       if(data["error"]) {
         this.setState({errors: data["error"]});
       } else if(data["user"]) {
@@ -40,20 +44,23 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
     }.bind(this))
 
     .fail(function() {
-      // this.setState({errors: "login broken...", connection: false});
       this.handleErrors();
     }.bind(this))
   },
 
   handleRegisterRequest: function(data) {
+    this.displayWaiting(true);
+    var url = this.props.registerUrl;
+
     $.ajax({
-      url: this.props.registerUrl,
+      url: url,
       type: 'POST',
       contentType: "application/x-www-form-urlencoded",
       data: data.serialize(),
     })
 
     .done(function(data) {
+      this.displayWaiting(false);
       if(data["error"]) {
         this.setState({errors: data["error"]});
       }
@@ -61,39 +68,48 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
         this.props.onSuccess(data["user"]);
       }
       else {
-        this.setState({errors: "??????"});        
+        this.handleErrors();
       };
     }.bind(this))
 
     .fail(function() {
-      console.log("error");
-      this.setState({errors: "register broken...", connection: false});      
+      this.handleErrors();
     }.bind(this))
+  },
+
+  displayWaiting: function(status) {
+    if(this.isMounted()){
+      this.setState({waiting: status});
+    };
   },
 
   handleErrors: function() {
     console.log("handling errors");
     this.setState({connection: false});
+    this.displayWaiting(false);
+    this.forceUpdate();
   },
 
   handleReload: function() {
     console.log("handling reload");
-    this.setState({connection: true});
+    this.setState({connection: true, waiting: false});
   },
 
   render: function() {
-    if(this.state.connection) {
+    if(this.state.connection===true) {
       return (
         React.DOM.div({className: "userAuth"}, 
         DisplayErrors({errors: this.state.errors}), 
          this.state.showLogin ? LoginForm({onLogin: this.handleLoginRequest, onSwitchRegister: this.onClickRegister}) : null, 
-         this.state.showRegister ? RegisterForm({onRegister: this.handleRegisterRequest, onSwitchLogin: this.onClickLogin}) : null
+         this.state.showRegister ? RegisterForm({onRegister: this.handleRegisterRequest, onSwitchLogin: this.onClickLogin}) : null, 
+         this.state.waiting ? AuthWaiting(null) : null
         )
       );
     } else {
       return(
         React.DOM.div({className: "userAuth"}, 
-          LoginConnection({onReload: this.handleReload})
+          LoginConnection({onReload: this.handleReload}), 
+          ReportConnection({onSend: this.props.onConnectionReport, onReload: this.handleReload})
         )
       );
     };
@@ -109,6 +125,51 @@ var DisplayErrors = React.createClass({displayName: 'DisplayErrors',
     );
   }
 });
+
+var AuthWaiting = React.createClass({displayName: 'AuthWaiting',
+  render: function() {
+    return(
+      React.DOM.div({className: "authWaiting"}, 
+        React.DOM.i({className: "fa fa-circle-o-notch fa-spin fa-4x"})
+      )
+    );
+  }
+});
+
+var ReportConnection = React.createClass({displayName: 'ReportConnection',
+  getInitialState: function() {
+    return {submitted: false};
+  },
+
+  onSend: function(e) {
+    e.preventDefault();
+    this.setState({submitted: true});
+    var form = this.refs.connectionForm.getDOMNode();
+    this.props.onSend($(form));
+    setTimeout(function() {
+      this.props.onReload()}.bind(this), 1500);
+  },
+
+  render: function() {
+    if(this.state.submitted) {
+      return (
+        React.DOM.div({className: "reportConnection"}, 
+          React.DOM.p(null, "Thanks")
+        )
+      );
+    } else {
+      return (
+        React.DOM.form({className: "reportConnection", ref: "connectionForm", onClick: this.onSend}, 
+          React.DOM.input({type: "hidden", name: "url", value: url}), 
+          React.DOM.input({type: "hidden", name: "type", value: "chat_connection"}), 
+          React.DOM.textarea({placeholder: "Help us fix bugs. Describe what you were doing when the connection was lost.", name: "description"}), 
+          React.DOM.input({type: "submit"})
+        )   
+      );
+    }
+  }
+})
+
 
 var LoginForm = React.createClass({displayName: 'LoginForm',
 

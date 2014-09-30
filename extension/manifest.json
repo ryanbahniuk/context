@@ -1,6 +1,7 @@
 {
     "name": "Context",
-    "version": "0.0.1",
+    "description": "A real-time chat client connecting users visiting the same web page.",
+    "version": "0.0.4",
     "manifest_version": 2,
     "background": {
 			"scripts": ["javascripts/background.js"],

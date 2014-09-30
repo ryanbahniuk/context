@@ -1,4 +1,10 @@
 $(document).ready(function(){
+	var messages = document.getElementsByClassName('message');
+	for(var i = 0; i < messages.length; i++) {
+		emojify.run(messages[i]);
+	}
+
+
 	$('#login').on("submit", function(e){
 		e.preventDefault();
 		var url = "http://104.131.117.55:3000/login";
