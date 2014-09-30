@@ -125,34 +125,6 @@ var SettingsPanel = React.createClass({
   }
 });
 
-var ReportError = React.createClass({
-  sendReport: function() {
-    this.setState({reportSent: true});
-    var container = this.getDOMNode();
-    var form = $(container).find("form");
-    console.log(form);
-    debugger;
-    this.props.onSend($(form));
-  },
-
-  getInitialState: function() {
-    return ( {reportSent: this.props.reportSent} );
-  },
-
-  render: function() {
-    return (
-      <div className="reportError button">
-        {this.props.reportSent ? <span id="report_sent">Report Sent</span>  : <span onClick={this.sendReport}>Report Page Error</span>}
-        <form ref="errorForm">
-          <input type="hidden" name="url" value={url}/>
-          <input type="hidden" name="user_id" value={user["id"]}/>
-          {/*{<input type="hidden" name="os" id="os"/>}*/}
-        </form>
-      </div>
-    );
-  }
-});
-
 var ReportDetails = React.createClass({
   getInitialState: function() {
     return {detailsSent: false};
@@ -178,6 +150,33 @@ var ReportDetails = React.createClass({
         </form>
         );
     };
+  }
+});
+
+var ReportError = React.createClass({
+  sendReport: function() {
+    this.setState({reportSent: true});
+    var container = this.getDOMNode();
+    var form = $(container).find("form");
+    console.log(form);
+    this.props.onSend($(form));
+  },
+
+  getInitialState: function() {
+    return ( {reportSent: this.props.reportSent} );
+  },
+
+  render: function() {
+    return (
+      <div className="reportError button">
+        {this.props.reportSent ? <span id="report_sent">Report Sent</span>  : <span onClick={this.sendReport}>Report Page Error</span>}
+        <form ref="errorForm">
+          <input type="hidden" name="url" value={url}/>
+          <input type="hidden" name="user_id" value={user["id"]}/>
+          {/*{<input type="hidden" name="os" id="os"/>}*/}
+        </form>
+      </div>
+    );
   }
 });
 

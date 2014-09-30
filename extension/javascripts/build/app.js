@@ -125,34 +125,6 @@ var SettingsPanel = React.createClass({displayName: 'SettingsPanel',
   }
 });
 
-var ReportError = React.createClass({displayName: 'ReportError',
-  sendReport: function() {
-    this.setState({reportSent: true});
-    var container = this.getDOMNode();
-    var form = $(container).find("form");
-    console.log(form);
-    debugger;
-    this.props.onSend($(form));
-  },
-
-  getInitialState: function() {
-    return ( {reportSent: this.props.reportSent} );
-  },
-
-  render: function() {
-    return (
-      React.DOM.div({className: "reportError button"}, 
-        this.props.reportSent ? React.DOM.span({id: "report_sent"}, "Report Sent")  : React.DOM.span({onClick: this.sendReport}, "Report Page Error"), 
-        React.DOM.form({ref: "errorForm"}, 
-          React.DOM.input({type: "hidden", name: "url", value: url}), 
-          React.DOM.input({type: "hidden", name: "user_id", value: user["id"]})
-          /*{<input type="hidden" name="os" id="os"/>}*/
-        )
-      )
-    );
-  }
-});
-
 var ReportDetails = React.createClass({displayName: 'ReportDetails',
   getInitialState: function() {
     return {detailsSent: false};
@@ -178,6 +150,33 @@ var ReportDetails = React.createClass({displayName: 'ReportDetails',
         )
         );
     };
+  }
+});
+
+var ReportError = React.createClass({displayName: 'ReportError',
+  sendReport: function() {
+    this.setState({reportSent: true});
+    var container = this.getDOMNode();
+    var form = $(container).find("form");
+    console.log(form);
+    this.props.onSend($(form));
+  },
+
+  getInitialState: function() {
+    return ( {reportSent: this.props.reportSent} );
+  },
+
+  render: function() {
+    return (
+      React.DOM.div({className: "reportError button"}, 
+        this.props.reportSent ? React.DOM.span({id: "report_sent"}, "Report Sent")  : React.DOM.span({onClick: this.sendReport}, "Report Page Error"), 
+        React.DOM.form({ref: "errorForm"}, 
+          React.DOM.input({type: "hidden", name: "url", value: url}), 
+          React.DOM.input({type: "hidden", name: "user_id", value: user["id"]})
+          /*{<input type="hidden" name="os" id="os"/>}*/
+        )
+      )
+    );
   }
 });
 
