@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 
-var runFromLocal = true;
+var runFromLocal = false;
 var socketAddress, httpServer;
 
 if(runFromLocal) {
@@ -107,7 +107,7 @@ var App = React.createClass({
       var chatBody = <ChatBox socketAddress={socketAddress} messageUrl={messageUrl} user={user}/>;
     }
     else {
-      var chatBody = <UserAuth loginUrl={loginUrl} registerUrl={registerUrl} onSuccess={this.onUserSuccess}/>;
+      var chatBody=<UserAuth loginUrl={loginUrl} registerUrl={registerUrl} onSuccess={this.onUserSuccess}/>;
     }
 
     if(this.state.showSettings) {

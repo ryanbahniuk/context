@@ -13,12 +13,17 @@ class ChatManager
     end
   end
 
+  def num_users(url)
+    {num: @open_urls[url].length}.to_json
+  end
+
   def remove_client(ws)
     @open_urls.each do |url, arr|
       if arr.include?(ws)
         # $SERVER_LOG.info("Deleting #{ws}")
         arr.delete(ws)
         # $SERVER_LOG.error("Delete failed--#{ws}") if arr.include?(ws)
+        ws.send(num_users(url))
       end
     end
   end
@@ -39,6 +44,7 @@ class ChatManager
     else
       @open_urls[url] = [ws]
     end
+    ws.send(num_users(url))
     # $SERVER_LOG.info url_log
   end
 
