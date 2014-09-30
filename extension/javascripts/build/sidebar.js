@@ -30,20 +30,26 @@ var MessageList = React.createClass({displayName: 'MessageList',
         );
     });
     return (
-      React.DOM.ul({className: "messageList"}, 
+      React.DOM.ul({className: "messageList", onScroll: this.logScrollPosition }, 
       messageNodes
       )
       );
   },
 
-  componentWillUpdate: function() {
+  logScrollPosition: function() {
     var node = this.getDOMNode();
-    this.shouldScroll = node.scrollTop + node.offsetHeight - 2 === node.scrollHeight;
-
+    var shouldScroll = Math.abs(node.scrollTop + node.offsetHeight - node.scrollHeight) < 20;
     // console.log("-----------------------------------------------")
     // console.log("scrollTop = " + node.scrollTop);
     // console.log("offsetHeight = " + node.offsetHeight);
     // console.log("scrollHeight = " + node.scrollHeight);
+    // console.log("shouldScroll = " + shouldScroll);
+  },
+  
+  componentWillUpdate: function() {
+    var node = this.getDOMNode();
+    this.shouldScroll = Math.abs(node.scrollTop + node.offsetHeight - node.scrollHeight) < 20;
+    // console.log("-----------------------------------------------")
     // console.log("shouldScroll = " + this.shouldScroll);
   },
 
