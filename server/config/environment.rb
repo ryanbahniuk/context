@@ -35,6 +35,7 @@ configure do
 
 	# Set the views to
 	set :views, File.join(Sinatra::Application.root, "server", "views")
+	set :public_folder, File.join(Sinatra::Application.root, "server", "public")
 end
 
 # Set up the controllers and helpers

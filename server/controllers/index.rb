@@ -1,8 +1,8 @@
 get '/?' do
-	"Hello World"
+	erb :index
 end
 
 get '/dev' do
-  @errors = PageError.all
-  erb :dev
+	@errors = PageError.all
+	erb :dev
 end
