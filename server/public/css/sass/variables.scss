@@ -1,4 +1,4 @@
-// @import "FontAwesome/font-awesome";
+@import "FontAwesome/font-awesome";
 
 //Color Scheme
 $off-black: #333;
@@ -16,6 +16,8 @@ $font-family-sans-serif: 'Helventica Neue', Helvetica, Arial, sans-serif;
 $font-family-icon: FontAwesome;
 $button-font-size: 0.9rem;
 
-//Spacing
+//Header
 $header-height: 50px;
-$chat-input-height: 29px;
+$logo-height: 35px;
+$logo-width: $logo-height * 6.451;
+$logo-margin-top: ($header-height - $logo-height) / 2;

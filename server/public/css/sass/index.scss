@@ -1,0 +1,46 @@
+@import "variables";
+
+.contain-to-grid {
+	background: #fff;
+}
+
+.top-bar {
+	background: #fff;
+	height: $header-height;
+	.title-area {
+		margin-top: $logo-margin-top;
+		width: $logo-width;
+		height: $logo-height;
+		background-image: url(../images/logo.png);
+		background-repeat: no-repeat;
+		background-size: $logo-width $logo-height;
+		.name {
+			text-indent: -9999em;
+		}
+	}
+	.top-bar-section {
+		ul {
+			height: 100% !important;
+			li {
+				background: #fff;
+				&>a {
+					background: #fff !important;
+					color: $off-black;
+					font-size: 1.1em;
+					&:hover {
+						color: $off-black;
+					}
+				}
+			}
+		}
+	}
+}
+
+.jumbotron {
+	padding: 4em 0;
+	text-align: center;
+	h1 {
+		margin: 2em 0;
+	}
+}
+
