@@ -155,3 +155,6 @@ I, [2014-10-01T08:55:56.471148 #3547]  INFO -- : URL: interactive.wbez.org/playe
 I, [2014-10-01T08:56:44.926186 #3547]  INFO -- : URL: interactive.wbez.org/player/ ---- Object: #<Url:0x007ffdc971c6a8>
 I, [2014-10-01T08:57:10.918041 #3547]  INFO -- : URL: interactive.wbez.org/player/ ---- Object: #<Url:0x007ffdc966eaa8>
 I, [2014-10-01T10:26:47.080615 #41588]  INFO -- : URL: www.google.com/ ---- Object: 
+I, [2014-10-01T10:46:13.523167 #41588]  INFO -- : URL: javascript.about.com/library/blh2d.htm ---- Object: 
+I, [2014-10-01T10:50:19.227551 #41588]  INFO -- : URL: css-tricks.com/ids-cannot-start-with-a-number/ ---- Object: 
+I, [2014-10-01T10:50:38.023961 #41588]  INFO -- : URL: css-tricks.com/ids-cannot-start-with-a-number/ ---- Object: 
