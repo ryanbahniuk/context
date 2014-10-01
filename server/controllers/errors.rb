@@ -3,9 +3,13 @@ post '/error' do
 
   url_id = Url.rootify_find_create(params[:url]).id
   if params[:user_id]
-    decoded = Base64.decode64(params[:user_id].encode('ascii-8bit'))
-    decrypted = Encryptor.decrypt(decoded, key: SECRET_KEY)
-    params[:user_id] = decrypted
+    begin
+      decoded = Base64.decode64(params[:user_id].encode('ascii-8bit'))
+      decrypted = Encryptor.decrypt(decoded, key: SECRET_KEY)
+      params[:user_id] = decrypted
+    rescue
+      params[:user_id] = nil
+    end
   else
     params[:user_id] = nil
   end
