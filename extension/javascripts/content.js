@@ -20,11 +20,6 @@ $(window).resize(function(){
 
 function toggleSidebar() {
 	var id = 'iframe-wrapper';
-  navigator.geolocation.getCurrentPosition(function(position) {
-  	var lat = position.coords.latitude;
-  	var lon = position.coords.longitude;
-  	chrome.storage.sync.set({msgLat: lat, msgLon: lon, coords: [lat, lon]});
-  });
 
 	if ($('body').find('#' + id).length === 0) {
 		var iframeSource = chrome.extension.getURL('index.html') + "?url=" + document.URL;
