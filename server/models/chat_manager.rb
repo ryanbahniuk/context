@@ -13,23 +13,36 @@ class ChatManager
     end
   end
 
+  def number_of_users
+    puts @open_urls
+    {num: @open_urls[@msg["url"]].length}.to_json
+  end
+
+  def unique_users
+    @open_urls
+  end
+
   def remove_client(ws)
+
     @open_urls.each do |url, arr|
       if arr.include?(ws)
         # $SERVER_LOG.info("Deleting #{ws}")
         arr.delete(ws)
         # $SERVER_LOG.error("Delete failed--#{ws}") if arr.include?(ws)
+        ws_array = @open_urls[@msg["url"]]
+        send_all_user_number(ws_array)
       end
     end
+
   end
 
   def route_message(ws, msg)
-    msg = JSON.parse(msg)
+    @msg = JSON.parse(msg)
 
-    if msg["initial"]
-      setup_client(ws, msg["url"])
+    if @msg["initial"]
+      setup_client(ws, @msg["url"])
     else
-      handle_message(ws, msg)
+      handle_message(ws, @msg)
     end
   end
 
@@ -39,7 +52,12 @@ class ChatManager
     else
       @open_urls[url] = [ws]
     end
-    ws.send({num: @open_urls[url].length}.to_json)
+
+    # Use msg url here to set up current url
+    # ws.send({num: @open_urls[url].length}.to_json)
+    ws_array = @open_urls[@msg["url"]]
+    send_all_user_number(ws_array)
+
     # $SERVER_LOG.info url_log
   end
 
@@ -85,6 +103,19 @@ class ChatManager
 
   def send_all(clients, content, name)
     message = {content: content, author: name}.to_json
+    clients.each do |ws|
+      ws.send(message)
+      # $SERVER_LOG.info "sending #{message}"
+    end
+  end
+
+  def send_all_user_number(clients)
+    if @open_urls[@msg["url"]].length > 1
+      message = number_of_users
+    else
+      message = number_of_users
+    end
+
     clients.each do |ws|
       ws.send(message)
       # $SERVER_LOG.info "sending #{message}"
