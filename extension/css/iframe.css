@@ -1690,7 +1690,6 @@ div.userAuth, div.chatBox {
   height: 100%;
   position: fixed;
   padding: 0;
-  overflow: scroll;
   top: 50px; }
 
 .messageList {
@@ -1700,7 +1699,7 @@ div.userAuth, div.chatBox {
   list-style: none;
   padding: 0;
   margin: 0;
-  overflow: scroll; }
+  overflow-y: scroll; }
   .messageList .message {
     width: 100%;
     border-top: 1px solid #e6e6e6;
