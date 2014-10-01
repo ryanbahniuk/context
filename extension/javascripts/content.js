@@ -25,7 +25,7 @@ function toggleSidebar() {
 		var iframeSource = chrome.extension.getURL('index.html') + "?url=" + document.URL;
 		var sidebar = '<iframe id="context-sidebar" src="' + iframeSource + '"></iframe>';
 		var minimizeImage = '<img src="' + chrome.extension.getURL('icons/right.png') + '">'
-		var $wrapper = $('<div id="iframe-wrapper"><div id="minimize-button">' + minimizeImage + '</div>' + sidebar + '</div>');
+		var $wrapper = $('<div id="context-iframe-wrapper"><div id="minimize-button">' + minimizeImage + '</div>' + sidebar + '</div>');
 		adjustBodyPosition('open');
 		$('body').prepend($wrapper);
 		open = true;
