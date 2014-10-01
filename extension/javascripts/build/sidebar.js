@@ -208,9 +208,9 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
 
   showUsers: function(message){
     if (message["num"] === 1) {
-      var msg = "Forever Alone";
+      var msg = "You're alone here. Invite your friends!";
     } else {
-      var msg = message["num"] + " connected";
+      var msg = message["num"] + " people connected";
     }
     return (
       msg

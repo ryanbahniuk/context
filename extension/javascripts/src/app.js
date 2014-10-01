@@ -46,6 +46,7 @@ var App = React.createClass({
 
   handleClickLogout: function() {
     chrome.storage.sync.clear();
+    socket.close();
     user = undefined;
     this.setState({userPresent: false, showSettings: false });
   },
