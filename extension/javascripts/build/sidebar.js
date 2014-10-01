@@ -26,7 +26,7 @@ var MessageList = React.createClass({displayName: 'MessageList',
   render: function() {
     var messageNodes = this.props.data.map(function(message, index) {
       return (
-        Message({author: message.author, content: message.content, key: index})
+        Message({author: message.author, content: message.content, time: message.time, key: index})
         );
     });
     return (
@@ -80,9 +80,21 @@ var Message = React.createClass({displayName: 'Message',
       this.props.author, ": "
       ), 
       React.DOM.p({className: "messageContent", dangerouslySetInnerHTML: {__html: imagedMessage}}
-      )
+      ), 
+        TimeStamp({time: this.props.time})
       )
       );
+  }
+});
+
+var TimeStamp = React.createClass({displayName: 'TimeStamp',
+  render: function() {
+    console.log(this.props.time)
+    return (
+      React.DOM.p({className: "messageTimeStamp"}, 
+        this.props.time
+      )
+    );
   }
 });
 

@@ -78,7 +78,7 @@ class ChatManager
   end
 
   def send_all(clients, content, name)
-    message = {content: content, author: name}.to_json
+    message = {content: content, author: name, time: Time.now}.to_json
     clients.each do |ws|
       ws.send(message)
       # $SERVER_LOG.info "sending #{message}"
