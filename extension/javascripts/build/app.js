@@ -16,13 +16,17 @@ var registerUrl = httpServer + "users";
 var messageUrl = httpServer + "urls/messages/10";
 var errorReportUrl = httpServer + "error";
 
+var version = "0.0.6"
+var user;
+var url;
+
 var App = React.createClass({displayName: 'App',
 
   getInitialState: function() {
     if(user !== undefined) {
-      return { showSettings: false, reportSent: false, detailsSent: false, userPresent: true, errorId: 0 };
+      return { showSettings: false, reportSent: false, detailsSent: false, userPresent: true, errorId: 0, pendingErrors: [] };
     } else {
-      return { showSettings: false, reportSent: false, detailsSent: false, userPresent: false, errorId: 0 };
+      return { showSettings: false, reportSent: false, detailsSent: false, userPresent: false, errorId: 0, pendingErrors: [] };
     };
   },
 
@@ -60,64 +64,101 @@ var App = React.createClass({displayName: 'App',
     }.bind(this))
     .fail(function() {
       console.log("error report error");
-    })
-    .always(function() {
-      console.log("ajax report send complete");
-    });
+      var errorUpdate = this.state.pendingErrors;
+      errorUpdate.push(form.serialize());
+      this.setState({pendingErrors: errorUpdate});
+      console.log(this.state.pendingErrors);
+    }.bind(this));
   },
 
   handleSendDetails: function(form) {
     this.setState({detailsSent: true});
     var errorId = this.state.errorId;
-      $.ajax({
-        url: errorReportUrl + "/" + errorId,
-        type: 'post',
-        contentType: "application/x-www-form-urlencoded",
-        data: form.serialize()
-      })
-      .done(function(data) {
-        console.log(data);
-      })
-      .fail(function() {
-        console.log("error details error");
-      });
-  },
-
-  handleConnectionReport: function(form) {
     $.ajax({
-      url: errorReportUrl,
+      url: errorReportUrl + "/" + errorId,
       type: 'post',
       contentType: "application/x-www-form-urlencoded",
-      data: form.serialize(),
+      data: form.serialize()
     })
-    .done(function() {
-      console.log("success");
+    .done(function(data) {
+      console.log(data);
     })
     .fail(function() {
-      console.log("error");
-    })
-    .always(function() {
-      console.log("complete");
+      console.log("report saved");
+      var errorUpdate = this.state.pendingErrors;
+      errorUpdate.push(form.serialize());
+      this.setState({pendingErrors: errorUpdate});
+      console.log(this.state.pendingErrors);
+    }.bind(this));
+  },
+
+  // handleConnectionReport: function(form) {
+  //   $.ajax({
+  //     url: errorReportUrl,
+  //     type: 'post',
+  //     contentType: "application/x-www-form-urlencoded",
+  //     data: form.serialize(),
+  //   })
+  //   .done(function() {
+  //     console.log("report success");
+  //   })
+  //   .fail(function() {
+  //     var errorUpdate = this.state.pendingErrors;
+  //     errorUpdate.push(form.serialize());
+  //     this.setState({pendingErrors: errorUpdate});
+  //     console.log(this.state.pendingErrors);
+  //   }.bind(this));
+  // },
+
+  tryResendReports: function() {
+    var reports = this.state.pendingErrors;
+    reports.forEach(function(report){
+      $.ajax({
+        url: errorReportUrl,
+        type: 'post',
+        contentType: "application/x-www-form-urlencoded",
+        data: report,
+      })
+      .done(function() {
+        console.log("success");
+        var newPending = this.state.pendingErrors;
+        var index = newPending.indexOf(report);
+        index > -1 ? newPending.splice(index, 1) : null;
+        this.setState({pendingErrors: newPending});
+      }.bind(this));
     });
   },
 
+  componentWillUpdate: function() {
+    url = document.URL.split("?")[1].replace(/url=/,"");
+    console.log(url);
+  },
+
+  componentDidUpdate: function() {
+    this.isMounted() ? this.tryResendReports() : null;
+  },
+
   render: function() {
+    var settingsButton = null;
+    var body = null;
+    var settingsView = null;
+
     if(this.state.userPresent){
-      var settingsButton = SettingsButton({clickSettings: this.handleClickSettings});
-      var chatBody = ChatBox({socketAddress: socketAddress, messageUrl: messageUrl, user: user});
+      settingsButton = SettingsButton({clickSettings: this.handleClickSettings});
+      body = ChatBox(null);
     }
     else {
-      var chatBody = UserAuth({loginUrl: loginUrl, registerUrl: registerUrl, onSuccess: this.onUserSuccess});
+      body = UserAuth({onSuccess: this.onUserSuccess, onConnectionReport: this.handleSendReport});
     }
 
     if(this.state.showSettings) {
-      var settingsView = SettingsPanel({clickLogout: this.handleClickLogout, clickView: this.handleClickView, sendReport: this.handleSendReport, reportSent: this.state.reportSent, sendDetails: this.handleSendDetails, detailsSent: this.state.detailsSent});
+      settingsView = SettingsPanel({clickLogout: this.handleClickLogout, clickView: this.handleClickView, sendReport: this.handleSendReport, reportSent: this.state.reportSent, sendDetails: this.handleSendDetails, detailsSent: this.state.detailsSent});
     }
 
     return(
       React.DOM.div({className: "App"}, 
       settingsButton, 
-      chatBody, 
+      body, 
       settingsView
       )
     );
@@ -167,6 +208,9 @@ var ReportDetails = React.createClass({displayName: 'ReportDetails',
       return (
         React.DOM.form({className: "reportDetails", onSubmit: this.handleSend, ref: "detailsForm"}, 
           React.DOM.div(null, React.DOM.textarea({placeholder: "Details?", name: "description"})), 
+          React.DOM.input({type: "hidden", name: "url", value: url}), 
+          React.DOM.input({type: "hidden", name: "version", value: version}), 
+          React.DOM.input({type: "hidden", name: "user_id", value: user["cookie"]}), 
           React.DOM.input({type: "submit"})
         )
         );
@@ -193,6 +237,7 @@ var ReportError = React.createClass({displayName: 'ReportError',
         this.props.reportSent ? React.DOM.span({id: "report_sent"}, "Report Sent")  : React.DOM.span({onClick: this.sendReport}, "Report Page Error"), 
         React.DOM.form({ref: "errorForm"}, 
           React.DOM.input({type: "hidden", name: "url", value: url}), 
+          React.DOM.input({type: "hidden", name: "version", value: version}), 
           React.DOM.input({type: "hidden", name: "user_id", value: user["cookie"]})
           /*{<input type="hidden" name="os" id="os"/>}*/
         )

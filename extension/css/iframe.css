@@ -1690,27 +1690,39 @@ div.userAuth, div.chatBox {
   height: 100%;
   position: fixed;
   padding: 0;
-  overflow: scroll;
   top: 50px; }
 
 .messageList {
   width: 100%;
-  height: calc(100% - 29px - 50px);
-  height: -webkit-calc(100% - 29px - 50px);
+  height: calc(100% - 100px);
+  height: -webkit-calc(100% - 100px);
   list-style: none;
   padding: 0;
   margin: 0;
-  overflow: scroll; }
+  overflow-y: scroll;
+  overflow-x: hidden;
+  word-wrap: break-word;
+  word-break: break-all; }
   .messageList .message {
     width: 100%;
     border-top: 1px solid #e6e6e6;
     padding: 0.4em 8px; }
     .messageList .message .messageAuthor {
       color: #318FCE; }
+      .messageList .message .messageAuthor .messageTimeStamp {
+        /*Does this hide?*/
+        display: none;
+        width: 0px; }
     .messageList .message .messageContent {
       display: inline; }
     .messageList .message .emoji {
       width: 20px; }
+  .messageList .message:hover {
+    /* Does this nesting work? */ }
+    .messageList .message:hover .messageTimeStamp {
+      display: inline;
+      width: auto;
+      /*Does width auto work?*/ }
 
 .chatInput {
   position: fixed;
@@ -1909,5 +1921,8 @@ img.user-inserted-image {
 .userCount {
   height: 29px;
   padding-top: 8px; }
+
+textarea {
+  resize: none; }
 
 /*# sourceMappingURL=iframe.css.map */

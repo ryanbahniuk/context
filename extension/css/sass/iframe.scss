@@ -36,32 +36,48 @@ div.userAuth, div.chatBox {
 	height: 100%;
   position: fixed;
   padding: 0;
-  overflow: scroll;
   top: $header-height;
 }
 
 .messageList {
   width: 100%;
-  height: calc(100% - 29px - 50px);
-  height: -webkit-calc(100% - 29px - 50px);
+  height: calc(100% - 100px);
+  height: -webkit-calc(100% - 100px);
   list-style: none;
   padding: 0;
   margin: 0;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  word-wrap: break-word;
+  word-break: break-all;
+
 	.message {
 		width: 100%;
 		border-top: 1px solid $lighter-grey;
 		padding: 0.4em 8px;
 		.messageAuthor {
 			color: $brand-primary;
-		}
-		.messageContent {
-			display: inline;
+      .messageTimeStamp {
+         /*Does this hide?*/
+        display: none;
+        width: 0px;
+      }
+    }
+    .messageContent {
+      display: inline;
 		}
     .emoji {
       width: 20px;
     }
 	}
+  .message:hover {
+    /* Does this nesting work? */
+    .messageTimeStamp {
+      display: inline;
+      width: auto;
+       /*Does width auto work?*/
+    }
+  }
 }
 
 .chatInput {
@@ -308,4 +324,7 @@ img.user-inserted-image {
 .userCount{
   height:29px;
   padding-top: 8px;
+
+textarea {
+  resize: none;
 }

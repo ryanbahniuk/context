@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 
 var socket;
-var url;
+// var url;
 
 var ChatInput = React.createClass({
   handleSubmit: function(e) {
@@ -26,7 +26,7 @@ var MessageList = React.createClass({
   render: function() {
     var messageNodes = this.props.data.map(function(message, index) {
       return (
-        <Message author={message.author} content={message.content} key={index}/>
+        <Message author={message.author} content={message.content}  time={message.time} key={index} />
         );
     });
     return (
@@ -34,16 +34,6 @@ var MessageList = React.createClass({
       {messageNodes}
       </ul>
       );
-  },
-
-  logScrollPosition: function() {
-    var node = this.getDOMNode();
-    var shouldScroll = Math.abs(node.scrollTop + node.offsetHeight - node.scrollHeight) < 20;
-    // console.log("-----------------------------------------------")
-    // console.log("scrollTop = " + node.scrollTop);
-    // console.log("offsetHeight = " + node.offsetHeight);
-    // console.log("scrollHeight = " + node.scrollHeight);
-    // console.log("shouldScroll = " + shouldScroll);
   },
 
   componentWillUpdate: function() {
@@ -77,12 +67,58 @@ var Message = React.createClass({
     return (
       <li className="message">
       <span className="messageAuthor">
-      {this.props.author}:&nbsp;
+      {this.props.author}
+        <TimeStamp time={this.props.time} />:&nbsp;
       </span>
-      <p className="messageContent" dangerouslySetInnerHTML={{__html: imagedMessage}}>
+      <p className="messageContent">
+        <span className="messageText" dangerouslySetInnerHTML={{__html: imagedMessage}}>
+        </span>
       </p>
       </li>
       );
+  }
+});
+
+var TimeStamp = React.createClass({
+  formatAMPM: function(date) {
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    return strTime;
+  },
+
+  formatDate: function(date) {
+    var month = date.getMonth();
+    var day = date.getDate();
+    strDate = month + 1 + '/' + day;
+    return strDate;
+  },
+
+  chooseDateTime: function(date) {
+    var now = new Date();
+    var then = new Date(date);
+    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    var thenDate = new Date(then.getFullYear(), then.getMonth(), then.getDate());
+    if(today - thenDate === 0) {
+      return this.formatAMPM(then);
+    } else {
+      return this.formatDate(then);
+    }
+  },
+
+  render: function() {
+    var sentTime = new Date(this.props.time);
+    var displayTimeStamp = this.chooseDateTime(sentTime);
+    console.log(this.props.time);
+    return (
+      <span className = "messageTimeStamp">
+        &nbsp;({displayTimeStamp})
+      </span>
+    );
   }
 });
 
@@ -110,11 +146,13 @@ var ChatWaiting = React.createClass({
 
 var ChatBox = React.createClass({
   loadMessages: function(url) {
-    var data = "url=" + encodeURIComponent(url);
+    // var data = "url=" + encodeURIComponent(url);
+    var date = new Date();
+    var data = "url=" + encodeURIComponent(url) + "&timezoneOffset=" + date.getTimezoneOffset();
     var request = $.ajax(messageUrl, {
       method: "post",
       contentType: "application/x-www-form-urlencoded",
-      data: data
+      data: data,
     });
     request.done(function(response){
       var messages = this.state.data;
@@ -129,8 +167,8 @@ var ChatBox = React.createClass({
   },
 
   componentDidMount: function() {
-    this.openSocket();
     url = document.URL.split("?")[1].replace(/url=/,"");
+    this.openSocket();
     this.getCoords();
     this.loadMessages(url);
   },
@@ -140,9 +178,10 @@ var ChatBox = React.createClass({
   },
 
   openSocket: function() {
-    socket = new WebSocket(this.props.socketAddress);
+    socket = new WebSocket(socketAddress);
 
     socket.onopen = function(event) {
+      // console.log("socket open");
       this.setState({connection: true, waiting: false});
       var msg = {url: url, initial: true};
       socket.send(JSON.stringify(msg));
@@ -160,10 +199,12 @@ var ChatBox = React.createClass({
     }.bind(this);
 
     socket.onerror = function() {
+      // console.log("socket error");
       this.setConnectionError();
     }.bind(this);
 
     socket.onclose = function() {
+      // console.log("socket closed");
       this.setConnectionError();
     }.bind(this);
   },
@@ -184,9 +225,18 @@ var ChatBox = React.createClass({
   },
 
   getCoords: function() {
-    chrome.storage.sync.get("coords", function(obj){
-      this.setState({coords: [obj["coords"][0], obj["coords"][1]] });
-    }.bind(this));
+    // chrome.storage.sync.get("coords", function(obj){
+    //   this.setState({coords: [obj["coords"][0], obj["coords"][1]] });
+    // }.bind(this));
+    if(this.isMounted()){
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var lat = position.coords.latitude;
+        var lon = position.coords.longitude;
+        // console.log("coords: " + lat + " , " + lon)
+        this.setState({coords: [lat, lon]});
+        // console.log("state: " + this.state.coords)
+      }.bind(this));
+    }
   },
 
   changeScriptTags: function(m) {
@@ -209,7 +259,7 @@ var ChatBox = React.createClass({
     if (m.content !== "") {
       var messages = this.state.data;
       var msg = {url: url, content: m.content, cookie: user["cookie"], coords: coords };
-      console.log(msg);
+      // console.log(msg);
       socket.send(JSON.stringify(msg));
     }
   },
@@ -221,7 +271,8 @@ var ChatBox = React.createClass({
     message["content"] = message["content"].replace(/</, "\u003c").replace(/>/, "\u003e");
     var messages = this.state.data;
     messages.push(message);
-    this.setState({data: messages});
+    // console.log("chatBox isMounted(): " + this.isMounted());
+    this.isMounted() ? this.setState({data: messages}) : null;
   },
 
   handleReload: function() {

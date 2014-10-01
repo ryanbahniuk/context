@@ -1,0 +1,37 @@
+@import "variables";
+@import "FontAwesome/font-awesome";
+
+body {
+  margin: 0 auto;
+}
+
+table {
+  width: 100%;
+}
+
+th {
+  text-align: center;
+}
+
+td {
+  padding: 3px;
+  width: calc(33.3333% - 40px);
+  width: -webkit-calc(33.3333% - 40px);
+}
+
+td.small {
+  width: 20px;
+  text-align: center;
+}
+
+h1.user-count {
+  font-size: 10rem;
+}
+
+.user-count {
+  width: 100%;
+  text-align: center;
+  margin: 0 auto;
+  display: block;
+  padding: 0;
+}

@@ -88,11 +88,15 @@ class ChatManager
 
   def handle_message(ws, msg)
     if msg["cookie"]
-      decoded = Base64.decode64(msg["cookie"].encode('ascii-8bit'))
-      decrypted = Encryptor.decrypt(decoded, key: SECRET_KEY)
-      user_id = decrypted
-      user = User.find_by_id(user_id)
-      msg["user_id"] = user_id
+      begin
+        decoded = Base64.decode64(msg["cookie"].encode('ascii-8bit'))
+        decrypted = Encryptor.decrypt(decoded, key: SECRET_KEY)
+        user_id = decrypted
+        user = User.find_by_id(user_id)
+        msg["user_id"] = user_id
+      rescue
+        user = nil
+      end
     else
       user = nil
     end
@@ -107,7 +111,7 @@ class ChatManager
   end
 
   def send_all(clients, content, name)
-    message = {content: content, author: name}.to_json
+    message = {content: content, author: name, time: Time.now}.to_json
     clients.each do |ws|
       ws.send(message)
       # $SERVER_LOG.info "sending #{message}"
@@ -128,7 +132,7 @@ class ChatManager
   end
 
   def return_error(ws)
-    message = {content: "You are not logged in properly. Please logout and try again.", author: "CONTEXT"}.to_json
+    message = {content: "You are not logged in properly. Please logout and try again.", author: "CONTEXT", time: Time.now}.to_json
     ws.send(message)
   end
 

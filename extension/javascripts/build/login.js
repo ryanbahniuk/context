@@ -1,7 +1,5 @@
 /** @jsx React.DOM */
 
-var user = undefined;
-
 var UserAuth = React.createClass({displayName: 'UserAuth',
 
   getInitialState: function() {
@@ -25,7 +23,7 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
   handleLoginRequest: function(data) {
     this.displayWaiting(true);
 
-    var url = this.props.loginUrl;
+    var url = loginUrl;
     $.ajax(url, {
       method: "post",
       contentType: "application/x-www-form-urlencoded",
@@ -50,7 +48,7 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
 
   handleRegisterRequest: function(data) {
     this.displayWaiting(true);
-    var url = this.props.registerUrl;
+    var url = registerUrl;
 
     $.ajax({
       url: url,
@@ -78,7 +76,8 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
   },
 
   displayWaiting: function(status) {
-    if(this.isMounted()){
+    console.log(this.isMounted());
+    if(this.isMounted()) {
       this.setState({waiting: status});
     };
   },
@@ -102,7 +101,7 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
         DisplayErrors({errors: this.state.errors}), 
          this.state.showLogin ? LoginForm({onLogin: this.handleLoginRequest, onSwitchRegister: this.onClickRegister}) : null, 
          this.state.showRegister ? RegisterForm({onRegister: this.handleRegisterRequest, onSwitchLogin: this.onClickLogin}) : null, 
-         this.state.waiting ? AuthWaiting(null) : null
+         this.state.waiting ? AuthWaiting({onReload: this.handleReload}) : null
         )
       );
     } else {
@@ -127,12 +126,36 @@ var DisplayErrors = React.createClass({displayName: 'DisplayErrors',
 });
 
 var AuthWaiting = React.createClass({displayName: 'AuthWaiting',
+  getInitialState: function() {
+    return {timeout: false};
+  },
+
+  startTimer: function() {
+    setTimeout(function(){
+      this.setState({timeout: true});
+    }.bind(this), 4000); 
+  },
+
+  componentDidMount: function() {
+    this.startTimer();
+  },
+
   render: function() {
-    return(
-      React.DOM.div({className: "authWaiting"}, 
-        React.DOM.i({className: "fa fa-circle-o-notch fa-spin fa-4x"})
-      )
-    );
+    if(this.state.timeout){
+      return(
+        React.DOM.div({className: "authWaiting connection"}, 
+          React.DOM.i({className: "fa fa-circle-o-notch fa-spin fa-4x"}), 
+          React.DOM.p(null, " Sorry this is taking a while "), 
+          React.DOM.button({onClick: this.props.onReload}, "Reload")
+        )
+      );
+    } else {
+      return(
+        React.DOM.div({className: "authWaiting connection"}, 
+          React.DOM.i({className: "fa fa-circle-o-notch fa-spin fa-4x"})
+        )
+      );    
+    }
   }
 });
 
@@ -141,10 +164,11 @@ var ReportConnection = React.createClass({displayName: 'ReportConnection',
     return {submitted: false};
   },
 
-  onSend: function(e) {
+  onClickSubmit: function(e) {
     e.preventDefault();
     this.setState({submitted: true});
     var form = this.refs.connectionForm.getDOMNode();
+    debugger;
     this.props.onSend($(form));
     setTimeout(function() {
       this.props.onReload()}.bind(this), 1500);
@@ -159,9 +183,10 @@ var ReportConnection = React.createClass({displayName: 'ReportConnection',
       );
     } else {
       return (
-        React.DOM.form({className: "reportConnection", ref: "connectionForm", onClick: this.onSend}, 
+        React.DOM.form({className: "reportConnection", ref: "connectionForm", onSubmit: this.onClickSubmit}, 
           React.DOM.input({type: "hidden", name: "url", value: url}), 
           React.DOM.input({type: "hidden", name: "type", value: "chat_connection"}), 
+          React.DOM.input({type: "hidden", name: "version", value: version}), 
           React.DOM.textarea({placeholder: "Help us fix bugs. Describe what you were doing when the connection was lost.", name: "description"}), 
           React.DOM.input({type: "submit"})
         )
