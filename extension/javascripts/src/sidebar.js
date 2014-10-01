@@ -26,7 +26,7 @@ var MessageList = React.createClass({
   render: function() {
     var messageNodes = this.props.data.map(function(message, index) {
       return (
-        <Message author={message.author} content={message.content} key={index}/>
+        <Message author={message.author} content={message.content}  time={message.time} key={index} />
         );
     });
     return (
@@ -67,12 +67,58 @@ var Message = React.createClass({
     return (
       <li className="message">
       <span className="messageAuthor">
-      {this.props.author}:&nbsp;
+      {this.props.author}
+        <TimeStamp time={this.props.time} />:&nbsp;
       </span>
-      <p className="messageContent" dangerouslySetInnerHTML={{__html: imagedMessage}}>
+      <p className="messageContent">
+        <span className="messageText" dangerouslySetInnerHTML={{__html: imagedMessage}}>
+        </span>
       </p>
       </li>
       );
+  }
+});
+
+var TimeStamp = React.createClass({
+  formatAMPM: function(date) {
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    return strTime;
+  },
+
+  formatDate: function(date) {
+    var month = date.getMonth();
+    var day = date.getDate();
+    strDate = month + 1 + '/' + day;
+    return strDate;
+  },
+
+  chooseDateTime: function(date) {
+    var now = new Date();
+    var then = new Date(date);
+    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    var thenDate = new Date(then.getFullYear(), then.getMonth(), then.getDate());
+    if(today - thenDate === 0) {
+      return this.formatAMPM(then);
+    } else {
+      return this.formatDate(then);
+    }
+  },
+
+  render: function() {
+    var sentTime = new Date(this.props.time);
+    var displayTimeStamp = this.chooseDateTime(sentTime);
+    console.log(this.props.time);
+    return (
+      <span className = "messageTimeStamp">
+        &nbsp;({displayTimeStamp})
+      </span>
+    );
   }
 });
 
@@ -100,11 +146,13 @@ var ChatWaiting = React.createClass({
 
 var ChatBox = React.createClass({
   loadMessages: function(url) {
-    var data = "url=" + encodeURIComponent(url);
+    // var data = "url=" + encodeURIComponent(url);
+    var date = new Date();
+    var data = "url=" + encodeURIComponent(url) + "&timezoneOffset=" + date.getTimezoneOffset();
     var request = $.ajax(messageUrl, {
       method: "post",
       contentType: "application/x-www-form-urlencoded",
-      data: data
+      data: data,
     });
     request.done(function(response){
       var messages = this.state.data;

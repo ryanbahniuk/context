@@ -1709,10 +1709,20 @@ div.userAuth, div.chatBox {
     padding: 0.4em 8px; }
     .messageList .message .messageAuthor {
       color: #318FCE; }
+      .messageList .message .messageAuthor .messageTimeStamp {
+        /*Does this hide?*/
+        display: none;
+        width: 0px; }
     .messageList .message .messageContent {
       display: inline; }
     .messageList .message .emoji {
       width: 20px; }
+  .messageList .message:hover {
+    /* Does this nesting work? */ }
+    .messageList .message:hover .messageTimeStamp {
+      display: inline;
+      width: auto;
+      /*Does width auto work?*/ }
 
 .chatInput {
   position: fixed;
