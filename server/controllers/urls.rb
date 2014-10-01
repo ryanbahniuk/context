@@ -9,7 +9,8 @@ post '/urls/messages/:i' do
 		messages = url.messages.last(params[:i]).map do |message|
 			{
 				author: message.user.name,
-				content: message.content
+				content: message.content,
+				time: message.created_at
 			}
 		end
 		object = {messages: messages}.to_json
