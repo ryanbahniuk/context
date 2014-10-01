@@ -89,7 +89,7 @@ var Message = React.createClass({
 
 var TimeStamp = React.createClass({
   render: function() {
-    console.log(this.props.time)
+    console.log(this.props.time);
     return (
       <p className = "messageTimeStamp">
         {this.props.time}
