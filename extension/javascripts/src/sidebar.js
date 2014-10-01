@@ -17,7 +17,6 @@ var ChatInput = React.createClass({
       <form className="chatInput" onSubmit={this.handleSubmit}>
         <input type="text" ref="content"/>
         <input type="submit" value="Send"/>
-        <input type="hidden" name="version" value={version}/>
       </form>
       );
   }
@@ -179,7 +178,8 @@ var ChatBox = React.createClass({
     socket.onopen = function(event) {
       console.log("socket open");
       this.setState({connection: true, waiting: false});
-      var msg = {url: url, initial: true, cookie: user["cookie"]};
+      var msg = {url: url, initial: true, cookie: user["cookie"], version: version};
+      console.log(msg)
       socket.send(JSON.stringify(msg));
     }.bind(this);
 
@@ -257,7 +257,7 @@ var ChatBox = React.createClass({
     var coords = this.state.coords;
     if (m.content !== "") {
       var messages = this.state.data;
-      var msg = {url: url, content: m.content, cookie: user["cookie"], coords: coords };
+      var msg = {url: url, content: m.content, cookie: user["cookie"], coords: coords, version: version };
       // console.log(msg);
       socket.send(JSON.stringify(msg));
     }

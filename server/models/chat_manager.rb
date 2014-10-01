@@ -39,7 +39,8 @@ class ChatManager
 
   def route_message(ws, msg)
     message = JSON.parse(msg)
-    if message[:version] == nil
+    puts message["version"]
+    if message["version"] != '0.0.6'
       send_version_error(ws)
     elsif message["initial"]
       setup_client(ws, message)
