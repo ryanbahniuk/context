@@ -1,7 +1,5 @@
 /** @jsx React.DOM */
 
-var user = undefined;
-
 var UserAuth = React.createClass({displayName: 'UserAuth',
 
   getInitialState: function() {
@@ -24,8 +22,8 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
 
   handleLoginRequest: function(data) {
     this.displayWaiting(true);
-    
-    var url = this.props.loginUrl;
+
+    var url = loginUrl;
     $.ajax(url, {
       method: "post",
       contentType: "application/x-www-form-urlencoded",
@@ -36,8 +34,8 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
       this.displayWaiting(false);
       if(data["error"]) {
         this.setState({errors: data["error"]});
-      } else if(data["user"]) {
-        this.props.onSuccess(data["user"]);
+      } else if(data["cookie"]) {
+        this.props.onSuccess(data["cookie"]);
       } else {
         this.handleErrors();
       };
@@ -50,7 +48,7 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
 
   handleRegisterRequest: function(data) {
     this.displayWaiting(true);
-    var url = this.props.registerUrl;
+    var url = registerUrl;
 
     $.ajax({
       url: url,
@@ -64,8 +62,8 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
       if(data["error"]) {
         this.setState({errors: data["error"]});
       }
-      else if(data["user"]) {
-        this.props.onSuccess(data["user"]);
+      else if(data["cookie"]) {
+        this.props.onSuccess(data["cookie"]);
       }
       else {
         this.handleErrors();
@@ -141,10 +139,11 @@ var ReportConnection = React.createClass({displayName: 'ReportConnection',
     return {submitted: false};
   },
 
-  onSend: function(e) {
+  onClickSubmit: function(e) {
     e.preventDefault();
     this.setState({submitted: true});
     var form = this.refs.connectionForm.getDOMNode();
+    debugger;
     this.props.onSend($(form));
     setTimeout(function() {
       this.props.onReload()}.bind(this), 1500);
@@ -159,12 +158,13 @@ var ReportConnection = React.createClass({displayName: 'ReportConnection',
       );
     } else {
       return (
-        React.DOM.form({className: "reportConnection", ref: "connectionForm", onClick: this.onSend}, 
+        React.DOM.form({className: "reportConnection", ref: "connectionForm", onSubmit: this.onClickSubmit}, 
           React.DOM.input({type: "hidden", name: "url", value: url}), 
           React.DOM.input({type: "hidden", name: "type", value: "chat_connection"}), 
+          React.DOM.input({type: "hidden", name: "version", value: version}), 
           React.DOM.textarea({placeholder: "Help us fix bugs. Describe what you were doing when the connection was lost.", name: "description"}), 
           React.DOM.input({type: "submit"})
-        )   
+        )
       );
     }
   }
@@ -223,7 +223,7 @@ var LoginConnection = React.createClass({displayName: 'LoginConnection',
         React.DOM.i({className: "fa fa-frown-o fa-5x"}), 
         React.DOM.p(null, "Something went wrong"), 
         React.DOM.button({onClick: this.props.onReload}, "Reload")
-      ) 
+      )
     );
   }
 });

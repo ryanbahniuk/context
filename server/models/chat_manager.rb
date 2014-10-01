@@ -13,17 +13,12 @@ class ChatManager
     end
   end
 
-  def num_users(url)
-    {num: @open_urls[url].length}.to_json
-  end
-
   def remove_client(ws)
     @open_urls.each do |url, arr|
       if arr.include?(ws)
         # $SERVER_LOG.info("Deleting #{ws}")
         arr.delete(ws)
         # $SERVER_LOG.error("Delete failed--#{ws}") if arr.include?(ws)
-        ws.send(num_users(url))
       end
     end
   end
@@ -44,7 +39,7 @@ class ChatManager
     else
       @open_urls[url] = [ws]
     end
-    ws.send(num_users(url))
+    ws.send({num: @open_urls[url].length}.to_json)
     # $SERVER_LOG.info url_log
   end
 
@@ -58,7 +53,6 @@ class ChatManager
       start_time = Time.now
       # $SERVER_LOG.info("Saving message -- #{msg["content"]}")
       message = Message.create(content: content, url: url, user_id: user_id, latitude: lat, longitude: lon)
-      p "message #{message.id}: #{message}"
       # $SERVER_LOG.info ("Message saved (#{msg["content"]}) -- #{Time.now - start_time}")
     }
   end
@@ -70,10 +64,24 @@ class ChatManager
   end
 
   def handle_message(ws, msg)
-    user = User.find_by_id(msg["user_id"])
+    if msg["cookie"]
+      begin
+        decoded = Base64.decode64(msg["cookie"].encode('ascii-8bit'))
+        decrypted = Encryptor.decrypt(decoded, key: SECRET_KEY)
+        user_id = decrypted
+        user = User.find_by_id(user_id)
+        msg["user_id"] = user_id
+      rescue
+        user = nil
+      end
+    else
+      user = nil
+    end
+
     if user
       EM.defer message_recording_proc(ws, msg), clear_database_connections_proc
-      send_all(@open_urls[msg["url"]], msg["content"], user.name)
+      ws_array = @open_urls[msg["url"]]
+      send_all(ws_array, msg["content"], user.name)
     else
       return_error(ws)
     end

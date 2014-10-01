@@ -1690,17 +1690,19 @@ div.userAuth, div.chatBox {
   height: 100%;
   position: fixed;
   padding: 0;
-  overflow: scroll;
   top: 50px; }
 
 .messageList {
   width: 100%;
-  height: calc(100% - 29px - 50px);
-  height: -webkit-calc(100% - 29px - 50px);
+  height: calc(100% - 100px);
+  height: -webkit-calc(100% - 100px);
   list-style: none;
   padding: 0;
   margin: 0;
-  overflow: scroll; }
+  overflow-y: scroll;
+  overflow-x: hidden;
+  word-wrap: break-word;
+  word-break: break-all; }
   .messageList .message {
     width: 100%;
     border-top: 1px solid #e6e6e6;
