@@ -77,12 +77,12 @@ var Message = React.createClass({
     return (
       <li className="message">
       <span className="messageAuthor">
-      {this.props.author}:&nbsp;
+      {this.props.author}
+        <TimeStamp time={this.props.time} />:&nbsp;
       </span>
       <p className="messageContent">
         <span className="messageText" dangerouslySetInnerHTML={{__html: imagedMessage}}>
         </span>
-        <TimeStamp time={this.props.time} />
       </p>
       </li>
       );
@@ -94,7 +94,7 @@ var TimeStamp = React.createClass({
     console.log(this.props.time);
     return (
       <span className = "messageTimeStamp">
-        {this.props.time}
+        &nbsp;({this.props.time})
       </span>
     );
   }
