@@ -19,6 +19,8 @@ var version = "0.0.6";
 var user;
 var url;
 
+debugger;
+
 var App = React.createClass({
 
   getInitialState: function() {
@@ -48,7 +50,7 @@ var App = React.createClass({
   },
 
   handleClickLogout: function() {
-    chrome.storage.sync.clear();
+    chrome.storage.sync.set({"cookie": null});
     socket.close();
     user = undefined;
     this.setState({userPresent: false, showSettings: false });
@@ -68,10 +70,11 @@ var App = React.createClass({
     }.bind(this))
     .fail(function() {
       console.log("error report error");
-      var errorUpdate = this.state.pendingErrors;
-      errorUpdate.push(form.serialize());
-      this.setState({pendingErrors: errorUpdate});
-      console.log(this.state.pendingErrors);
+      // var errorUpdate = this.state.pendingErrors;
+      // errorUpdate.push(form.serialize());
+      // this.setState({pendingErrors: errorUpdate});
+      this.storeError(form);
+      // console.log(this.state.pendingErrors);
     }.bind(this));
   },
 
@@ -89,47 +92,31 @@ var App = React.createClass({
     })
     .fail(function() {
       console.log("report saved");
-      var errorUpdate = this.state.pendingErrors;
-      errorUpdate.push(form.serialize());
-      this.setState({pendingErrors: errorUpdate});
-      console.log(this.state.pendingErrors);
+      // var errorUpdate = this.state.pendingErrors;
+      // errorUpdate.push(form.serialize());
+      // this.setState({pendingErrors: errorUpdate});
+      // console.log(this.state.pendingErrors);
+      this.storeError(form);
     }.bind(this));
   },
 
-  // handleConnectionReport: function(form) {
-  //   $.ajax({
-  //     url: errorReportUrl,
-  //     type: 'post',
-  //     contentType: "application/x-www-form-urlencoded",
-  //     data: form.serialize(),
-  //   })
-  //   .done(function() {
-  //     console.log("report success");
-  //   })
-  //   .fail(function() {
-  //     var errorUpdate = this.state.pendingErrors;
-  //     errorUpdate.push(form.serialize());
-  //     this.setState({pendingErrors: errorUpdate});
-  //     console.log(this.state.pendingErrors);
-  //   }.bind(this));
-  // },
+  storeError: function(form) {
+    chrome.storage.local.set({"error": form});
+  },
 
   tryResendReports: function() {
-    var reports = this.state.pendingErrors;
-    reports.forEach(function(report){
-      $.ajax({
-        url: errorReportUrl,
-        type: 'post',
-        contentType: "application/x-www-form-urlencoded",
-        data: report,
-      })
-      .done(function() {
-        console.log("success");
-        var newPending = this.state.pendingErrors;
-        var index = newPending.indexOf(report);
-        index > -1 ? newPending.splice(index, 1) : null;
-        this.setState({pendingErrors: newPending});
-      }.bind(this));
+    chrome.storage.local.get("error", function(obj) {
+      if(obj["error"] != null) {
+        $.ajax({
+          url: errorReportUrl,
+          type: 'post',
+          contentType: "application/x-www-form-urlencoded",
+          data: obj["error"].serialize(),
+        })
+        .done(function() {
+          chrome.storage.local.set({"error": null});
+        }.bind(this));
+      }
     });
   },
 

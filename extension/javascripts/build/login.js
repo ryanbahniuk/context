@@ -167,7 +167,6 @@ var ReportConnection = React.createClass({displayName: 'ReportConnection',
     e.preventDefault();
     this.setState({submitted: true});
     var form = this.refs.connectionForm.getDOMNode();
-    debugger;
     this.props.onSend($(form));
     setTimeout(function() {
       this.props.onReload()}.bind(this), 1500);

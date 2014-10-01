@@ -1,7 +1,9 @@
 post '/error' do
   response['Access-Control-Allow-Origin'] = '*'
+  if params[:url]
+    url_id = Url.rootify_find_create(params[:url]).id
+  end
 
-  url_id = Url.rootify_find_create(params[:url]).id
   if params[:user_id]
     begin
       decoded = Base64.decode64(params[:user_id].encode('ascii-8bit'))
@@ -35,7 +37,8 @@ end
 
 post '/error/:id' do
   response['Access-Control-Allow-Origin'] = '*'
-  error = PageError.find_by_id(params[:id])
+  error = PageError.find_by_id(params[:id]) if params[:id]
+  
   content_type :text
   if error
     error.update(description: params[:description])
