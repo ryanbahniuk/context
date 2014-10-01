@@ -6,8 +6,7 @@ post '/urls/messages/:i' do
 	formatted_url = Url.rootify(params[:url])
 	url = Url.find_by(link: formatted_url)
 
-	timezoneOffset = params[:timezoneOffset].to_i
-	$SERVER_LOG.info("URL: #{formatted_url} ---- Object: #{url}")
+	# $SERVER_LOG.info("URL: #{formatted_url} ---- Object: #{url}")
 	if !url.nil?
 		messages = url.messages.last(params[:i]).map do |message|
 			{

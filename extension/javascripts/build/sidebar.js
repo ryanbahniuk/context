@@ -39,8 +39,6 @@ var MessageList = React.createClass({displayName: 'MessageList',
   componentWillUpdate: function() {
     var node = this.getDOMNode();
     this.shouldScroll = Math.abs(node.scrollTop + node.offsetHeight - node.scrollHeight) < 20;
-    // console.log("-----------------------------------------------")
-    // console.log("shouldScroll = " + this.shouldScroll);
   },
 
   componentDidUpdate: function() {
@@ -66,9 +64,9 @@ var Message = React.createClass({displayName: 'Message',
     var imagedMessage = this.emojifyText(imagedMessage);
     return (
       React.DOM.li({className: "message"}, 
+      TimeStamp({time: this.props.time}), 
       React.DOM.span({className: "messageAuthor"}, 
-      this.props.author, 
-        TimeStamp({time: this.props.time}), ": "
+      this.props.author, ": "
       ), 
       React.DOM.p({className: "messageContent"}, 
         React.DOM.span({className: "messageText", dangerouslySetInnerHTML: {__html: imagedMessage}}
@@ -113,10 +111,9 @@ var TimeStamp = React.createClass({displayName: 'TimeStamp',
   render: function() {
     var sentTime = new Date(this.props.time);
     var displayTimeStamp = this.chooseDateTime(sentTime);
-    console.log(this.props.time);
     return (
       React.DOM.span({className: "messageTimeStamp"}, 
-        " (", displayTimeStamp, ")"
+        displayTimeStamp
       )
     );
   }
@@ -146,9 +143,7 @@ var ChatWaiting = React.createClass({displayName: 'ChatWaiting',
 
 var ChatBox = React.createClass({displayName: 'ChatBox',
   loadMessages: function(url) {
-    // var data = "url=" + encodeURIComponent(url);
-    var date = new Date();
-    var data = "url=" + encodeURIComponent(url) + "&timezoneOffset=" + date.getTimezoneOffset();
+    var data = "url=" + encodeURIComponent(url);
     var request = $.ajax(messageUrl, {
       method: "post",
       contentType: "application/x-www-form-urlencoded",
