@@ -15,8 +15,9 @@ var ChatInput = React.createClass({
   render: function() {
     return (
       <form className="chatInput" onSubmit={this.handleSubmit}>
-      <input type="text" ref="content"/>
-      <input type="submit" value="Send"/>
+        <input type="text" ref="content"/>
+        <input type="submit" value="Send"/>
+        <input type="hidden" name="version" value={version}/>
       </form>
       );
   }
@@ -188,6 +189,9 @@ var ChatBox = React.createClass({
       if (message["content"] !== undefined) {
         this.add_message(message);
       }
+      else if (message["error"] !== undefined) {
+        this.setState({error: message["error"]});
+      }
       else{
         this.setState({userMsg: this.showUsers(message)});
       }
@@ -216,7 +220,7 @@ var ChatBox = React.createClass({
   },
 
   getInitialState: function() {
-    return { data: [], connection: true, coords: [], waiting: true };
+    return { data: [], connection: true, coords: [], waiting: true, errors: [] };
   },
 
   getCoords: function() {

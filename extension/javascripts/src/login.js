@@ -76,7 +76,6 @@ var UserAuth = React.createClass({
   },
 
   displayWaiting: function(status) {
-    console.log(this.isMounted());
     if(this.isMounted()) {
       this.setState({waiting: status});
     };
@@ -132,7 +131,7 @@ var AuthWaiting = React.createClass({
 
   startTimer: function() {
     setTimeout(function(){
-      this.setState({timeout: true});
+      this.isMounted() ? this.setState({timeout: true}) : null;
     }.bind(this), 4000); 
   },
 
@@ -208,6 +207,7 @@ var LoginForm = React.createClass({
     return (
       <div className="loginForm">
       <form onSubmit={this.handleLogin} ref="loginForm">
+        <input type="hidden" name="version" value={version}/>
         <input type="text" placeholder="Email" name="email"/>
         <input type="password" placeholder="Password" name="password"/>
         <input type="submit"/>
@@ -230,10 +230,11 @@ var RegisterForm = React.createClass({
     return (
       <div className="registerForm">
       <form onSubmit={this.handleRegister} ref="form">
-      <input type="text" placeholder="Name" name="user[name]" />
-      <input type="text" placeholder="Email" name="user[email]" />
-      <input type="password" placeholder="Password" name="user[password]" />
-      <input type="submit" value="Sign Up"/>
+        <input type="hidden" name="version" value={version}/>
+        <input type="text" placeholder="Name" name="user[name]" />
+        <input type="text" placeholder="Email" name="user[email]" />
+        <input type="password" placeholder="Password" name="user[password]" />
+        <input type="submit" value="Sign Up"/>
       </form>
       <button onClick={this.props.onSwitchLogin}>Login</button>
       </div>

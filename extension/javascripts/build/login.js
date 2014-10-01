@@ -76,7 +76,6 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
   },
 
   displayWaiting: function(status) {
-    console.log(this.isMounted());
     if(this.isMounted()) {
       this.setState({waiting: status});
     };
@@ -132,7 +131,7 @@ var AuthWaiting = React.createClass({displayName: 'AuthWaiting',
 
   startTimer: function() {
     setTimeout(function(){
-      this.setState({timeout: true});
+      this.isMounted() ? this.setState({timeout: true}) : null;
     }.bind(this), 4000); 
   },
 
@@ -208,6 +207,7 @@ var LoginForm = React.createClass({displayName: 'LoginForm',
     return (
       React.DOM.div({className: "loginForm"}, 
       React.DOM.form({onSubmit: this.handleLogin, ref: "loginForm"}, 
+        React.DOM.input({type: "hidden", name: "version", value: version}), 
         React.DOM.input({type: "text", placeholder: "Email", name: "email"}), 
         React.DOM.input({type: "password", placeholder: "Password", name: "password"}), 
         React.DOM.input({type: "submit"})
@@ -230,10 +230,11 @@ var RegisterForm = React.createClass({displayName: 'RegisterForm',
     return (
       React.DOM.div({className: "registerForm"}, 
       React.DOM.form({onSubmit: this.handleRegister, ref: "form"}, 
-      React.DOM.input({type: "text", placeholder: "Name", name: "user[name]"}), 
-      React.DOM.input({type: "text", placeholder: "Email", name: "user[email]"}), 
-      React.DOM.input({type: "password", placeholder: "Password", name: "user[password]"}), 
-      React.DOM.input({type: "submit", value: "Sign Up"})
+        React.DOM.input({type: "hidden", name: "version", value: version}), 
+        React.DOM.input({type: "text", placeholder: "Name", name: "user[name]"}), 
+        React.DOM.input({type: "text", placeholder: "Email", name: "user[email]"}), 
+        React.DOM.input({type: "password", placeholder: "Password", name: "user[password]"}), 
+        React.DOM.input({type: "submit", value: "Sign Up"})
       ), 
       React.DOM.button({onClick: this.props.onSwitchLogin}, "Login")
       )

@@ -1,6 +1,13 @@
 post '/login' do
 	response['Access-Control-Allow-Origin'] = '*'
 
+	p params[:version]
+
+  unless params[:version] == '0.0.6'
+    content_type :json
+    return {error: "Your version of Context is super old.  Time to upgrade to version 0.0.6."}.to_json
+  end
+
 	user = User.find_by(email: params[:email])
 
 	if user && user.authenticate(params[:password])

@@ -1,6 +1,5 @@
 /** @jsx React.DOM */
-
-var runFromLocal = false;
+var runFromLocal = true;
 var socketAddress, httpServer;
 
 if(runFromLocal) {
@@ -16,7 +15,7 @@ var registerUrl = httpServer + "users";
 var messageUrl = httpServer + "urls/messages/10";
 var errorReportUrl = httpServer + "error";
 
-var version = "0.0.6"
+var version = null; //"0.0.6";
 var user;
 var url;
 
@@ -24,9 +23,9 @@ var App = React.createClass({
 
   getInitialState: function() {
     if(user !== undefined) {
-      return { showSettings: false, reportSent: false, detailsSent: false, userPresent: true, errorId: 0, pendingErrors: [] };
+      return { showSettings: false, reportSent: false, detailsSent: false, userPresent: true, errorId: 0, pendingErrors: [], versionOkay: true };
     } else {
-      return { showSettings: false, reportSent: false, detailsSent: false, userPresent: false, errorId: 0, pendingErrors: [] };
+      return { showSettings: false, reportSent: false, detailsSent: false, userPresent: false, errorId: 0, pendingErrors: [], versionOkay: true };
     };
   },
 
@@ -34,6 +33,10 @@ var App = React.createClass({
     user = {"cookie": object};
     chrome.storage.sync.set(user);
     this.setState({userPresent: true});
+  },
+
+  handleVersionError: function() {
+    this.setState({versionOkay: false});
   },
 
   handleClickSettings: function() {
@@ -144,17 +147,20 @@ var App = React.createClass({
     var body = null;
     var settingsView = null;
 
-    if(this.state.userPresent){
+    if(this.state.versionOkay === false) {
+      body = <VersionError/>
+    }
+    else if(this.state.userPresent){
       settingsButton = <SettingsButton clickSettings={this.handleClickSettings} />;
       body = <ChatBox/>;
     }
     else {
       body = <UserAuth onSuccess={this.onUserSuccess} onConnectionReport={this.handleSendReport}/>;
-    }
+    };
 
     if(this.state.showSettings) {
       settingsView = <SettingsPanel clickLogout={this.handleClickLogout} clickView={this.handleClickView} sendReport={this.handleSendReport} reportSent={this.state.reportSent} sendDetails={this.handleSendDetails} detailsSent={this.state.detailsSent}/>;
-    }
+    };
 
     return(
       <div className="App">
@@ -165,6 +171,12 @@ var App = React.createClass({
     );
   },
 
+});
+
+var VersionError = React.createClass({
+  render: function() {
+    return ( <p> This is version {version} </p> );
+  }
 });
 
 var SettingsButton = React.createClass({
@@ -267,6 +279,5 @@ chrome.storage.sync.get("cookie", function(obj){
     obj = undefined;
   };
   user = obj;
-  debugger;
   run();
 });
