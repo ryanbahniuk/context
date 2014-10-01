@@ -129,7 +129,6 @@ I, [2014-09-30T10:11:23.574763 #34544]  INFO -- : URL: www.emoji-cheat-sheet.com
 I, [2014-09-30T10:12:37.079899 #34544]  INFO -- : URL: www.emoji-cheat-sheet.com/ ---- Object: #<Url:0x000001022e1370>
 I, [2014-09-30T10:13:42.455036 #34544]  INFO -- : URL: www.emoji-cheat-sheet.com/ ---- Object: #<Url:0x000001024f3ac8>
 I, [2014-09-30T10:27:12.220089 #34806]  INFO -- : URL: espn.go.com/ ---- Object: #<Url:0x00000101682908>
->>>>>>> 53e530599f3eb34e57b1f5ec49ed7e6edcfedd3d
 I, [2014-09-30T10:59:34.789352 #50923]  INFO -- : URL: stackoverflow.com/questions/831347/rails-why-does-findid-raise-an-exception-in-rails ---- Object: 
 I, [2014-09-30T11:23:23.106965 #15991]  INFO -- : URL: facebook.github.io/react/docs/events.html ---- Object: 
 I, [2014-09-30T11:23:52.875339 #15991]  INFO -- : URL: facebook.github.io/react/docs/events.html ---- Object: 
@@ -142,6 +141,8 @@ I, [2014-09-30T11:51:19.464602 #16114]  INFO -- : URL: fortawesome.github.io/Fon
 I, [2014-09-30T12:04:37.540275 #16313]  INFO -- : URL: www.google.com/webhp ---- Object: 
 I, [2014-09-30T12:05:28.761083 #16313]  INFO -- : URL: www.google.com/webhp ---- Object: #<Url:0x007f8155dd77b8>
 I, [2014-09-30T12:06:15.130893 #16463]  INFO -- : URL: www.google.com/webhp ---- Object: #<Url:0x007ff973c53838>
+I, [2014-10-01T09:14:00.022184 #3659]  INFO -- : URL: stevenharman.net/git-clean-delete-already-merged-branches ---- Object: 
+I, [2014-10-01T09:14:28.055738 #3659]  INFO -- : URL: stevenharman.net/git-clean-delete-already-merged-branches ---- Object: 
 I, [2014-10-01T08:49:17.631940 #3547]  INFO -- : URL: interactive.wbez.org/player/ ---- Object: 
 I, [2014-10-01T08:50:17.622596 #3547]  INFO -- : URL: interactive.wbez.org/player/ ---- Object: 
 I, [2014-10-01T08:50:34.714961 #3547]  INFO -- : URL: interactive.wbez.org/player/ ---- Object: 
