@@ -124,11 +124,13 @@ var ChatWaiting = React.createClass({
 
 var ChatBox = React.createClass({
   loadMessages: function(url) {
-    var data = "url=" + encodeURIComponent(url);
+    // var data = "url=" + encodeURIComponent(url);
+    var date = new Date();
+    var data = "url=" + encodeURIComponent(url) + "&timezoneOffset=" + date.getTimezoneOffset();
     var request = $.ajax(messageUrl, {
       method: "post",
       contentType: "application/x-www-form-urlencoded",
-      data: data
+      data: data,
     });
     request.done(function(response){
       var messages = this.state.data;

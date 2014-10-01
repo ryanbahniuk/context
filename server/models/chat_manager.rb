@@ -84,7 +84,7 @@ class ChatManager
   end
 
   def send_all(clients, content, name)
-    message = {content: content, author: name, time: TimeDisplay.time_or_date(Time.now)}.to_json
+    message = {content: content, author: name, time: TimeDisplay.time_or_date(Time.now, 0)}.to_json
     clients.each do |ws|
       ws.send(message)
       # $SERVER_LOG.info "sending #{message}"
@@ -104,11 +104,12 @@ class ChatManager
 end
 
 module TimeDisplay
-  def self.time_or_date(time)
+  def self.time_or_date(time, timezone_offset)
+    timezone_time = time - timezone_offset * 60
     if same_day(time)
-      time.strftime "%I:%M %P"
+      timezone_time.strftime "%I:%M %P"
     else
-      time.strftime "%m/%d"
+      timezone_time.strftime "%m/%d"
     end
   end
 
