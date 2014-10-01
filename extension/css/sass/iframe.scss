@@ -36,7 +36,7 @@ div.userAuth, div.chatBox {
 	height: 100%;
   position: fixed;
   padding: 0;
-  overflow: scroll;
+  // overflow: scroll;
   top: $header-height;
 }
 
@@ -47,7 +47,11 @@ div.userAuth, div.chatBox {
   list-style: none;
   padding: 0;
   margin: 0;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  word-wrap: break-word;
+  word-break: break-all;
+
 	.message {
 		width: 100%;
 		border-top: 1px solid $lighter-grey;
