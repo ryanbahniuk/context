@@ -76,7 +76,8 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
   },
 
   displayWaiting: function(status) {
-    if(this.isMounted()){
+    console.log(this.isMounted());
+    if(this.isMounted()) {
       this.setState({waiting: status});
     };
   },
@@ -100,7 +101,7 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
         DisplayErrors({errors: this.state.errors}), 
          this.state.showLogin ? LoginForm({onLogin: this.handleLoginRequest, onSwitchRegister: this.onClickRegister}) : null, 
          this.state.showRegister ? RegisterForm({onRegister: this.handleRegisterRequest, onSwitchLogin: this.onClickLogin}) : null, 
-         this.state.waiting ? AuthWaiting(null) : null
+         this.state.waiting ? AuthWaiting({onReload: this.handleReload}) : null
         )
       );
     } else {
@@ -125,12 +126,36 @@ var DisplayErrors = React.createClass({displayName: 'DisplayErrors',
 });
 
 var AuthWaiting = React.createClass({displayName: 'AuthWaiting',
+  getInitialState: function() {
+    return {timeout: false};
+  },
+
+  startTimer: function() {
+    setTimeout(function(){
+      this.setState({timeout: true});
+    }.bind(this), 4000); 
+  },
+
+  componentDidMount: function() {
+    this.startTimer();
+  },
+
   render: function() {
-    return(
-      React.DOM.div({className: "authWaiting"}, 
-        React.DOM.i({className: "fa fa-circle-o-notch fa-spin fa-4x"})
-      )
-    );
+    if(this.state.timeout){
+      return(
+        React.DOM.div({className: "authWaiting connection"}, 
+          React.DOM.i({className: "fa fa-circle-o-notch fa-spin fa-4x"}), 
+          React.DOM.p(null, " Sorry this is taking a while "), 
+          React.DOM.button({onClick: this.props.onReload}, "Reload")
+        )
+      );
+    } else {
+      return(
+        React.DOM.div({className: "authWaiting connection"}, 
+          React.DOM.i({className: "fa fa-circle-o-notch fa-spin fa-4x"})
+        )
+      );    
+    }
   }
 });
 
