@@ -76,7 +76,8 @@ var UserAuth = React.createClass({
   },
 
   displayWaiting: function(status) {
-    if(this.isMounted()){
+    console.log(this.isMounted());
+    if(this.isMounted()) {
       this.setState({waiting: status});
     };
   },
@@ -100,7 +101,7 @@ var UserAuth = React.createClass({
         <DisplayErrors errors={this.state.errors}/>
         { this.state.showLogin ? <LoginForm onLogin={this.handleLoginRequest} onSwitchRegister={this.onClickRegister}/> : null }
         { this.state.showRegister ? <RegisterForm onRegister={this.handleRegisterRequest} onSwitchLogin={this.onClickLogin}/> : null }
-        { this.state.waiting ? <AuthWaiting/> : null}
+        { this.state.waiting ? <AuthWaiting onReload={this.handleReload}/> : null}
         </div>
       );
     } else {
@@ -125,12 +126,36 @@ var DisplayErrors = React.createClass({
 });
 
 var AuthWaiting = React.createClass({
+  getInitialState: function() {
+    return {timeout: false};
+  },
+
+  startTimer: function() {
+    setTimeout(function(){
+      this.setState({timeout: true});
+    }.bind(this), 4000); 
+  },
+
+  componentDidMount: function() {
+    this.startTimer();
+  },
+
   render: function() {
-    return(
-      <div className="authWaiting">
-        <i className="fa fa-circle-o-notch fa-spin fa-4x"></i>
-      </div>
-    );
+    if(this.state.timeout){
+      return(
+        <div className="authWaiting connection">
+          <i className="fa fa-circle-o-notch fa-spin fa-4x"></i>
+          <p> Sorry this is taking a while </p>
+          <button onClick={this.props.onReload}>Reload</button>
+        </div>
+      );
+    } else {
+      return(
+        <div className="authWaiting connection">
+          <i className="fa fa-circle-o-notch fa-spin fa-4x"></i>
+        </div>
+      );    
+    }
   }
 });
 
