@@ -1,7 +1,5 @@
 /** @jsx React.DOM */
 
-var user = undefined;
-
 var UserAuth = React.createClass({displayName: 'UserAuth',
 
   getInitialState: function() {
@@ -25,7 +23,7 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
   handleLoginRequest: function(data) {
     this.displayWaiting(true);
 
-    var url = this.props.loginUrl;
+    var url = loginUrl;
     $.ajax(url, {
       method: "post",
       contentType: "application/x-www-form-urlencoded",
@@ -50,7 +48,7 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
 
   handleRegisterRequest: function(data) {
     this.displayWaiting(true);
-    var url = this.props.registerUrl;
+    var url = registerUrl;
 
     $.ajax({
       url: url,

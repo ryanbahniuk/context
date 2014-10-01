@@ -16,6 +16,9 @@ var registerUrl = httpServer + "users";
 var messageUrl = httpServer + "urls/messages/10";
 var errorReportUrl = httpServer + "error";
 
+var user;
+var url;
+
 var App = React.createClass({
 
   getInitialState: function() {
@@ -63,28 +66,29 @@ var App = React.createClass({
       var errorUpdate = this.state.pendingErrors;
       errorUpdate.push(form.serialize());
       this.setState({pendingErrors: errorUpdate});
+      console.log(this.state.pendingErrors);
     }.bind(this));
   },
 
   handleSendDetails: function(form) {
     this.setState({detailsSent: true});
     var errorId = this.state.errorId;
-      $.ajax({
-        url: errorReportUrl + "/" + errorId,
-        type: 'post',
-        contentType: "application/x-www-form-urlencoded",
-        data: form.serialize()
-      })
-      .done(function(data) {
-        console.log(data);
-      })
-      .fail(function() {
-        console.log("report saved");
-        var errorUpdate = this.state.pendingErrors;
-        errorUpdate.push(form.serialize());
-        this.setState({pendingErrors: errorUpdate});
-        console.log(this.state.pendingErrors);
-      }.bind(this));
+    $.ajax({
+      url: errorReportUrl + "/" + errorId,
+      type: 'post',
+      contentType: "application/x-www-form-urlencoded",
+      data: form.serialize()
+    })
+    .done(function(data) {
+      console.log(data);
+    })
+    .fail(function() {
+      console.log("report saved");
+      var errorUpdate = this.state.pendingErrors;
+      errorUpdate.push(form.serialize());
+      this.setState({pendingErrors: errorUpdate});
+      console.log(this.state.pendingErrors);
+    }.bind(this));
   },
 
   // handleConnectionReport: function(form) {
@@ -116,22 +120,38 @@ var App = React.createClass({
       })
       .done(function() {
         console.log("success");
-        this.setState({pendingErrors: []});
+        var newPending = this.state.pendingErrors;
+        var index = newPending.indexOf(report);
+        index > -1 ? newPending.splice(index, 1) : null;
+        this.setState({pendingErrors: newPending});
       }.bind(this));
     });
   },
 
+  componentWillUpdate: function() {
+    url = document.URL.split("?")[1].replace(/url=/,"");
+    console.log(url);
+  },
+
+  componentDidUpdate: function() {
+    this.isMounted() ? this.tryResendReports() : null;
+  },
+
   render: function() {
+    var settingsButton = null;
+    var body = null;
+    var settingsView = null;
+
     if(this.state.userPresent){
-      var settingsButton = <SettingsButton clickSettings={this.handleClickSettings} />;
-      var body = <ChatBox resendReports={this.tryResendReports}/>;
+      settingsButton = <SettingsButton clickSettings={this.handleClickSettings} />;
+      body = <ChatBox/>;
     }
     else {
-      var body = <UserAuth loginUrl={loginUrl} registerUrl={registerUrl} onSuccess={this.onUserSuccess} onConnectionReport={this.handleSendReport}/>;
+      body = <UserAuth onSuccess={this.onUserSuccess} onConnectionReport={this.handleSendReport}/>;
     }
 
     if(this.state.showSettings) {
-      var settingsView = <SettingsPanel clickLogout={this.handleClickLogout} clickView={this.handleClickView} sendReport={this.handleSendReport} reportSent={this.state.reportSent} sendDetails={this.handleSendDetails} detailsSent={this.state.detailsSent}/>;
+      settingsView = <SettingsPanel clickLogout={this.handleClickLogout} clickView={this.handleClickView} sendReport={this.handleSendReport} reportSent={this.state.reportSent} sendDetails={this.handleSendDetails} detailsSent={this.state.detailsSent}/>;
     }
 
     return(
