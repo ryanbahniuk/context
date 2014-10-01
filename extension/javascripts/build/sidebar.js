@@ -79,9 +79,11 @@ var Message = React.createClass({displayName: 'Message',
       React.DOM.span({className: "messageAuthor"}, 
       this.props.author, ": "
       ), 
-      React.DOM.p({className: "messageContent", dangerouslySetInnerHTML: {__html: imagedMessage}}
-      ), 
+      React.DOM.p({className: "messageContent"}, 
+        React.DOM.span({className: "messageText", dangerouslySetInnerHTML: {__html: imagedMessage}}
+        ), 
         TimeStamp({time: this.props.time})
+      )
       )
       );
   }
@@ -91,7 +93,7 @@ var TimeStamp = React.createClass({displayName: 'TimeStamp',
   render: function() {
     console.log(this.props.time);
     return (
-      React.DOM.p({className: "messageTimeStamp"}, 
+      React.DOM.span({className: "messageTimeStamp"}, 
         this.props.time
       )
     );
