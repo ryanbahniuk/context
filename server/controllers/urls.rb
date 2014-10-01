@@ -14,7 +14,7 @@ post '/urls/messages/:i' do
 			{
 				author: message.user.name,
 				content: message.content,
-				time: TimeDisplay.time_or_date(message.created_at, timezoneOffset)
+				time: message.created_at
 			}
 		end
 		object = {messages: messages}.to_json

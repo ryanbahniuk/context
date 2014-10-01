@@ -90,11 +90,43 @@ var Message = React.createClass({displayName: 'Message',
 });
 
 var TimeStamp = React.createClass({displayName: 'TimeStamp',
+  formatAMPM: function(date) {
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    return strTime;
+  },
+
+  formatDate: function(date) {
+    var month = date.getMonth();
+    var day = date.getDate();
+    strDate = month + 1 + '/' + day;
+    return strDate;
+  },
+
+  chooseDateTime: function(date) {
+    var now = new Date();
+    var then = new Date(date);
+    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    var thenDate = new Date(then.getFullYear(), then.getMonth(), then.getDate());
+    if(today - thenDate === 0) {
+      return this.formatAMPM(then);
+    } else {
+      return this.formatDate(then);
+    }
+  },
+
   render: function() {
+    var sentTime = new Date(this.props.time);
+    var displayTimeStamp = this.chooseDateTime(sentTime);
     console.log(this.props.time);
     return (
       React.DOM.span({className: "messageTimeStamp"}, 
-        " (", this.props.time, ")"
+        " (", displayTimeStamp, ")"
       )
     );
   }
