@@ -19,13 +19,13 @@ $(window).resize(function(){
 });
 
 function toggleSidebar() {
-	var id = 'iframe-wrapper';
+	var id = 'iframe-wrapper-436f6e74657874';
 
 	if ($('body').find('#' + id).length === 0) {
 		var iframeSource = chrome.extension.getURL('index.html') + "?url=" + document.URL;
-		var sidebar = '<iframe id="context-sidebar" src="' + iframeSource + '"></iframe>';
+		var sidebar = '<iframe id="sidebar-436f6e74657874" src="' + iframeSource + '"></iframe>';
 		var minimizeImage = '<img src="' + chrome.extension.getURL('icons/right.png') + '">'
-		var $wrapper = $('<div id="iframe-wrapper"><div id="minimize-button">' + minimizeImage + '</div>' + sidebar + '</div>');
+		var $wrapper = $('<div id="iframe-wrapper-436f6e74657874"><div id="minimize-button-436f6e74657874">' + minimizeImage + '</div>' + sidebar + '</div>');
 		adjustBodyPosition('open');
 		$('body').prepend($wrapper);
 		open = true;
@@ -47,7 +47,7 @@ function adjustBodyPosition(command) {
 	}
 }
 
-$(document).on("click", "#minimize-button", function() {
+$(document).on("click", "#minimize-button-436f6e74657874", function() {
 	if(open === true) {
 		$(this).find('img').attr("src", chrome.extension.getURL('icons/left.png'));
 		$(this).parent().css("width", "0px");
