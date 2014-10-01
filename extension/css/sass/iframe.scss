@@ -57,11 +57,24 @@ div.userAuth, div.chatBox {
 		}
 		.messageContent {
 			display: inline;
+      .messageTimeStamp {
+        /* Does this hide? */
+        display: hidden;
+        width: 0px;
+      }
 		}
     .emoji {
       width: 20px;
     }
 	}
+  .message:hover {
+    /* Does this nesting work? */
+    .messageTimeStamp {
+      display: inline;
+      width: auto;
+      /* Does width auto work? */
+    }
+  }
 }
 
 .chatInput {

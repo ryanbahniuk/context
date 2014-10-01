@@ -102,3 +102,25 @@ class ChatManager
   end
 
 end
+
+module TimeDisplay
+  def time_or_date(time)
+    # if same_day
+      # Return time
+    # else
+      # Return date
+  end
+
+  def time_passed(time)
+    short_time_units_relative = {
+      min: 1,
+      hour: 60,
+      day: 24,
+      week: 7
+    }
+  end
+
+  def same_day(time)
+    # Check date and whether same day as today
+  end
+end
