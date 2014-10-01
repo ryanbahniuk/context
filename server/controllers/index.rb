@@ -1,9 +1,15 @@
-get '/?' do
-	"Hello World"
-end
-
 get '/' do
   erb :index
+end
+
+get '/world' do
+  content_type :json
+  File.read(File.join('public', 'world.json'))
+end
+
+get '/us' do
+  content_type :json
+  File.read(File.join('public', 'us.json'))
 end
 
 get '/dev' do

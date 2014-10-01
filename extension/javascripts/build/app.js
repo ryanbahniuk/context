@@ -13,7 +13,7 @@ if(runFromLocal) {
 
 var loginUrl = httpServer + "login";
 var registerUrl = httpServer + "users";
-var messageUrl = httpServer + "urls/messages/10";
+var messageUrl = httpServer + "urls/messages/100";
 var errorReportUrl = httpServer + "error";
 
 var App = React.createClass({displayName: 'App',
@@ -23,7 +23,7 @@ var App = React.createClass({displayName: 'App',
       return { showSettings: false, reportSent: false, detailsSent: false, userPresent: true, errorId: 0 };
     } else {
       return { showSettings: false, reportSent: false, detailsSent: false, userPresent: false, errorId: 0 };
-    };
+    }
   },
 
   onUserSuccess: function(u) {
