@@ -65,11 +65,15 @@ class ChatManager
 
   def handle_message(ws, msg)
     if msg["cookie"]
-      decoded = Base64.decode64(msg["cookie"].encode('ascii-8bit'))
-      decrypted = Encryptor.decrypt(decoded, key: SECRET_KEY)
-      user_id = decrypted
-      user = User.find_by_id(user_id)
-      msg["user_id"] = user_id
+      begin
+        decoded = Base64.decode64(msg["cookie"].encode('ascii-8bit'))
+        decrypted = Encryptor.decrypt(decoded, key: SECRET_KEY)
+        user_id = decrypted
+        user = User.find_by_id(user_id)
+        msg["user_id"] = user_id
+      rescue
+        user = nil
+      end
     else
       user = nil
     end
