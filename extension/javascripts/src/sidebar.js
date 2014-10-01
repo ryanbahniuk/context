@@ -133,7 +133,7 @@ var ChatBox = React.createClass({
     socket = new WebSocket(socketAddress);
 
     socket.onopen = function(event) {
-      console.log("socket open");
+      // console.log("socket open");
       this.setState({connection: true, waiting: false});
       var msg = {url: url, initial: true};
       socket.send(JSON.stringify(msg));
@@ -151,12 +151,12 @@ var ChatBox = React.createClass({
     }.bind(this);
 
     socket.onerror = function() {
-      console.log("socket error");
+      // console.log("socket error");
       this.setConnectionError();
     }.bind(this);
 
     socket.onclose = function() {
-      console.log("socket closed");
+      // console.log("socket closed");
       this.setConnectionError();
     }.bind(this);
   },
@@ -184,9 +184,9 @@ var ChatBox = React.createClass({
       navigator.geolocation.getCurrentPosition(function(position) {
         var lat = position.coords.latitude;
         var lon = position.coords.longitude;
-        console.log("coords: " + lat + " , " + lon)
+        // console.log("coords: " + lat + " , " + lon)
         this.setState({coords: [lat, lon]});
-        console.log("state: " + this.state.coords)
+        // console.log("state: " + this.state.coords)
       }.bind(this));
     }
   },
@@ -211,7 +211,7 @@ var ChatBox = React.createClass({
     if (m.content !== "") {
       var messages = this.state.data;
       var msg = {url: url, content: m.content, cookie: user["cookie"], coords: coords };
-      console.log(msg);
+      // console.log(msg);
       socket.send(JSON.stringify(msg));
     }
   },
@@ -223,7 +223,7 @@ var ChatBox = React.createClass({
     message["content"] = message["content"].replace(/</, "\u003c").replace(/>/, "\u003e");
     var messages = this.state.data;
     messages.push(message);
-    console.log("chatBox isMounted(): " + this.isMounted());
+    // console.log("chatBox isMounted(): " + this.isMounted());
     this.isMounted() ? this.setState({data: messages}) : null;
   },
 

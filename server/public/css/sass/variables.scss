@@ -1,0 +1,21 @@
+// @import "FontAwesome/font-awesome";
+
+//Color Scheme
+$off-black: #333;
+$off-white: #f7f7f7;
+$dark-grey: lighten( $off-black, 20% );
+$grey: lighten( $off-black, 40% );
+$light-grey: lighten( $off-black, 60% );
+$lighter-grey: lighten( $off-black, 70% );
+
+$brand-primary: #318FCE;
+$brand-secondary: #F48351;
+
+//Typography
+$font-family-sans-serif: 'Helventica Neue', Helvetica, Arial, sans-serif;
+$font-family-icon: FontAwesome;
+$button-font-size: 0.9rem;
+
+//Spacing
+$header-height: 50px;
+$chat-input-height: 29px;

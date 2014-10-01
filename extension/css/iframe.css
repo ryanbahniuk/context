@@ -1908,4 +1908,7 @@ img.user-inserted-image {
   .authWaiting i, .chatWaiting i {
     color: #cccccc; }
 
+textarea {
+  resize: none; }
+
 /*# sourceMappingURL=iframe.css.map */
