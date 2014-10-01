@@ -1,7 +1,5 @@
 /** @jsx React.DOM */
 
-var user = undefined;
-
 var UserAuth = React.createClass({displayName: 'UserAuth',
 
   getInitialState: function() {
@@ -25,7 +23,7 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
   handleLoginRequest: function(data) {
     this.displayWaiting(true);
 
-    var url = this.props.loginUrl;
+    var url = loginUrl;
     $.ajax(url, {
       method: "post",
       contentType: "application/x-www-form-urlencoded",
@@ -50,7 +48,7 @@ var UserAuth = React.createClass({displayName: 'UserAuth',
 
   handleRegisterRequest: function(data) {
     this.displayWaiting(true);
-    var url = this.props.registerUrl;
+    var url = registerUrl;
 
     $.ajax({
       url: url,
@@ -141,10 +139,11 @@ var ReportConnection = React.createClass({displayName: 'ReportConnection',
     return {submitted: false};
   },
 
-  onSend: function(e) {
+  onClickSubmit: function(e) {
     e.preventDefault();
     this.setState({submitted: true});
     var form = this.refs.connectionForm.getDOMNode();
+    debugger;
     this.props.onSend($(form));
     setTimeout(function() {
       this.props.onReload()}.bind(this), 1500);
@@ -159,7 +158,7 @@ var ReportConnection = React.createClass({displayName: 'ReportConnection',
       );
     } else {
       return (
-        React.DOM.form({className: "reportConnection", ref: "connectionForm", onClick: this.onSend}, 
+        React.DOM.form({className: "reportConnection", ref: "connectionForm", onSubmit: this.onClickSubmit}, 
           React.DOM.input({type: "hidden", name: "url", value: url}), 
           React.DOM.input({type: "hidden", name: "type", value: "chat_connection"}), 
           React.DOM.input({type: "hidden", name: "version", value: version}), 
