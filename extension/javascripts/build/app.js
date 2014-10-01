@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 
-var runFromLocal = false;
+var runFromLocal = true;
 var socketAddress, httpServer;
 
 if(runFromLocal) {
@@ -43,7 +43,7 @@ var App = React.createClass({displayName: 'App',
   handleClickLogout: function() {
     chrome.storage.sync.clear();
     user = undefined;
-    this.setState({showSettings: false, userPresent: false});
+    this.setState({userPresent: false, showSettings: false });
   },
 
   handleSendReport: function(form) {
@@ -217,6 +217,9 @@ function run() {
 };
 
 chrome.storage.sync.get("cookie", function(obj){
-  user = obj;
+  if (obj["cookie"] === undefined) {
+    obj = undefined
+  }
+  user = obj
   run();
 });
