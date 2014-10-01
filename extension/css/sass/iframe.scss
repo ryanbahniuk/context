@@ -36,14 +36,13 @@ div.userAuth, div.chatBox {
 	height: 100%;
   position: fixed;
   padding: 0;
-  // overflow: scroll;
   top: $header-height;
 }
 
 .messageList {
   width: 100%;
-  height: calc(100% - 29px - 50px);
-  height: -webkit-calc(100% - 29px - 50px);
+  height: calc(100% - 100px);
+  height: -webkit-calc(100% - 100px);
   list-style: none;
   padding: 0;
   margin: 0;

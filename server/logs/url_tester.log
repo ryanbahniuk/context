@@ -142,3 +142,5 @@ I, [2014-09-30T11:51:19.464602 #16114]  INFO -- : URL: fortawesome.github.io/Fon
 I, [2014-09-30T12:04:37.540275 #16313]  INFO -- : URL: www.google.com/webhp ---- Object: 
 I, [2014-09-30T12:05:28.761083 #16313]  INFO -- : URL: www.google.com/webhp ---- Object: #<Url:0x007f8155dd77b8>
 I, [2014-09-30T12:06:15.130893 #16463]  INFO -- : URL: www.google.com/webhp ---- Object: #<Url:0x007ff973c53838>
+I, [2014-10-01T09:14:00.022184 #3659]  INFO -- : URL: stevenharman.net/git-clean-delete-already-merged-branches ---- Object: 
+I, [2014-10-01T09:14:28.055738 #3659]  INFO -- : URL: stevenharman.net/git-clean-delete-already-merged-branches ---- Object: 
