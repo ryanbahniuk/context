@@ -46,6 +46,7 @@ var App = React.createClass({displayName: 'App',
 
   handleClickLogout: function() {
     chrome.storage.sync.clear();
+    socket.close();
     user = undefined;
     this.setState({userPresent: false, showSettings: false });
   },
@@ -263,8 +264,9 @@ function run() {
 
 chrome.storage.sync.get("cookie", function(obj){
   if (obj["cookie"] === undefined) {
-    obj = undefined
-  }
-  user = obj
+    obj = undefined;
+  };
+  user = obj;
+  debugger;
   run();
 });

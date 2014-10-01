@@ -1924,6 +1924,10 @@ img.user-inserted-image {
   .authWaiting i, .chatWaiting i {
     color: #cccccc; }
 
+.userCount {
+  height: 29px;
+  padding-top: 8px; }
+
 textarea {
   resize: none; }
 

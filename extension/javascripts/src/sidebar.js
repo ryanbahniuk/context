@@ -176,9 +176,9 @@ var ChatBox = React.createClass({
     socket = new WebSocket(socketAddress);
 
     socket.onopen = function(event) {
-      // console.log("socket open");
+      console.log("socket open");
       this.setState({connection: true, waiting: false});
-      var msg = {url: url, initial: true};
+      var msg = {url: url, initial: true, cookie: user["cookie"]};
       socket.send(JSON.stringify(msg));
     }.bind(this);
 
@@ -206,9 +206,9 @@ var ChatBox = React.createClass({
 
   showUsers: function(message){
     if (message["num"] === 1) {
-      var msg = "Forever Alone";
+      var msg = "You're alone here. Invite your friends!";
     } else {
-      var msg = message["num"] + " connected";
+      var msg = message["num"] + " people connected";
     }
     return (
       msg
