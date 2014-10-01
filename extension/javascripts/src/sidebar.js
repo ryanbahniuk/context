@@ -113,7 +113,6 @@ var TimeStamp = React.createClass({
   render: function() {
     var sentTime = new Date(this.props.time);
     var displayTimeStamp = this.chooseDateTime(sentTime);
-    console.log(this.props.time);
     return (
       <span className = "messageTimeStamp">
         &nbsp;({displayTimeStamp})
@@ -146,9 +145,7 @@ var ChatWaiting = React.createClass({
 
 var ChatBox = React.createClass({
   loadMessages: function(url) {
-    // var data = "url=" + encodeURIComponent(url);
-    var date = new Date();
-    var data = "url=" + encodeURIComponent(url) + "&timezoneOffset=" + date.getTimezoneOffset();
+    var data = "url=" + encodeURIComponent(url);
     var request = $.ajax(messageUrl, {
       method: "post",
       contentType: "application/x-www-form-urlencoded",
@@ -181,9 +178,9 @@ var ChatBox = React.createClass({
     socket = new WebSocket(socketAddress);
 
     socket.onopen = function(event) {
-      // console.log("socket open");
+      console.log("socket open");
       this.setState({connection: true, waiting: false});
-      var msg = {url: url, initial: true};
+      var msg = {url: url, initial: true, cookie: user["cookie"]};
       socket.send(JSON.stringify(msg));
     }.bind(this);
 

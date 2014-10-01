@@ -1,9 +1,25 @@
 class ChatManager
   require 'json'
   attr_reader :open_urls
+  attr_accessor :url_cookies
 
   def initialize
-    @open_urls = {}
+    @url_cookies = {}
+    update_open_urls
+    # {url => [ws1, ws2]}
+    # url_cookies { url1 => {ws1: cookie1, ws2: cookie2}}
+  end
+
+  def url_cookies_to_s
+    cookies_str = {}
+    @url_cookies.each do |url, sockets|
+      ws_representation = {}
+      sockets.each do |ws, cookie|
+        ws_representation.merge!({"ws #{ws.signature}" => cookie})
+      end
+      cookies_str.merge!({url => ws_representation})
+    end
+    cookies_str
   end
 
   def start(options)
@@ -13,57 +29,74 @@ class ChatManager
     end
   end
 
-  def number_of_users
-    puts @open_urls[@msg["url"]]
-    {num: unique_users}.to_json
-  end
-
-  def unique_users
-    # unique = [];
-    # @open_urls.map{|k,v| unique << k unless unique.include?(k)}
-    # length = unique.length
-
-    length = @open_urls[@msg["url"]].length
-    return length
-  end
-
-  def remove_client(ws)
-
-    @open_urls.each do |url, arr|
-      if arr.include?(ws)
-        # $SERVER_LOG.info("Deleting #{ws}")
-        arr.delete(ws)
-        # $SERVER_LOG.error("Delete failed--#{ws}") if arr.include?(ws)
-        ws_array = @open_urls[@msg["url"]]
-        send_all_user_number(ws_array)
-      end
+  def update_open_urls
+    @open_urls = {}
+    @url_cookies.each do |url, sockets|
+      @open_urls[url] = sockets.keys
     end
-
+    @open_urls
   end
 
   def route_message(ws, msg)
-    @msg = JSON.parse(msg)
+    message = JSON.parse(msg)
 
-    if @msg["initial"]
-      setup_client(ws, @msg["url"])
+    if message["initial"]
+      setup_client(ws, message)
     else
-      handle_message(ws, @msg)
+      handle_message(ws, message)
     end
   end
 
-  def setup_client(ws, url)
-    if @open_urls[url]
-      @open_urls[url] << ws
+  def setup_client(ws, message)
+    url = message["url"]
+    cookie = message["cookie"]
+
+    puts url_cookies_to_s
+    puts "adding new ws"
+    add_ws_to_url_cookies({ws: ws, url: url, cookie: cookie})
+    puts url_cookies_to_s
+
+    sockets = @url_cookies[url]
+    send_all_user_number(sockets)
+  end
+
+  def add_ws_to_url_cookies(args)
+    url = args[:url]
+    ws = args[:ws]
+    cookie = args[:cookie]
+
+    if @url_cookies[url]
+      @url_cookies[url].merge!({ws => cookie})
     else
-      @open_urls[url] = [ws]
+      @url_cookies[url] = {ws => cookie}
     end
 
-    # Use msg url here to set up current url
-    # ws.send({num: @open_urls[url].length}.to_json)
-    ws_array = @open_urls[@msg["url"]]
-    send_all_user_number(ws_array)
+    update_open_urls
+  end
 
-    # $SERVER_LOG.info url_log
+  def send_all_user_number(sockets)
+    clients = sockets.keys
+    message = number_of_users(sockets)
+    clients.each do |ws|
+      ws.send(message)
+      # $SERVER_LOG.info "sending #{message}"
+    end
+  end
+
+  def number_of_users(sockets)
+    cookies = sockets.values.uniq
+    {num: cookies.length}.to_json
+  end
+
+  def remove_client(ws)
+    @url_cookies.each do |url, sockets_hash|
+      if sockets_hash.has_key?(ws)
+        sockets_hash.delete(ws)
+        update_open_urls
+        send_all_user_number(sockets_hash)
+      end
+    end
+
   end
 
   def message_recording_proc(ws, msg)
@@ -112,19 +145,6 @@ class ChatManager
 
   def send_all(clients, content, name)
     message = {content: content, author: name, time: Time.now}.to_json
-    clients.each do |ws|
-      ws.send(message)
-      # $SERVER_LOG.info "sending #{message}"
-    end
-  end
-
-  def send_all_user_number(clients)
-    if @open_urls[@msg["url"]].length > 1
-      message = number_of_users
-    else
-      message = number_of_users
-    end
-
     clients.each do |ws|
       ws.send(message)
       # $SERVER_LOG.info "sending #{message}"
