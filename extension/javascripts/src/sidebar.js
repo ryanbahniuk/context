@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 
 var socket;
-var url;
+// var url;
 
 var ChatInput = React.createClass({
   handleSubmit: function(e) {

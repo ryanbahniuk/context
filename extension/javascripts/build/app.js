@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 
-var runFromLocal = true;
+var runFromLocal = false;
 var socketAddress, httpServer;
 
 if(runFromLocal) {
@@ -16,6 +16,7 @@ var registerUrl = httpServer + "users";
 var messageUrl = httpServer + "urls/messages/10";
 var errorReportUrl = httpServer + "error";
 
+var version = "0.0.6"
 var user;
 var url;
 
@@ -207,6 +208,9 @@ var ReportDetails = React.createClass({displayName: 'ReportDetails',
       return (
         React.DOM.form({className: "reportDetails", onSubmit: this.handleSend, ref: "detailsForm"}, 
           React.DOM.div(null, React.DOM.textarea({placeholder: "Details?", name: "description"})), 
+          React.DOM.input({type: "hidden", name: "url", value: url}), 
+          React.DOM.input({type: "hidden", name: "version", value: version}), 
+          React.DOM.input({type: "hidden", name: "user_id", value: user["cookie"]}), 
           React.DOM.input({type: "submit"})
         )
         );
@@ -233,6 +237,7 @@ var ReportError = React.createClass({displayName: 'ReportError',
         this.props.reportSent ? React.DOM.span({id: "report_sent"}, "Report Sent")  : React.DOM.span({onClick: this.sendReport}, "Report Page Error"), 
         React.DOM.form({ref: "errorForm"}, 
           React.DOM.input({type: "hidden", name: "url", value: url}), 
+          React.DOM.input({type: "hidden", name: "version", value: version}), 
           React.DOM.input({type: "hidden", name: "user_id", value: user["cookie"]})
           /*{<input type="hidden" name="os" id="os"/>}*/
         )
