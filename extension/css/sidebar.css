@@ -1,4 +1,4 @@
-#context-sidebar {
+#sidebar-436f6e74657874 {
   position: absolute;
   top: 0;
   left: 0;
@@ -7,7 +7,7 @@
   width: 100%;
 }
 
-#iframe-wrapper {
+#iframe-wrapper-436f6e74657874 {
   position: fixed;
   top: 0;
   right: 0;
@@ -19,7 +19,7 @@
   box-sizing: border-box;
 }
 
-#minimize-button {
+#minimize-button-436f6e74657874 {
   box-sizing: border-box;
   background-color: white;
   border: 1px solid #bbb;
@@ -33,7 +33,7 @@
   border-radius: 5px 0 0 5px;
 }
 
-#minimize-button img {
+#minimize-button-436f6e74657874 img {
   width: 20px;
   height: 20px;
 }

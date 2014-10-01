@@ -1,7 +1,6 @@
 require_relative '../models/chat_manager'
 
 post '/urls/messages/:i' do
-	$SERVER_LOG = Logger.new('logs/url_tester.log', 'monthly')
 	response['Access-Control-Allow-Origin'] = '*'
 
 	formatted_url = Url.rootify(params[:url])

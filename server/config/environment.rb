@@ -36,12 +36,11 @@ configure do
 
 	set :public_folder, File.join(Sinatra::Application.root, "server", "public")
 
-  # Set the views to
-  set :views, File.join(Sinatra::Application.root, "server", "views")
+	# Set the views to
+	set :views, File.join(Sinatra::Application.root, "server", "views")
 end
 
-# Encryption of user information
-SECRET_KEY = "tomato"
+require_relative 'dontlookhere'
 
 # Set up the controllers and helpers
 Dir[APP_ROOT.join('server', 'controllers', '*.rb')].each { |file| require file }
