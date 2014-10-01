@@ -153,4 +153,7 @@ I, [2014-10-01T08:53:40.249968 #3547]  INFO -- : URL: interactive.wbez.org/playe
 I, [2014-10-01T08:54:58.650416 #3547]  INFO -- : URL: interactive.wbez.org/player/ ---- Object: #<Url:0x007ffdca655b38>
 I, [2014-10-01T08:55:56.471148 #3547]  INFO -- : URL: interactive.wbez.org/player/ ---- Object: #<Url:0x007ffdca53d700>
 I, [2014-10-01T08:56:44.926186 #3547]  INFO -- : URL: interactive.wbez.org/player/ ---- Object: #<Url:0x007ffdc971c6a8>
-I, [2014-10-01T08:57:10.918041 #3547]  INFO -- : URL: interactive.wbez.org/player/ ---- Object: #<Url:0x007ffdc966eaa8>
+I, [2014-10-01T08:57:10.918041 #3547]  INFO -- : URL: interactive.wbez.org/player/ ---- Object: #<Url:0x007ffdc966eaa8>I, [2014-10-01T11:00:37.019446 #4507]  INFO -- : URL: ruby-doc.org/ ---- Object: 
+I, [2014-10-01T11:00:47.840415 #4507]  INFO -- : URL: ruby-doc.org/ ---- Object: 
+I, [2014-10-01T11:02:43.195187 #4507]  INFO -- : URL: ruby-doc.org/ ---- Object: #<Url:0x007f9c5ab89018>
+I, [2014-10-01T11:03:14.234939 #4507]  INFO -- : URL: ruby-doc.org/ ---- Object: #<Url:0x007f9c5ae0b688>
