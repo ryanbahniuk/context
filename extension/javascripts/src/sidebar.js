@@ -36,16 +36,6 @@ var MessageList = React.createClass({
       );
   },
 
-  logScrollPosition: function() {
-    var node = this.getDOMNode();
-    var shouldScroll = Math.abs(node.scrollTop + node.offsetHeight - node.scrollHeight) < 20;
-    // console.log("-----------------------------------------------")
-    // console.log("scrollTop = " + node.scrollTop);
-    // console.log("offsetHeight = " + node.offsetHeight);
-    // console.log("scrollHeight = " + node.scrollHeight);
-    // console.log("shouldScroll = " + shouldScroll);
-  },
-
   componentWillUpdate: function() {
     var node = this.getDOMNode();
     this.shouldScroll = Math.abs(node.scrollTop + node.offsetHeight - node.scrollHeight) < 20;
@@ -143,6 +133,7 @@ var ChatBox = React.createClass({
     socket = new WebSocket(this.props.socketAddress);
 
     socket.onopen = function(event) {
+      console.log("socket open");
       this.setState({connection: true, waiting: false});
       var msg = {url: url, initial: true};
       socket.send(JSON.stringify(msg));
@@ -160,10 +151,12 @@ var ChatBox = React.createClass({
     }.bind(this);
 
     socket.onerror = function() {
+      console.log("socket error");
       this.setConnectionError();
     }.bind(this);
 
     socket.onclose = function() {
+      console.log("socket closed");
       this.setConnectionError();
     }.bind(this);
   },
@@ -184,9 +177,18 @@ var ChatBox = React.createClass({
   },
 
   getCoords: function() {
-    chrome.storage.sync.get("coords", function(obj){
-      this.setState({coords: [obj["coords"][0], obj["coords"][1]] });
-    }.bind(this));
+    // chrome.storage.sync.get("coords", function(obj){
+    //   this.setState({coords: [obj["coords"][0], obj["coords"][1]] });
+    // }.bind(this));
+    if(this.isMounted()){
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var lat = position.coords.latitude;
+        var lon = position.coords.longitude;
+        console.log("coords: " + lat + " , " + lon)
+        this.setState({coords: [lat, lon]});
+        console.log("state: " + this.state.coords)
+      }.bind(this));
+    }
   },
 
   changeScriptTags: function(m) {
@@ -221,7 +223,8 @@ var ChatBox = React.createClass({
     message["content"] = message["content"].replace(/</, "\u003c").replace(/>/, "\u003e");
     var messages = this.state.data;
     messages.push(message);
-    this.setState({data: messages});
+    console.log("chatBox isMounted(): " + this.isMounted());
+    this.isMounted() ? this.setState({data: messages}) : null;
   },
 
   handleReload: function() {
