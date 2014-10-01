@@ -39,8 +39,6 @@ var MessageList = React.createClass({
   componentWillUpdate: function() {
     var node = this.getDOMNode();
     this.shouldScroll = Math.abs(node.scrollTop + node.offsetHeight - node.scrollHeight) < 20;
-    // console.log("-----------------------------------------------")
-    // console.log("shouldScroll = " + this.shouldScroll);
   },
 
   componentDidUpdate: function() {
@@ -66,9 +64,9 @@ var Message = React.createClass({
     var imagedMessage = this.emojifyText(imagedMessage);
     return (
       <li className="message">
+      <TimeStamp time={this.props.time} />
       <span className="messageAuthor">
-      {this.props.author}
-        <TimeStamp time={this.props.time} />:&nbsp;
+      {this.props.author}:&nbsp;
       </span>
       <p className="messageContent">
         <span className="messageText" dangerouslySetInnerHTML={{__html: imagedMessage}}>
@@ -115,7 +113,7 @@ var TimeStamp = React.createClass({
     var displayTimeStamp = this.chooseDateTime(sentTime);
     return (
       <span className = "messageTimeStamp">
-        &nbsp;({displayTimeStamp})
+        {displayTimeStamp}
       </span>
     );
   }

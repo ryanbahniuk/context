@@ -55,13 +55,23 @@ div.userAuth, div.chatBox {
 		width: 100%;
 		border-top: 1px solid $lighter-grey;
 		padding: 0.4em 8px;
+    position: relative;
+    .messageTimeStamp {
+      display: none;
+      padding: 1px 5px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 1);
+      color: $brand-secondary;
+      text-align: center;
+      border: 1px solid $lighter-grey;
+      border-right: 0;
+      border-top: 0;
+      border-radius: 0 0 0 5px;
+    }
 		.messageAuthor {
 			color: $brand-primary;
-      .messageTimeStamp {
-         /*Does this hide?*/
-        display: none;
-        width: 0px;
-      }
     }
     .messageContent {
       display: inline;
@@ -69,15 +79,12 @@ div.userAuth, div.chatBox {
     .emoji {
       width: 20px;
     }
-	}
-  .message:hover {
-    /* Does this nesting work? */
-    .messageTimeStamp {
-      display: inline;
-      width: auto;
-       /*Does width auto work?*/
+    &:hover {
+      .messageTimeStamp {
+        display: block;
+      }
     }
-  }
+	}
 }
 
 .chatInput {

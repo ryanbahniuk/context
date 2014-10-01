@@ -39,8 +39,6 @@ var MessageList = React.createClass({displayName: 'MessageList',
   componentWillUpdate: function() {
     var node = this.getDOMNode();
     this.shouldScroll = Math.abs(node.scrollTop + node.offsetHeight - node.scrollHeight) < 20;
-    // console.log("-----------------------------------------------")
-    // console.log("shouldScroll = " + this.shouldScroll);
   },
 
   componentDidUpdate: function() {
@@ -66,9 +64,9 @@ var Message = React.createClass({displayName: 'Message',
     var imagedMessage = this.emojifyText(imagedMessage);
     return (
       React.DOM.li({className: "message"}, 
+      TimeStamp({time: this.props.time}), 
       React.DOM.span({className: "messageAuthor"}, 
-      this.props.author, 
-        TimeStamp({time: this.props.time}), ": "
+      this.props.author, ": "
       ), 
       React.DOM.p({className: "messageContent"}, 
         React.DOM.span({className: "messageText", dangerouslySetInnerHTML: {__html: imagedMessage}}
@@ -115,7 +113,7 @@ var TimeStamp = React.createClass({displayName: 'TimeStamp',
     var displayTimeStamp = this.chooseDateTime(sentTime);
     return (
       React.DOM.span({className: "messageTimeStamp"}, 
-        " (", displayTimeStamp, ")"
+        displayTimeStamp
       )
     );
   }

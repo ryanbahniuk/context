@@ -1706,23 +1706,29 @@ div.userAuth, div.chatBox {
   .messageList .message {
     width: 100%;
     border-top: 1px solid #e6e6e6;
-    padding: 0.4em 8px; }
+    padding: 0.4em 8px;
+    position: relative; }
+    .messageList .message .messageTimeStamp {
+      display: none;
+      padding: 1px 5px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: white;
+      color: #F48351;
+      text-align: center;
+      border: 1px solid #e6e6e6;
+      border-right: 0;
+      border-top: 0;
+      border-radius: 0 0 0 5px; }
     .messageList .message .messageAuthor {
       color: #318FCE; }
-      .messageList .message .messageAuthor .messageTimeStamp {
-        /*Does this hide?*/
-        display: none;
-        width: 0px; }
     .messageList .message .messageContent {
       display: inline; }
     .messageList .message .emoji {
       width: 20px; }
-  .messageList .message:hover {
-    /* Does this nesting work? */ }
     .messageList .message:hover .messageTimeStamp {
-      display: inline;
-      width: auto;
-      /*Does width auto work?*/ }
+      display: block; }
 
 .chatInput {
   position: fixed;
