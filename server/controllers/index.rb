@@ -7,9 +7,19 @@ get '/world' do
   File.read(File.join('public', 'world.json'))
 end
 
+get '/world-2' do
+  content_type :json
+  File.read(File.join('public', 'world-2.json'))
+end
+
 get '/us' do
   content_type :json
   File.read(File.join('public', 'us.json'))
+end
+
+get '/albers_us' do
+  content_type :json
+  File.read(File.join('public', 'albers_us.json'))
 end
 
 get '/dev' do

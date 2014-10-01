@@ -4,7 +4,7 @@ $(document).ready(function(){
       height = 600;
 
   var proj = d3.geo.orthographic()
-    .scale(475)
+    .scale(300)
     .translate([width/2, height/2])
     .clipAngle(90)
     .precision(0.1);
@@ -18,17 +18,39 @@ $(document).ready(function(){
     .attr("width", width)
     .attr('height', height)
 
-  svg.append("path")
-    .datum(graticule)
-    .attr('class', 'graticule')
+  svg.append("defs").append("path")
+    .datum({type: "Sphere"})
+    .attr('id', 'sphere')
     .attr('d', path);
 
-  d3.json('/world', function(errors, col) {
+  svg.append("use")
+    .attr("class", "fill")
+    .attr('xlink:href', '#sphere');
+
+  svg.append("use")
+    .attr("class", "stroke")
+    .attr('xlink:href', '#sphere');
+
+  svg.append("path")
+    .datum("graticule")
+    .attr("class", "graticule")
+    .attr("d", path);
+
+  d3.json('/world', function(errors, world) {
     svg.insert("path", ".graticule")
-      .datum(topojson.feature(col, col.objects.land))
+      .datum(topojson.feature(world, world.objects.land))
       .attr("class", "land")
       .attr("d", path)
+
+    svg.insert("path", ".graticule")
+      .datum(topojson.mesh(world, world.objects.countries, function(a, b){
+        return a !== b
+      }))
+      .attr('class', 'boundary')
+      .attr('d', path);
   });
+
+  d3.select(self.frameElement).style("height", height + "px");
 
   var points = svg.append("g")
     .attr('class', 'points')
@@ -61,6 +83,10 @@ $(document).ready(function(){
         return proj(d)[0];
       });
     }
+
+  d3.timer(function(){
+    
+  })
 
 
 
