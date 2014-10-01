@@ -162,6 +162,7 @@ var ReportConnection = React.createClass({
         <form className="reportConnection" ref="connectionForm" onClick={this.onSend}>
           <input type="hidden" name="url" value={url}/>
           <input type="hidden" name="type" value="chat_connection"/>
+          <input type="hidden" name="version" value={version}/>
           <textarea placeholder="Help us fix bugs. Describe what you were doing when the connection was lost." name="description"></textarea>
           <input type="submit"/>
         </form>

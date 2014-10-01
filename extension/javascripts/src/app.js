@@ -16,6 +16,8 @@ var registerUrl = httpServer + "users";
 var messageUrl = httpServer + "urls/messages/10";
 var errorReportUrl = httpServer + "error";
 
+var version = "0.0.6"
+
 var App = React.createClass({
 
   getInitialState: function() {
@@ -167,6 +169,9 @@ var ReportDetails = React.createClass({
       return (
         <form className="reportDetails" onSubmit={this.handleSend} ref="detailsForm">
           <div><textarea placeholder="Details?" name="description"></textarea></div>
+          <input type="hidden" name="url" value={url}/>
+          <input type="hidden" name="version" value={version}/>
+          <input type="hidden" name="user_id" value={user["cookie"]}/>
           <input type="submit"/>
         </form>
         );
@@ -193,6 +198,7 @@ var ReportError = React.createClass({
         {this.props.reportSent ? <span id="report_sent">Report Sent</span>  : <span onClick={this.sendReport}>Report Page Error</span>}
         <form ref="errorForm">
           <input type="hidden" name="url" value={url}/>
+          <input type="hidden" name="version" value={version}/>
           <input type="hidden" name="user_id" value={user["cookie"]}/>
           {/*{<input type="hidden" name="os" id="os"/>}*/}
         </form>
