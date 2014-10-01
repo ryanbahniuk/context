@@ -119,8 +119,8 @@ var ChatBox = React.createClass({
   },
 
   componentDidMount: function() {
-    this.openSocket();
     url = document.URL.split("?")[1].replace(/url=/,"");
+    this.openSocket();
     this.getCoords();
     this.loadMessages(url);
   },
@@ -130,7 +130,7 @@ var ChatBox = React.createClass({
   },
 
   openSocket: function() {
-    socket = new WebSocket(this.props.socketAddress);
+    socket = new WebSocket(socketAddress);
 
     socket.onopen = function(event) {
       console.log("socket open");
