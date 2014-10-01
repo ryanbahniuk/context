@@ -123,6 +123,7 @@ var ChatBox = React.createClass({
     url = document.URL.split("?")[1].replace(/url=/,"");
     this.getCoords();
     this.loadMessages(url);
+    this.props.resendReports();
   },
 
   componentWillMount: function() {

@@ -20,9 +20,9 @@ var App = React.createClass({
 
   getInitialState: function() {
     if(user !== undefined) {
-      return { showSettings: false, reportSent: false, detailsSent: false, userPresent: true, errorId: 0 };
+      return { showSettings: false, reportSent: false, detailsSent: false, userPresent: true, errorId: 0, pendingErrors: [] };
     } else {
-      return { showSettings: false, reportSent: false, detailsSent: false, userPresent: false, errorId: 0 };
+      return { showSettings: false, reportSent: false, detailsSent: false, userPresent: false, errorId: 0, pendingErrors: [] };
     };
   },
 
@@ -60,10 +60,10 @@ var App = React.createClass({
     }.bind(this))
     .fail(function() {
       console.log("error report error");
-    })
-    .always(function() {
-      console.log("ajax report send complete");
-    });
+      var errorUpdate = this.state.pendingErrors;
+      errorUpdate.push(form.serialize());
+      this.setState({pendingErrors: errorUpdate});
+    }.bind(this));
   },
 
   handleSendDetails: function(form) {
@@ -79,35 +79,55 @@ var App = React.createClass({
         console.log(data);
       })
       .fail(function() {
-        console.log("error details error");
-      });
+        console.log("report saved");
+        var errorUpdate = this.state.pendingErrors;
+        errorUpdate.push(form.serialize());
+        this.setState({pendingErrors: errorUpdate});
+        console.log(this.state.pendingErrors);
+      }.bind(this));
   },
 
-  handleConnectionReport: function(form) {
-    $.ajax({
-      url: errorReportUrl,
-      type: 'post',
-      contentType: "application/x-www-form-urlencoded",
-      data: form.serialize(),
-    })
-    .done(function() {
-      console.log("success");
-    })
-    .fail(function() {
-      console.log("error");
-    })
-    .always(function() {
-      console.log("complete");
+  // handleConnectionReport: function(form) {
+  //   $.ajax({
+  //     url: errorReportUrl,
+  //     type: 'post',
+  //     contentType: "application/x-www-form-urlencoded",
+  //     data: form.serialize(),
+  //   })
+  //   .done(function() {
+  //     console.log("report success");
+  //   })
+  //   .fail(function() {
+  //     var errorUpdate = this.state.pendingErrors;
+  //     errorUpdate.push(form.serialize());
+  //     this.setState({pendingErrors: errorUpdate});
+  //     console.log(this.state.pendingErrors);
+  //   }.bind(this));
+  // },
+
+  tryResendReports: function() {
+    var reports = this.state.pendingErrors;
+    reports.forEach(function(report){
+      $.ajax({
+        url: errorReportUrl,
+        type: 'post',
+        contentType: "application/x-www-form-urlencoded",
+        data: report,
+      })
+      .done(function() {
+        console.log("success");
+        this.setState({pendingErrors: []});
+      }.bind(this));
     });
   },
 
   render: function() {
     if(this.state.userPresent){
       var settingsButton = <SettingsButton clickSettings={this.handleClickSettings} />;
-      var chatBody = <ChatBox socketAddress={socketAddress} messageUrl={messageUrl} user={user}/>;
+      var body = <ChatBox resendReports={this.tryResendReports}/>;
     }
     else {
-      var chatBody = <UserAuth loginUrl={loginUrl} registerUrl={registerUrl} onSuccess={this.onUserSuccess}/>;
+      var body = <UserAuth loginUrl={loginUrl} registerUrl={registerUrl} onSuccess={this.onUserSuccess} onConnectionReport={this.handleSendReport}/>;
     }
 
     if(this.state.showSettings) {
@@ -117,7 +137,7 @@ var App = React.createClass({
     return(
       <div className="App">
       {settingsButton}
-      {chatBody}
+      {body}
       {settingsView}
       </div>
     );

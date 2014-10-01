@@ -141,10 +141,11 @@ var ReportConnection = React.createClass({displayName: 'ReportConnection',
     return {submitted: false};
   },
 
-  onSend: function(e) {
+  onClickSubmit: function(e) {
     e.preventDefault();
     this.setState({submitted: true});
     var form = this.refs.connectionForm.getDOMNode();
+    debugger;
     this.props.onSend($(form));
     setTimeout(function() {
       this.props.onReload()}.bind(this), 1500);
@@ -159,7 +160,7 @@ var ReportConnection = React.createClass({displayName: 'ReportConnection',
       );
     } else {
       return (
-        React.DOM.form({className: "reportConnection", ref: "connectionForm", onClick: this.onSend}, 
+        React.DOM.form({className: "reportConnection", ref: "connectionForm", onSubmit: this.onClickSubmit}, 
           React.DOM.input({type: "hidden", name: "url", value: url}), 
           React.DOM.input({type: "hidden", name: "type", value: "chat_connection"}), 
           React.DOM.textarea({placeholder: "Help us fix bugs. Describe what you were doing when the connection was lost.", name: "description"}), 
