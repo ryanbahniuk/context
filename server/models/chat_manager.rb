@@ -39,6 +39,7 @@ class ChatManager
     else
       @open_urls[url] = [ws]
     end
+    ws.send({num: @open_urls[url].length}.to_json)
     # $SERVER_LOG.info url_log
   end
 
