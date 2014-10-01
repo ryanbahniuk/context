@@ -84,7 +84,7 @@ class ChatManager
   end
 
   def send_all(clients, content, name)
-    message = {content: content, author: name, time: Time.now}.to_json
+    message = {content: content, author: name, time: TimeDisplay.time_or_date(Time.now)}.to_json
     clients.each do |ws|
       ws.send(message)
       # $SERVER_LOG.info "sending #{message}"
@@ -104,14 +104,15 @@ class ChatManager
 end
 
 module TimeDisplay
-  def time_or_date(time)
-    # if same_day
-      # Return time
-    # else
-      # Return date
+  def self.time_or_date(time)
+    if same_day(time)
+      time.strftime "%H:%M:%S"
+    else
+      time.strftime "%m/%d"
+    end
   end
 
-  def time_passed(time)
+  def self.time_passed(time)
     short_time_units_relative = {
       min: 1,
       hour: 60,
@@ -120,7 +121,10 @@ module TimeDisplay
     }
   end
 
-  def same_day(time)
-    # Check date and whether same day as today
+  def self.same_day(time)
+    now = Time.now
+    today = Time.new(now.year, now.month, now.day)
+    date_given = Time.new(time.year, time.month, time.day)
+    today == date_given
   end
 end

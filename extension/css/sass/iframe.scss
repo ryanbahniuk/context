@@ -58,8 +58,8 @@ div.userAuth, div.chatBox {
 		.messageContent {
 			display: inline;
       .messageTimeStamp {
-        /* Does this hide? */
-        display: hidden;
+         /*Does this hide?*/
+        display: none;
         width: 0px;
       }
 		}
@@ -72,7 +72,8 @@ div.userAuth, div.chatBox {
     .messageTimeStamp {
       display: inline;
       width: auto;
-      /* Does width auto work? */
+      float: right;
+       /*Does width auto work?*/
     }
   }
 }

@@ -1,3 +1,5 @@
+require_relative '../models/chat_manager'
+
 post '/urls/messages/:i' do
 	$SERVER_LOG = Logger.new('logs/url_tester.log', 'monthly')
 	response['Access-Control-Allow-Origin'] = '*'
@@ -10,7 +12,7 @@ post '/urls/messages/:i' do
 			{
 				author: message.user.name,
 				content: message.content,
-				time: message.created_at
+				time: TimeDisplay.time_or_date(message.created_at)
 			}
 		end
 		object = {messages: messages}.to_json
