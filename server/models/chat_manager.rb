@@ -96,7 +96,7 @@ class ChatManager
   end
 
   def return_error(ws)
-    message = {content: "You are not logged in properly. Please logout and try again.", author: "CONTEXT"}.to_json
+    message = {content: "You are not logged in properly. Please logout and try again.", author: "CONTEXT", time: Time.now}.to_json
     ws.send(message)
   end
 
@@ -105,31 +105,4 @@ class ChatManager
     @open_urls.each { |url, clients| string_urls[url] = clients.length }
   end
 
-end
-
-module TimeDisplay
-  def self.time_or_date(time, timezone_offset)
-    timezone_time = time - timezone_offset * 60
-    if same_day(time)
-      timezone_time.strftime "%I:%M %P"
-    else
-      timezone_time.strftime "%m/%d"
-    end
-  end
-
-  def self.time_passed(time)
-    short_time_units_relative = {
-      min: 1,
-      hour: 60,
-      day: 24,
-      week: 7
-    }
-  end
-
-  def self.same_day(time)
-    now = Time.now
-    today = Time.new(now.year, now.month, now.day)
-    date_given = Time.new(time.year, time.month, time.day)
-    today == date_given
-  end
 end
