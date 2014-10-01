@@ -106,7 +106,7 @@ end
 module TimeDisplay
   def self.time_or_date(time)
     if same_day(time)
-      time.strftime "%H:%M:%S"
+      time.strftime "%I:%M %P"
     else
       time.strftime "%m/%d"
     end
