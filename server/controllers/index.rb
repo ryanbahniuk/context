@@ -2,6 +2,10 @@ get '/?' do
   erb :index
 end
 
+get '/about/?' do
+  erb :about
+end
+
 get '/dev' do
   redirect '/dev/errors'
 end

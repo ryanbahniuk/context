@@ -1,4 +1,5 @@
 @import "variables";
+@import "mixins";
 
 .contain-to-grid {
 	background: #fff;
@@ -39,8 +40,43 @@
 .jumbotron {
 	padding: 4em 0;
 	text-align: center;
-	h1 {
+	h1, h2, h3 {
 		margin: 2em 0;
+	}
+}
+
+button:hover, button:focus, .button:hover, .button:focus {
+	background-color: $brand-secondary;
+}
+
+footer {
+	height: $header-height;
+	margin-top: 13em !important;
+	.copyright {
+		display: inline-block;
+		margin-top: 0.8em;
+	}
+	.social-container {
+		float: right;
+		display: inline-block;
+		margin-top: 0.7em;
+		.social-block {
+			display: inline-block;
+			margin-left: 0.5em;
+			width: 30px;
+			height: 30px;
+			text-align: center;
+			font-size: 1.3em;
+			background-color: $brand-primary;
+			color: #fff;
+			&:hover {
+				@include transition(0.4s);
+				background-color: $brand-secondary;
+			}
+			&:first-child {
+				margin-left: 0;
+			}
+		}
 	}
 }
 

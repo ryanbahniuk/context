@@ -1689,7 +1689,38 @@
 .jumbotron {
   padding: 4em 0;
   text-align: center; }
-  .jumbotron h1 {
+  .jumbotron h1, .jumbotron h2, .jumbotron h3 {
     margin: 2em 0; }
+
+button:hover, button:focus, .button:hover, .button:focus {
+  background-color: #F48351; }
+
+footer {
+  height: 50px;
+  margin-top: 13em !important; }
+  footer .copyright {
+    display: inline-block;
+    margin-top: 0.8em; }
+  footer .social-container {
+    float: right;
+    display: inline-block;
+    margin-top: 0.7em; }
+    footer .social-container .social-block {
+      display: inline-block;
+      margin-left: 0.5em;
+      width: 30px;
+      height: 30px;
+      text-align: center;
+      font-size: 1.3em;
+      background-color: #318FCE;
+      color: #fff; }
+      footer .social-container .social-block:hover {
+        -webkit-transition: all 0.4s ease;
+        -moz-transition: all 0.4s ease;
+        -o-transition: all 0.4s ease;
+        transition: all 0.4s ease;
+        background-color: #F48351; }
+      footer .social-container .social-block:first-child {
+        margin-left: 0; }
 
 /*# sourceMappingURL=index.css.map */

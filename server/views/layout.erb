@@ -20,7 +20,7 @@
 		<nav class="top-bar" data-topbar role="navigation">
 		  <ul class="title-area">
 		    <li class="name">
-		      <h1><a href="#">Context</a></h1>
+		      <h1><a href="/">Context</a></h1>
 		    </li>
 		  </ul>
 
@@ -31,9 +31,20 @@
 		  </section>
 		</nav>
 	</header>
+
+
   <%= yield %>
-  <footer>
-  	
+  
+
+  <footer class="row">
+  	<div class="copyright">
+      &copy; <%= Time.now.strftime('%Y') %>, Context
+    </div>
+  	<div class="social-container">
+  		<a href="https://github.com/ryanbahniuk/context" target="_blank"><div class="social-block github"><i class="fa fa-github"></i></div></a>
+  		<a href="https://twitter.com/contextualim" target="_blank"><div class="social-block twitter"><i class="fa fa-twitter"></i></div></a>
+  		<a href="mailto:contextualim@gmail.com" target="_blank"><div class="social-block email"><i class="fa fa-envelope"></i></div></a>
+  	</div>
   </footer>
   <script type="text/javascript" src="/js/dev.js"></script>
 </body>
