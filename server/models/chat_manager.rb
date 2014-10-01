@@ -39,6 +39,7 @@ class ChatManager
     else
       @open_urls[url] = [ws]
     end
+    ws.send({num: @open_urls[url].length}.to_json)
     # $SERVER_LOG.info url_log
   end
 
@@ -63,11 +64,16 @@ class ChatManager
   end
 
   def handle_message(ws, msg)
-    decoded = Base64.decode64(msg["cookie"].encode('ascii-8bit'))
-    decrypted = Encryptor.decrypt(decoded, key: SECRET_KEY)
-    user_id = decrypted
-    user = User.find_by_id(user_id)
-    msg["user_id"] = user_id
+    if msg["cookie"]
+      decoded = Base64.decode64(msg["cookie"].encode('ascii-8bit'))
+      decrypted = Encryptor.decrypt(decoded, key: SECRET_KEY)
+      user_id = decrypted
+      user = User.find_by_id(user_id)
+      msg["user_id"] = user_id
+    else
+      user = nil
+    end
+
     if user
       EM.defer message_recording_proc(ws, msg), clear_database_connections_proc
       ws_array = @open_urls[msg["url"]]
