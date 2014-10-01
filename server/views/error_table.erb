@@ -1,0 +1,38 @@
+<table>
+    <tr>
+      <th>ID</th>
+      <th>URL</th>
+      <th>Description</th>
+      <th>User</th>
+      <th>Resolved?</th>
+    </tr>
+  <% @errors.each do |e|%>
+    <tr>
+      <td class="small"><%= e.id %></td>
+      <td>
+        <% if e.url %>
+        <%= e.url.link %>
+        <% else %>
+        nil
+        <% end %>
+      </td>
+      <td><%= e.description %></td>
+      <td>
+        <% if e.user %>
+        <%= e.user.id %>
+        <% else %>
+        nil
+        <% end %>
+      </td>
+      <td class="small">
+        <form>
+        <% if e.resolved? == true %>
+          <input data="<%= e.id %>" type="checkbox" checked/>
+        <% else %>
+          <input data="<%= e.id %>" type="checkbox"/>
+        <% end %>
+        </form>
+      </td>
+    </tr>
+  <% end %>
+</table>
