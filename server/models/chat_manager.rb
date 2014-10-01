@@ -14,12 +14,13 @@ class ChatManager
   end
 
   def number_of_users
-    puts @open_urls
-    {num: @open_urls[@msg["url"]].length}.to_json
+    {num: unique_users}.to_json
   end
 
   def unique_users
-    @open_urls
+    unique = [];
+    @open_urls.map{|k,v| unique << k unless unique.include?(k)}
+    return unique.length
   end
 
   def remove_client(ws)
