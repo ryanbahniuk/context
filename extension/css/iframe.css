@@ -1700,9 +1700,7 @@ div.userAuth, div.chatBox {
   padding: 0;
   margin: 0;
   overflow-y: scroll;
-  overflow-x: hidden;
-  word-wrap: break-word;
-  word-break: break-all; }
+  overflow-x: hidden; }
   .messageList .message {
     width: 100%;
     border-top: 1px solid #e6e6e6;
@@ -1723,8 +1721,6 @@ div.userAuth, div.chatBox {
       border-radius: 0 0 0 5px; }
     .messageList .message .messageAuthor {
       color: #318FCE; }
-    .messageList .message .messageContent {
-      display: inline; }
     .messageList .message .emoji {
       width: 20px; }
     .messageList .message:hover .messageTimeStamp {
@@ -1925,8 +1921,9 @@ img.user-inserted-image {
     color: #cccccc; }
 
 .userCount {
-  height: 29px;
-  padding-top: 8px; }
+  height: 30px;
+  padding-top: 8px;
+  border-bottom: 1px solid #cccccc; }
 
 textarea {
   resize: none; }

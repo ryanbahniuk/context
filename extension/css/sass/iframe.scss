@@ -48,8 +48,6 @@ div.userAuth, div.chatBox {
   margin: 0;
   overflow-y: scroll;
   overflow-x: hidden;
-  word-wrap: break-word;
-  word-break: break-all;
 
 	.message {
 		width: 100%;
@@ -73,9 +71,6 @@ div.userAuth, div.chatBox {
 		.messageAuthor {
 			color: $brand-primary;
     }
-    .messageContent {
-      display: inline;
-		}
     .emoji {
       width: 20px;
     }
@@ -329,8 +324,10 @@ img.user-inserted-image {
 }
 
 .userCount{
-  height:29px;
+  height: 30px;
   padding-top: 8px;
+  border-bottom: 1px solid $light-grey;
+}
 
 textarea {
   resize: none;

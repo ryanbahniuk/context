@@ -68,10 +68,7 @@ var Message = React.createClass({displayName: 'Message',
       React.DOM.span({className: "messageAuthor"}, 
       this.props.author, ": "
       ), 
-      React.DOM.p({className: "messageContent"}, 
-        React.DOM.span({className: "messageText", dangerouslySetInnerHTML: {__html: imagedMessage}}
-        )
-      )
+      React.DOM.span({className: "messageText", dangerouslySetInnerHTML: {__html: imagedMessage}})
       )
       );
   }
