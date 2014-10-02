@@ -1923,7 +1923,14 @@ img.user-inserted-image {
 .userCount {
   height: 30px;
   padding-top: 8px;
-  border-bottom: 1px solid #cccccc; }
+  border-bottom: 1px solid #cccccc;
+  color: #cccccc;
+  font-size: 0.9rem;
+  text-align: center; }
+  .userCount a:link, .userCount a:active, .userCount a:visited {
+    color: #cccccc; }
+  .userCount a:hover {
+    color: #999999; }
 
 textarea {
   resize: none; }
