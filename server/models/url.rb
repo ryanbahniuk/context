@@ -4,12 +4,13 @@ class Url < ActiveRecord::Base
 
   def self.rootify(url)
 		uri = URI(url)
-		uri.host + uri.path
+    puts uri.host + uri.path
+    uri.host + uri.path
   end
 
   def self.find_create(link)
 		self.find_or_create_by(link: link)
-	end
+  end
 
   def self.rootify_find_create(link)
     uri = self.rootify(link)

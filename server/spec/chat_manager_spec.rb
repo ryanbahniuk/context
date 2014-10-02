@@ -5,7 +5,8 @@ describe ChatManager do
 	before(:all) do
 		@chat_manager = ChatManager.new
 		@websocket = "existing websocket"
-		@chat_manager.setup_client(@websocket, "www.theatlantic.com")
+		@message = {url: "www.theatlantic.com", cookie: "imacookie"}
+		@chat_manager.setup_client(@websocket, @message)
 		User.create(name: "test user", email: "test@user.com", password: "password")
 	end
 
