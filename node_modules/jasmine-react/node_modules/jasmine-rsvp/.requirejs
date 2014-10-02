@@ -1,0 +1,9 @@
+requirejs.config({
+  paths: {
+    'rsvp': '../vendor/rsvp',
+    'backburner': '../vendor/backburner',
+  },
+
+  shim: {
+  }
+});
