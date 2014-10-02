@@ -1,0 +1,42 @@
+<!Doctype>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="../extension/css/emojify.min.css">
+	<script src="../extension/javascripts/jquery-2.1.1.min.js"></script>
+	<script src="../extension/javascripts/emojify.min.js"></script>
+	<script src="test.js"></script>
+
+	<style>
+		.emoji {
+			width: 20px;
+		}
+	</style>
+</head>
+<body>
+	<h1>Emoji Test Area</h1>
+	<div class="message">I was feeling like this :confounded:</div>
+	<div class="message">:laughing:</div>
+	<div class="message">:confused:</div>
+	<h1>HTTP Server Test Area</h1>
+	<h3>Login</h3>
+	<form id="login">
+		<input type="text" name="email" placeholder="Email">
+		<input type="password" name="password" placeholder="Password">
+		<input type="submit" value="Login">
+	</form>
+
+	<h3>Register</h3>
+	<form id="register">
+		<input type="text" name="user[name]" placeholder="Name">
+		<input type="text" name="user[email]" placeholder="Email">
+		<input type="password" name="user[password]" placeholder="Password">
+		<input type="submit" value="Register">
+	</form>
+
+	<button id="espn">ESPN Home</button>
+	
+	<button id="npr-morning">NPR Morning</button>
+
+	<button id="espn-scores">ESPN Scores</button>
+</body>
+</html>

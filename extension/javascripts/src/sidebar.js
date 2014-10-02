@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 
 var socket;
-var url;
+// var url;
 
 var ChatInput = React.createClass({
   handleSubmit: function(e) {
@@ -15,8 +15,8 @@ var ChatInput = React.createClass({
   render: function() {
     return (
       <form className="chatInput" onSubmit={this.handleSubmit}>
-      <input type="text" ref="content"/>
-      <input type="submit" value="Send"/>
+        <input type="text" ref="content"/>
+        <input type="submit" value="Send"/>
       </form>
       );
   }
@@ -26,7 +26,7 @@ var MessageList = React.createClass({
   render: function() {
     var messageNodes = this.props.data.map(function(message, index) {
       return (
-        <Message author={message.author} content={message.content} key={index}/>
+        <Message author={message.author} content={message.content}  time={message.time} key={index} />
         );
     });
     return (
@@ -36,21 +36,9 @@ var MessageList = React.createClass({
       );
   },
 
-  logScrollPosition: function() {
-    var node = this.getDOMNode();
-    var shouldScroll = Math.abs(node.scrollTop + node.offsetHeight - node.scrollHeight) < 20;
-    // console.log("-----------------------------------------------")
-    // console.log("scrollTop = " + node.scrollTop);
-    // console.log("offsetHeight = " + node.offsetHeight);
-    // console.log("scrollHeight = " + node.scrollHeight);
-    // console.log("shouldScroll = " + shouldScroll);
-  },
-  
   componentWillUpdate: function() {
     var node = this.getDOMNode();
     this.shouldScroll = Math.abs(node.scrollTop + node.offsetHeight - node.scrollHeight) < 20;
-    // console.log("-----------------------------------------------")
-    // console.log("shouldScroll = " + this.shouldScroll);
   },
 
   componentDidUpdate: function() {
@@ -71,19 +59,63 @@ var Message = React.createClass({
     var imagedMessage = messageContent.replace(/<a href="(.+).(gif|jpg|jpeg|png)(.+)<\/a>/, function(hrefTag) {
       var link = hrefTag.match(/>(.+)</)[0]
       var link = link.substring(1, link.length - 1)
-      console.log("<img src=\"" + link + "\">");
       return "<img src=\"http://" + link + "\" class='user-inserted-image'>";
     });
     var imagedMessage = this.emojifyText(imagedMessage);
     return (
       <li className="message">
+      <TimeStamp time={this.props.time} />
       <span className="messageAuthor">
       {this.props.author}:&nbsp;
       </span>
-      <p className="messageContent" dangerouslySetInnerHTML={{__html: imagedMessage}}>
+      <p className="messageContent">
+        <span className="messageText" dangerouslySetInnerHTML={{__html: imagedMessage}}>
+        </span>
       </p>
       </li>
       );
+  }
+});
+
+var TimeStamp = React.createClass({
+  formatAMPM: function(date) {
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    return strTime;
+  },
+
+  formatDate: function(date) {
+    var month = date.getMonth();
+    var day = date.getDate();
+    strDate = month + 1 + '/' + day;
+    return strDate;
+  },
+
+  chooseDateTime: function(date) {
+    var now = new Date();
+    var then = new Date(date);
+    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    var thenDate = new Date(then.getFullYear(), then.getMonth(), then.getDate());
+    if(today - thenDate === 0) {
+      return this.formatAMPM(then);
+    } else {
+      return this.formatDate(then);
+    }
+  },
+
+  render: function() {
+    var sentTime = new Date(this.props.time);
+    var displayTimeStamp = this.chooseDateTime(sentTime);
+    return (
+      <span className = "messageTimeStamp">
+        {displayTimeStamp}
+      </span>
+    );
   }
 });
 
@@ -115,7 +147,7 @@ var ChatBox = React.createClass({
     var request = $.ajax(messageUrl, {
       method: "post",
       contentType: "application/x-www-form-urlencoded",
-      data: data
+      data: data,
     });
     request.done(function(response){
       var messages = this.state.data;
@@ -130,44 +162,80 @@ var ChatBox = React.createClass({
   },
 
   componentDidMount: function() {
-    this.openSocket();
     url = document.URL.split("?")[1].replace(/url=/,"");
+    this.openSocket();
     this.getCoords();
     this.loadMessages(url);
   },
 
+  componentWillMount: function() {
+    this.setState({waiting: false});
+  },
+
   openSocket: function() {
-    socket = new WebSocket(this.props.socketAddress);
+    socket = new WebSocket(socketAddress);
 
     socket.onopen = function(event) {
+      console.log("socket open");
       this.setState({connection: true, waiting: false});
-      var msg = {url: url, initial: true};
+      var msg = {url: url, initial: true, cookie: user["cookie"], version: version};
+      console.log(msg)
       socket.send(JSON.stringify(msg));
     }.bind(this);
 
     socket.onmessage = function(e) {
-      this.setState({connection: true, waiting: false});
+      this.isMounted() ? this.setState({connection: true, waiting: false}) : null;
       var message = JSON.parse(e.data);
-      this.add_message(message);
+      if (message["content"] !== undefined) {
+        this.add_message(message);
+      }
+      else if (message["error"] !== undefined) {
+        this.setState({error: message["error"]});
+      }
+      else{
+        this.setState({userMsg: this.showUsers(message)});
+      }
     }.bind(this);
 
     socket.onerror = function() {
+      // console.log("socket error");
       this.setConnectionError();
     }.bind(this);
 
     socket.onclose = function() {
+      // console.log("socket closed");
       this.setConnectionError();
     }.bind(this);
   },
 
+  showUsers: function(message){
+    if (message["num"] === 1) {
+      var msg = "You're alone here. Invite your friends!";
+    } else {
+      var msg = message["num"] + " people connected";
+    }
+    return (
+      msg
+      );
+  },
+
   getInitialState: function() {
-    return { data: [], connection: true, coords: [], waiting: true };
+    return { data: [], connection: true, coords: [], waiting: true, errors: [] };
   },
 
   getCoords: function() {
-    chrome.storage.sync.get("coords", function(obj){
-      this.setState({coords: [obj["coords"][0], obj["coords"][1]] });
-    }.bind(this));
+    // chrome.storage.sync.get("coords", function(obj){
+    //   this.setState({coords: [obj["coords"][0], obj["coords"][1]] });
+    // }.bind(this));
+    if(this.isMounted()){
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var lat = position.coords.latitude;
+        var lon = position.coords.longitude;
+        // console.log("coords: " + lat + " , " + lon)
+        this.setState({coords: [lat, lon]});
+        // console.log("state: " + this.state.coords)
+      }.bind(this));
+    }
   },
 
   changeScriptTags: function(m) {
@@ -187,10 +255,10 @@ var ChatBox = React.createClass({
   handleMessageSubmit: function(m) {
     m = this.changeScriptTags(m);
     var coords = this.state.coords;
-    var user_id = user["id"];
     if (m.content !== "") {
       var messages = this.state.data;
-      var msg = {url: url, content: m.content, user_id: user_id, coords: coords };
+      var msg = {url: url, content: m.content, cookie: user["cookie"], coords: coords, version: version };
+      // console.log(msg);
       socket.send(JSON.stringify(msg));
     }
   },
@@ -202,7 +270,8 @@ var ChatBox = React.createClass({
     message["content"] = message["content"].replace(/</, "\u003c").replace(/>/, "\u003e");
     var messages = this.state.data;
     messages.push(message);
-    this.setState({data: messages});
+    // console.log("chatBox isMounted(): " + this.isMounted());
+    this.isMounted() ? this.setState({data: messages}) : null;
   },
 
   handleReload: function() {
@@ -211,12 +280,13 @@ var ChatBox = React.createClass({
 
   render: function() {
     if (this.state.waiting){
-      return ( 
+      return (
         <div className="chatBox"><ChatWaiting/></div>)
     }
     else if(this.state.connection){
       return (
         <div className="chatBox">
+          < UserCount message={this.state.userMsg} />
           < MessageList data={this.state.data} />
           < ChatInput onMessageSubmit={this.handleMessageSubmit} />
         </div>
@@ -229,4 +299,16 @@ var ChatBox = React.createClass({
       );
     }
   }
+});
+
+var UserCount = React.createClass ({
+  render: function(){
+    var msg = this.props.message;
+    return (
+      <div className="userCount">
+      {msg}
+      </div>
+      );
+  }
+
 });

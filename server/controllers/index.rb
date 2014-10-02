@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 get '/' do
   erb :index
 end
@@ -20,6 +21,14 @@ end
 get '/albers_us' do
   content_type :json
   File.read(File.join('public', 'albers_us.json'))
+do
+
+get '/?' do
+  erb :index
+end
+
+get '/about/?' do
+  erb :about
 end
 
 get '/dev' do

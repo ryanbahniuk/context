@@ -1,7 +1,5 @@
 /** @jsx React.DOM */
 
-var user = undefined;
-
 var UserAuth = React.createClass({
 
   getInitialState: function() {
@@ -24,8 +22,8 @@ var UserAuth = React.createClass({
 
   handleLoginRequest: function(data) {
     this.displayWaiting(true);
-    
-    var url = this.props.loginUrl;
+
+    var url = loginUrl;
     $.ajax(url, {
       method: "post",
       contentType: "application/x-www-form-urlencoded",
@@ -36,8 +34,8 @@ var UserAuth = React.createClass({
       this.displayWaiting(false);
       if(data["error"]) {
         this.setState({errors: data["error"]});
-      } else if(data["user"]) {
-        this.props.onSuccess(data["user"]);
+      } else if(data["cookie"]) {
+        this.props.onSuccess(data["cookie"]);
       } else {
         this.handleErrors();
       };
@@ -50,11 +48,11 @@ var UserAuth = React.createClass({
 
   handleRegisterRequest: function(data) {
     this.displayWaiting(true);
-    var url = this.props.registerUrl;
+    var url = registerUrl;
 
     $.ajax({
       url: url,
-      type: 'POST',
+      method: 'POST',
       contentType: "application/x-www-form-urlencoded",
       data: data.serialize(),
     })
@@ -64,8 +62,8 @@ var UserAuth = React.createClass({
       if(data["error"]) {
         this.setState({errors: data["error"]});
       }
-      else if(data["user"]) {
-        this.props.onSuccess(data["user"]);
+      else if(data["cookie"]) {
+        this.props.onSuccess(data["cookie"]);
       }
       else {
         this.handleErrors();
@@ -78,7 +76,7 @@ var UserAuth = React.createClass({
   },
 
   displayWaiting: function(status) {
-    if(this.isMounted()){
+    if(this.isMounted()) {
       this.setState({waiting: status});
     };
   },
@@ -102,13 +100,13 @@ var UserAuth = React.createClass({
         <DisplayErrors errors={this.state.errors}/>
         { this.state.showLogin ? <LoginForm onLogin={this.handleLoginRequest} onSwitchRegister={this.onClickRegister}/> : null }
         { this.state.showRegister ? <RegisterForm onRegister={this.handleRegisterRequest} onSwitchLogin={this.onClickLogin}/> : null }
-        { this.state.waiting ? <AuthWaiting/> : null}
+        { this.state.waiting ? <AuthWaiting onReload={this.handleReload}/> : null}
         </div>
       );
     } else {
       return(
         <div className="userAuth">
-          <LoginConnection onReload={this.handleReload}/> 
+          <LoginConnection onReload={this.handleReload}/>
           <ReportConnection onSend={this.props.onConnectionReport} onReload={this.handleReload}/>
         </div>
       );
@@ -127,12 +125,36 @@ var DisplayErrors = React.createClass({
 });
 
 var AuthWaiting = React.createClass({
+  getInitialState: function() {
+    return {timeout: false};
+  },
+
+  startTimer: function() {
+    setTimeout(function(){
+      this.isMounted() ? this.setState({timeout: true}) : null;
+    }.bind(this), 4000); 
+  },
+
+  componentDidMount: function() {
+    this.startTimer();
+  },
+
   render: function() {
-    return(
-      <div className="authWaiting">
-        <i className="fa fa-circle-o-notch fa-spin fa-4x"></i>
-      </div>
-    );
+    if(this.state.timeout){
+      return(
+        <div className="authWaiting connection">
+          <i className="fa fa-circle-o-notch fa-spin fa-4x"></i>
+          <p> Sorry this is taking a while </p>
+          <button onClick={this.props.onReload}>Reload</button>
+        </div>
+      );
+    } else {
+      return(
+        <div className="authWaiting connection">
+          <i className="fa fa-circle-o-notch fa-spin fa-4x"></i>
+        </div>
+      );    
+    }
   }
 });
 
@@ -141,7 +163,7 @@ var ReportConnection = React.createClass({
     return {submitted: false};
   },
 
-  onSend: function(e) {
+  onClickSubmit: function(e) {
     e.preventDefault();
     this.setState({submitted: true});
     var form = this.refs.connectionForm.getDOMNode();
@@ -159,12 +181,13 @@ var ReportConnection = React.createClass({
       );
     } else {
       return (
-        <form className="reportConnection" ref="connectionForm" onClick={this.onSend}>
+        <form className="reportConnection" ref="connectionForm" onSubmit={this.onClickSubmit}>
           <input type="hidden" name="url" value={url}/>
           <input type="hidden" name="type" value="chat_connection"/>
+          <input type="hidden" name="version" value={version}/>
           <textarea placeholder="Help us fix bugs. Describe what you were doing when the connection was lost." name="description"></textarea>
           <input type="submit"/>
-        </form>   
+        </form>
       );
     }
   }
@@ -183,6 +206,7 @@ var LoginForm = React.createClass({
     return (
       <div className="loginForm">
       <form onSubmit={this.handleLogin} ref="loginForm">
+        <input type="hidden" name="version" value={version}/>
         <input type="text" placeholder="Email" name="email"/>
         <input type="password" placeholder="Password" name="password"/>
         <input type="submit"/>
@@ -205,10 +229,11 @@ var RegisterForm = React.createClass({
     return (
       <div className="registerForm">
       <form onSubmit={this.handleRegister} ref="form">
-      <input type="text" placeholder="Name" name="user[name]" />
-      <input type="text" placeholder="Email" name="user[email]" />
-      <input type="password" placeholder="Password" name="user[password]" />
-      <input type="submit" value="Sign Up"/>
+        <input type="hidden" name="version" value={version}/>
+        <input type="text" placeholder="Name" name="user[name]" />
+        <input type="text" placeholder="Email" name="user[email]" />
+        <input type="password" placeholder="Password" name="user[password]" />
+        <input type="submit" value="Sign Up"/>
       </form>
       <button onClick={this.props.onSwitchLogin}>Login</button>
       </div>
@@ -220,10 +245,10 @@ var LoginConnection = React.createClass({
   render: function() {
     return (
       <div className="loginConnection connection">
-        <i className="fa fa-frown-o fa-5x"></i> 
+        <i className="fa fa-frown-o fa-5x"></i>
         <p>Something went wrong</p>
         <button onClick={this.props.onReload}>Reload</button>
-      </div> 
+      </div>
     );
   }
 });

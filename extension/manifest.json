@@ -1,7 +1,7 @@
 {
     "name": "Context",
     "description": "A real-time chat client connecting users visiting the same web page.",
-    "version": "0.0.4",
+    "version": "0.0.6",
     "manifest_version": 2,
     "background": {
 			"scripts": ["javascripts/background.js"],
@@ -28,7 +28,7 @@
       "128": "icons/128x128.png"
     },
 		"permissions": [
-      "tabs", "http://104.131.117.55:3000/", "storage", "geolocation"
+      "tabs", "http://104.131.117.55:3000/*", "http://*/", "storage", "geolocation"
     ],
     "web_accessible_resources": [
 	    "index.html",

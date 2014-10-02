@@ -36,30 +36,53 @@ div.userAuth, div.chatBox {
 	height: 100%;
   position: fixed;
   padding: 0;
-  overflow: scroll;
   top: $header-height;
 }
 
 .messageList {
   width: 100%;
-  height: calc(100% - 29px - 50px);
-  height: -webkit-calc(100% - 29px - 50px);
+  height: calc(100% - 100px);
+  height: -webkit-calc(100% - 100px);
   list-style: none;
   padding: 0;
   margin: 0;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  word-wrap: break-word;
+  word-break: break-all;
+
 	.message {
 		width: 100%;
 		border-top: 1px solid $lighter-grey;
 		padding: 0.4em 8px;
+    position: relative;
+    .messageTimeStamp {
+      display: none;
+      padding: 1px 5px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 1);
+      color: $brand-secondary;
+      text-align: center;
+      border: 1px solid $lighter-grey;
+      border-right: 0;
+      border-top: 0;
+      border-radius: 0 0 0 5px;
+    }
 		.messageAuthor {
 			color: $brand-primary;
-		}
-		.messageContent {
-			display: inline;
+    }
+    .messageContent {
+      display: inline;
 		}
     .emoji {
       width: 20px;
+    }
+    &:hover {
+      .messageTimeStamp {
+        display: block;
+      }
     }
 	}
 }
@@ -303,4 +326,12 @@ img.user-inserted-image {
   i {
     color: $light-grey;
   }
+}
+
+.userCount{
+  height:29px;
+  padding-top: 8px;
+
+textarea {
+  resize: none;
 }

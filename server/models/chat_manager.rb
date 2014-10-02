@@ -1,9 +1,25 @@
 class ChatManager
   require 'json'
   attr_reader :open_urls
+  attr_accessor :url_cookies
 
   def initialize
-    @open_urls = {}
+    @url_cookies = {}
+    update_open_urls
+    # {url => [ws1, ws2]}
+    # url_cookies { url1 => {ws1: cookie1, ws2: cookie2}}
+  end
+
+  def url_cookies_to_s
+    cookies_str = {}
+    @url_cookies.each do |url, sockets|
+      ws_representation = {}
+      sockets.each do |ws, cookie|
+        ws_representation.merge!({"ws #{ws.signature}" => cookie})
+      end
+      cookies_str.merge!({url => ws_representation})
+    end
+    cookies_str
   end
 
   def start(options)
@@ -13,35 +29,77 @@ class ChatManager
     end
   end
 
-  def remove_client(ws)
-    @open_urls.each do |url, arr|
-      if arr.include?(ws)
-        # $SERVER_LOG.info("Deleting #{ws}")
-        arr.delete(ws)
-        # $SERVER_LOG.error("Delete failed--#{ws}") if arr.include?(ws)
-      end
+  def update_open_urls
+    @open_urls = {}
+    @url_cookies.each do |url, sockets|
+      @open_urls[url] = sockets.keys
     end
+    @open_urls
   end
 
   def route_message(ws, msg)
-    msg = JSON.parse(msg)
-
-    if msg["initial"]
-      setup_client(ws, msg["url"])
-    elsif msg["vis"]
-      @vis = ws;
+    message = JSON.parse(msg)
+    if message["version"] != '0.0.6'
+      send_version_error(ws)
+    elsif message["initial"]
+      setup_client(ws, message)
     else
-      handle_message(ws, msg)
+      handle_message(ws, message)
     end
   end
 
-  def setup_client(ws, url)
-    if @open_urls[url]
-      @open_urls[url] << ws
+  def send_version_error(ws)
+    error = {content: "Your version of Context is super old.  Better upgrade to version 0.0.6", author: "Context", time: Time.now}.to_json;
+    ws.send(error)
+  end
+
+  def setup_client(ws, message)
+    url = message["url"]
+    cookie = message["cookie"]
+
+    add_ws_to_url_cookies({ws: ws, url: url, cookie: cookie})
+
+    sockets = @url_cookies[url]
+    send_all_user_number(sockets)
+  end
+
+  def add_ws_to_url_cookies(args)
+    url = args[:url]
+    ws = args[:ws]
+    cookie = args[:cookie]
+
+    if @url_cookies[url]
+      @url_cookies[url].merge!({ws => cookie})
     else
-      @open_urls[url] = [ws]
+      @url_cookies[url] = {ws => cookie}
     end
-    # $SERVER_LOG.info url_log
+
+    update_open_urls
+  end
+
+  def send_all_user_number(sockets)
+    clients = sockets.keys
+    message = number_of_users(sockets)
+    clients.each do |ws|
+      ws.send(message)
+      # $SERVER_LOG.info "sending #{message}"
+    end
+  end
+
+  def number_of_users(sockets)
+    cookies = sockets.values.uniq
+    {num: cookies.length}.to_json
+  end
+
+  def remove_client(ws)
+    @url_cookies.each do |url, sockets_hash|
+      if sockets_hash.has_key?(ws)
+        sockets_hash.delete(ws)
+        update_open_urls
+        send_all_user_number(sockets_hash)
+      end
+    end
+
   end
 
   def message_recording_proc(ws, msg)
@@ -54,7 +112,6 @@ class ChatManager
       start_time = Time.now
       # $SERVER_LOG.info("Saving message -- #{msg["content"]}")
       message = Message.create(content: content, url: url, user_id: user_id, latitude: lat, longitude: lon)
-      p "message #{message.id}: #{message}"
       # $SERVER_LOG.info ("Message saved (#{msg["content"]}) -- #{Time.now - start_time}")
     }
   end
@@ -66,18 +123,36 @@ class ChatManager
   end
 
   def handle_message(ws, msg)
+<<<<<<< HEAD
     @vis.send(msg["coords"]) if msg["coords"]
     user = User.find_by_id(msg["user_id"])
+=======
+    if msg["cookie"]
+      begin
+        decoded = Base64.decode64(msg["cookie"].encode('ascii-8bit'))
+        decrypted = Encryptor.decrypt(decoded, key: SECRET_KEY)
+        user_id = decrypted
+        user = User.find_by_id(user_id)
+        msg["user_id"] = user_id
+      rescue
+        user = nil
+      end
+    else
+      user = nil
+    end
+
+>>>>>>> 93d6624bef9bbc2ae9b4c9df444b95bfef6913d3
     if user
       EM.defer message_recording_proc(ws, msg), clear_database_connections_proc
-      send_all(@open_urls[msg["url"]], msg["content"], user.name)
+      ws_array = @open_urls[msg["url"]]
+      send_all(ws_array, msg["content"], user.name)
     else
       return_error(ws)
     end
   end
 
   def send_all(clients, content, name)
-    message = {content: content, author: name}.to_json
+    message = {content: content, author: name, time: Time.now}.to_json
     clients.each do |ws|
       ws.send(message)
       # $SERVER_LOG.info "sending #{message}"
@@ -85,7 +160,7 @@ class ChatManager
   end
 
   def return_error(ws)
-    message = {content: "You are not logged in properly. Please logout and try again.", author: "CONTEXT"}.to_json
+    message = {content: "You are not logged in properly. Please logout and try again.", author: "CONTEXT", time: Time.now}.to_json
     ws.send(message)
   end
 
