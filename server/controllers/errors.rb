@@ -10,7 +10,9 @@ post '/error' do
       decoded = Base64.decode64(params[:user_id].encode('ascii-8bit'))
       decrypted = Encryptor.decrypt(decoded, key: SECRET_KEY)
       params[:user_id] = decrypted
-    rescue
+    rescue Exception => e
+      $SERVER_LOG.error "handle message error = #{e.message}"
+      $SERVER_LOG.error "handle message error = #{e.backtrace.inspect}"
       params[:user_id] = nil
     end
   else
