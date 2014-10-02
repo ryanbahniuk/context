@@ -15,8 +15,8 @@ var ChatInput = React.createClass({displayName: 'ChatInput',
   render: function() {
     return (
       React.DOM.form({className: "chatInput", onSubmit: this.handleSubmit}, 
-      React.DOM.input({type: "text", ref: "content"}), 
-      React.DOM.input({type: "submit", value: "Send"})
+        React.DOM.input({type: "text", ref: "content"}), 
+        React.DOM.input({type: "submit", value: "Send"})
       )
       );
   }
@@ -178,7 +178,8 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
     socket.onopen = function(event) {
       console.log("socket open");
       this.setState({connection: true, waiting: false});
-      var msg = {url: url, initial: true, cookie: user["cookie"]};
+      var msg = {url: url, initial: true, cookie: user["cookie"], version: version};
+      console.log(msg)
       socket.send(JSON.stringify(msg));
     }.bind(this);
 
@@ -187,6 +188,9 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
       var message = JSON.parse(e.data);
       if (message["content"] !== undefined) {
         this.add_message(message);
+      }
+      else if (message["error"] !== undefined) {
+        this.setState({error: message["error"]});
       }
       else{
         this.setState({userMsg: this.showUsers(message)});
@@ -216,7 +220,7 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
   },
 
   getInitialState: function() {
-    return { data: [], connection: true, coords: [], waiting: true };
+    return { data: [], connection: true, coords: [], waiting: true, errors: [] };
   },
 
   getCoords: function() {
@@ -253,7 +257,7 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
     var coords = this.state.coords;
     if (m.content !== "") {
       var messages = this.state.data;
-      var msg = {url: url, content: m.content, cookie: user["cookie"], coords: coords };
+      var msg = {url: url, content: m.content, cookie: user["cookie"], coords: coords, version: version };
       // console.log(msg);
       socket.send(JSON.stringify(msg));
     }

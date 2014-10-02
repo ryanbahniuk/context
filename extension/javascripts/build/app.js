@@ -1,6 +1,5 @@
 /** @jsx React.DOM */
-
-var runFromLocal = false;
+var runFromLocal = true;
 var socketAddress, httpServer;
 
 if(runFromLocal) {
@@ -16,17 +15,18 @@ var registerUrl = httpServer + "users";
 var messageUrl = httpServer + "urls/messages/10";
 var errorReportUrl = httpServer + "error";
 
-var version = "0.0.6"
+var version = "0.0.6";
 var user;
 var url;
+
 
 var App = React.createClass({displayName: 'App',
 
   getInitialState: function() {
     if(user !== undefined) {
-      return { showSettings: false, reportSent: false, detailsSent: false, userPresent: true, errorId: 0, pendingErrors: [] };
+      return { showSettings: false, reportSent: false, detailsSent: false, userPresent: true, errorId: 0, pendingErrors: [], versionOkay: true };
     } else {
-      return { showSettings: false, reportSent: false, detailsSent: false, userPresent: false, errorId: 0, pendingErrors: [] };
+      return { showSettings: false, reportSent: false, detailsSent: false, userPresent: false, errorId: 0, pendingErrors: [], versionOkay: true };
     };
   },
 
@@ -34,6 +34,10 @@ var App = React.createClass({displayName: 'App',
     user = {"cookie": object};
     chrome.storage.sync.set(user);
     this.setState({userPresent: true});
+  },
+
+  handleVersionError: function() {
+    this.setState({versionOkay: false});
   },
 
   handleClickSettings: function() {
@@ -45,7 +49,7 @@ var App = React.createClass({displayName: 'App',
   },
 
   handleClickLogout: function() {
-    chrome.storage.sync.clear();
+    chrome.storage.sync.set({"cookie": null});
     socket.close();
     user = undefined;
     this.setState({userPresent: false, showSettings: false });
@@ -53,9 +57,9 @@ var App = React.createClass({displayName: 'App',
 
   handleSendReport: function(form) {
     this.setState({reportSent: true});
-    $.ajax({
-      url: errorReportUrl,
-      type: 'post',
+    console.log(form.serialize());
+    $.ajax(errorReportUrl, {
+      method: "post",
       contentType: "application/x-www-form-urlencoded",
       data: form.serialize()
     })
@@ -65,10 +69,11 @@ var App = React.createClass({displayName: 'App',
     }.bind(this))
     .fail(function() {
       console.log("error report error");
-      var errorUpdate = this.state.pendingErrors;
-      errorUpdate.push(form.serialize());
-      this.setState({pendingErrors: errorUpdate});
-      console.log(this.state.pendingErrors);
+      // var errorUpdate = this.state.pendingErrors;
+      // errorUpdate.push(form.serialize());
+      // this.setState({pendingErrors: errorUpdate});
+      this.storeError(form.serialize());
+      // console.log(this.state.pendingErrors);
     }.bind(this));
   },
 
@@ -77,7 +82,7 @@ var App = React.createClass({displayName: 'App',
     var errorId = this.state.errorId;
     $.ajax({
       url: errorReportUrl + "/" + errorId,
-      type: 'post',
+      method: 'post',
       contentType: "application/x-www-form-urlencoded",
       data: form.serialize()
     })
@@ -86,47 +91,31 @@ var App = React.createClass({displayName: 'App',
     })
     .fail(function() {
       console.log("report saved");
-      var errorUpdate = this.state.pendingErrors;
-      errorUpdate.push(form.serialize());
-      this.setState({pendingErrors: errorUpdate});
-      console.log(this.state.pendingErrors);
+      // var errorUpdate = this.state.pendingErrors;
+      // errorUpdate.push(form.serialize());
+      // this.setState({pendingErrors: errorUpdate});
+      // console.log(this.state.pendingErrors);
+      this.storeError(form.serialize());
     }.bind(this));
   },
 
-  // handleConnectionReport: function(form) {
-  //   $.ajax({
-  //     url: errorReportUrl,
-  //     type: 'post',
-  //     contentType: "application/x-www-form-urlencoded",
-  //     data: form.serialize(),
-  //   })
-  //   .done(function() {
-  //     console.log("report success");
-  //   })
-  //   .fail(function() {
-  //     var errorUpdate = this.state.pendingErrors;
-  //     errorUpdate.push(form.serialize());
-  //     this.setState({pendingErrors: errorUpdate});
-  //     console.log(this.state.pendingErrors);
-  //   }.bind(this));
-  // },
+  storeError: function(form) {
+    chrome.storage.local.set({"error": form});
+  },
 
   tryResendReports: function() {
-    var reports = this.state.pendingErrors;
-    reports.forEach(function(report){
-      $.ajax({
-        url: errorReportUrl,
-        type: 'post',
-        contentType: "application/x-www-form-urlencoded",
-        data: report,
-      })
-      .done(function() {
-        console.log("success");
-        var newPending = this.state.pendingErrors;
-        var index = newPending.indexOf(report);
-        index > -1 ? newPending.splice(index, 1) : null;
-        this.setState({pendingErrors: newPending});
-      }.bind(this));
+    chrome.storage.local.get("error", function(obj) {
+      if(obj["error"] != null) {
+        $.ajax({
+          url: errorReportUrl,
+          method: 'post',
+          contentType: "application/x-www-form-urlencoded",
+          data: obj["error"],
+        })
+        .done(function() {
+          chrome.storage.local.set({"error": null});
+        }.bind(this));
+      }
     });
   },
 
@@ -136,7 +125,7 @@ var App = React.createClass({displayName: 'App',
   },
 
   componentDidUpdate: function() {
-    this.isMounted() ? this.tryResendReports() : null;
+    this.tryResendReports();
   },
 
   render: function() {
@@ -144,17 +133,20 @@ var App = React.createClass({displayName: 'App',
     var body = null;
     var settingsView = null;
 
-    if(this.state.userPresent){
+    if(this.state.versionOkay === false) {
+      body = VersionError(null)
+    }
+    else if(this.state.userPresent){
       settingsButton = SettingsButton({clickSettings: this.handleClickSettings});
       body = ChatBox(null);
     }
     else {
       body = UserAuth({onSuccess: this.onUserSuccess, onConnectionReport: this.handleSendReport});
-    }
+    };
 
     if(this.state.showSettings) {
       settingsView = SettingsPanel({clickLogout: this.handleClickLogout, clickView: this.handleClickView, sendReport: this.handleSendReport, reportSent: this.state.reportSent, sendDetails: this.handleSendDetails, detailsSent: this.state.detailsSent});
-    }
+    };
 
     return(
       React.DOM.div({className: "App"}, 
@@ -165,6 +157,12 @@ var App = React.createClass({displayName: 'App',
     );
   },
 
+});
+
+var VersionError = React.createClass({displayName: 'VersionError',
+  render: function() {
+    return ( React.DOM.p(null, " This is version ", version, " ") );
+  }
 });
 
 var SettingsButton = React.createClass({displayName: 'SettingsButton',
@@ -267,6 +265,5 @@ chrome.storage.sync.get("cookie", function(obj){
     obj = undefined;
   };
   user = obj;
-  debugger;
   run();
 });

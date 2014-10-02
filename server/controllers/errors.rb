@@ -1,7 +1,10 @@
 post '/error' do
   response['Access-Control-Allow-Origin'] = '*'
+  puts "did i get here?"
+  if params[:url]
+    url_id = Url.rootify_find_create(params[:url]).id
+  end
 
-  url_id = Url.rootify_find_create(params[:url]).id
   if params[:user_id]
     begin
       decoded = Base64.decode64(params[:user_id].encode('ascii-8bit'))
@@ -13,7 +16,7 @@ post '/error' do
   else
     params[:user_id] = nil
   end
-  error = PageError.create(url_id: url_id, user_id: params[:user_id], os: params[:os], type: params[:type], description: params[:description], version: params[:version])
+  error = PageError.create(url_id: url_id, user_id: params[:user_id], os: params[:os], description: params[:description], version: params[:version])
 
   content_type :text
   "#{error.id}"
@@ -35,14 +38,15 @@ end
 
 post '/error/:id' do
   response['Access-Control-Allow-Origin'] = '*'
-  error = PageError.find_by_id(params[:id])
+  error = PageError.find_by_id(params[:id]) if params[:id]
+
   content_type :text
   if error
     error.update(description: params[:description])
     "Added description to #{error.id}"
   else
     url_id = Url.rootify_find_create(params[:url]).id
-    PageError.create(url_id: url_id, user_id: params[:user_id], os: params[:os], type: params[:type], description: params[:description], version: params[:version])
+    PageError.create(url_id: url_id, user_id: params[:user_id], os: params[:os], description: params[:description], version: params[:version])
     "Could not find this error"
   end
 end
