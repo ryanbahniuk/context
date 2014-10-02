@@ -1,3 +1,6 @@
 .git
 /extension/javascripts/build/.module-cache
 /extension/css/.sass-cache
+/server/config/dontlookhere.rb
+*/.DS_Store
+.DS_Store
