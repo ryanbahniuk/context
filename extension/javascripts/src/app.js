@@ -15,7 +15,7 @@ var registerUrl = httpServer + "users";
 var messageUrl = httpServer + "urls/messages/10";
 var errorReportUrl = httpServer + "error";
 
-var version = "0.0.6";
+var version = "0.0.8";
 var user;
 var url;
 

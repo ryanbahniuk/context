@@ -1,9 +1,9 @@
 post '/users' do
   response['Access-Control-Allow-Origin'] = '*'
 
-  unless params[:version] == '0.0.6'
+  unless params[:version] == '0.0.8'
     content_type :json
-    return {error: "Your version of Context is super old. Time to upgrade to version 0.0.6."}.to_json
+    return {error: "Your version of Context is super old. Time to upgrade to version 0.0.8."}.to_json
   end
 
   user = User.create(params[:user])

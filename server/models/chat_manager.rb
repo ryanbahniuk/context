@@ -40,7 +40,7 @@ class ChatManager
   def route_message(ws, msg)
     message = JSON.parse(msg)
 
-    if message["version"] != '0.0.6'
+    if message["version"] != '0.0.8'
       send_version_error(ws)
     elsif message["initial"]
       setup_client(ws, message)
@@ -50,7 +50,7 @@ class ChatManager
   end
 
   def send_version_error(ws)
-    error = {content: "Your version of Context is super old.  Better upgrade to version 0.0.6", author: "Context", time: Time.now}.to_json;
+    error = {content: "Your version of Context is super old.  Better upgrade to version 0.0.8", author: "Context", time: Time.now}.to_json;
     ws.send(error)
   end
 
