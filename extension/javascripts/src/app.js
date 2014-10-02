@@ -19,7 +19,6 @@ var version = "0.0.6";
 var user;
 var url;
 
-debugger
 
 var App = React.createClass({
 
@@ -59,9 +58,8 @@ var App = React.createClass({
   handleSendReport: function(form) {
     this.setState({reportSent: true});
     console.log(form.serialize());
-    $.ajax({
-      url: errorReportUrl,
-      method: 'post',
+    $.ajax(errorReportUrl, {
+      method: "post",
       contentType: "application/x-www-form-urlencoded",
       data: form.serialize()
     })
@@ -127,7 +125,7 @@ var App = React.createClass({
   },
 
   componentDidUpdate: function() {
-    this.isMounted() ? this.tryResendReports() : null;
+    this.tryResendReports();
   },
 
   render: function() {
