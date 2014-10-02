@@ -261,7 +261,7 @@ function run() {
 };
 
 chrome.storage.sync.get("cookie", function(obj){
-  if (obj["cookie"] === undefined) {
+  if (obj["cookie"] === null || obj["cookie"] === undefined) {
     obj = undefined;
   };
   user = obj;
