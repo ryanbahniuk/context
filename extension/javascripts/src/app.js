@@ -19,7 +19,7 @@ var version = "0.0.6";
 var user;
 var url;
 
-debugger;
+debugger
 
 var App = React.createClass({
 
@@ -58,9 +58,10 @@ var App = React.createClass({
 
   handleSendReport: function(form) {
     this.setState({reportSent: true});
+    console.log(form.serialize());
     $.ajax({
       url: errorReportUrl,
-      type: 'post',
+      method: 'post',
       contentType: "application/x-www-form-urlencoded",
       data: form.serialize()
     })
@@ -73,7 +74,7 @@ var App = React.createClass({
       // var errorUpdate = this.state.pendingErrors;
       // errorUpdate.push(form.serialize());
       // this.setState({pendingErrors: errorUpdate});
-      this.storeError(form);
+      this.storeError(form.serialize());
       // console.log(this.state.pendingErrors);
     }.bind(this));
   },
@@ -83,7 +84,7 @@ var App = React.createClass({
     var errorId = this.state.errorId;
     $.ajax({
       url: errorReportUrl + "/" + errorId,
-      type: 'post',
+      method: 'post',
       contentType: "application/x-www-form-urlencoded",
       data: form.serialize()
     })
@@ -96,7 +97,7 @@ var App = React.createClass({
       // errorUpdate.push(form.serialize());
       // this.setState({pendingErrors: errorUpdate});
       // console.log(this.state.pendingErrors);
-      this.storeError(form);
+      this.storeError(form.serialize());
     }.bind(this));
   },
 
@@ -109,9 +110,9 @@ var App = React.createClass({
       if(obj["error"] != null) {
         $.ajax({
           url: errorReportUrl,
-          type: 'post',
+          method: 'post',
           contentType: "application/x-www-form-urlencoded",
-          data: obj["error"].serialize(),
+          data: obj["error"],
         })
         .done(function() {
           chrome.storage.local.set({"error": null});

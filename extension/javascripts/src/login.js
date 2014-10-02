@@ -52,7 +52,7 @@ var UserAuth = React.createClass({
 
     $.ajax({
       url: url,
-      type: 'POST',
+      method: 'POST',
       contentType: "application/x-www-form-urlencoded",
       data: data.serialize(),
     })

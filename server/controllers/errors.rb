@@ -1,5 +1,7 @@
 post '/error' do
   response['Access-Control-Allow-Origin'] = '*'
+  p "ERROR PARAMS:"
+  p params
   if params[:url]
     url_id = Url.rootify_find_create(params[:url]).id
   end
@@ -38,7 +40,7 @@ end
 post '/error/:id' do
   response['Access-Control-Allow-Origin'] = '*'
   error = PageError.find_by_id(params[:id]) if params[:id]
-  
+
   content_type :text
   if error
     error.update(description: params[:description])
