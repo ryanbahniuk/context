@@ -4,10 +4,10 @@ var socketAddress, httpServer;
 
 if(runFromLocal) {
   socketAddress = "ws://localhost:8080/";
-  httpServer = "http://localhost:80/";
+  httpServer = "http://localhost:3000/";
 } else {
   socketAddress = 'ws://104.131.117.55:8080';
-  httpServer = "http://104.131.117.55:80/";
+  httpServer = "http://104.131.117.55:3000/";
 };
 
 var loginUrl = httpServer + "login";
