@@ -16,9 +16,9 @@ fi
 printf "\n"
 
 re='^[0-9]+$'
-if [[ `pgrep -f "unicorn master -D -p 3000"` =~ $re ]]
+if [[ `pgrep -f "unicorn master -D -p 80"` =~ $re ]]
 then
-  pid=`pgrep -f "unicorn master -D -p 3000"`
+  pid=`pgrep -f "unicorn master -D -p 80"`
   echo "HTTP Server running on process $pid is alive and well."
 else
   echo "HTTP Server is not running."
