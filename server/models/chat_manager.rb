@@ -131,7 +131,9 @@ class ChatManager
         user_id = decrypted
         user = User.find_by_id(user_id)
         msg["user_id"] = user_id
-      rescue
+      rescue Exception => e
+        $SERVER_LOG.error "handle message error = #{e.message}"
+        $SERVER_LOG.error "handle message error = #{e.backtrace.inspect}"
         user = nil
       end
     else
