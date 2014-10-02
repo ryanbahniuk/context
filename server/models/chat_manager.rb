@@ -39,7 +39,7 @@ class ChatManager
 
   def route_message(ws, msg)
     message = JSON.parse(msg)
-    puts message["version"]
+
     if message["version"] != '0.0.6'
       send_version_error(ws)
     elsif message["initial"]
@@ -58,10 +58,7 @@ class ChatManager
     url = message["url"]
     cookie = message["cookie"]
 
-    puts url_cookies_to_s
-    puts "adding new ws"
     add_ws_to_url_cookies({ws: ws, url: url, cookie: cookie})
-    puts url_cookies_to_s
 
     sockets = @url_cookies[url]
     send_all_user_number(sockets)

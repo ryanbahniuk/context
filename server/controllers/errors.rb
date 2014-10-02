@@ -1,6 +1,6 @@
 post '/error' do
   response['Access-Control-Allow-Origin'] = '*'
-  puts "did i get here?"
+
   if params[:url]
     url_id = Url.rootify_find_create(params[:url]).id
   end
