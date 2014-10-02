@@ -258,7 +258,7 @@ var ChatBox = React.createClass({displayName: 'ChatBox',
     if (m.content !== "") {
       var messages = this.state.data;
       var msg = {url: url, content: m.content, cookie: user["cookie"], coords: coords, version: version };
-      // console.log(msg);
+      console.log(msg);
       socket.send(JSON.stringify(msg));
     }
   },

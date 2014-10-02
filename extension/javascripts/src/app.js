@@ -1,5 +1,5 @@
 /** @jsx React.DOM */
-var runFromLocal = false;
+var runFromLocal = true;
 var socketAddress, httpServer;
 
 if(runFromLocal) {
@@ -261,7 +261,7 @@ function run() {
 };
 
 chrome.storage.sync.get("cookie", function(obj){
-  if (obj["cookie"] === null || obj["cookie"] === undefined) {
+  if (obj["cookie"] === null) {
     obj = undefined;
   };
   user = obj;
