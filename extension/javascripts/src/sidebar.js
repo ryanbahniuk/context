@@ -190,7 +190,7 @@ var ChatBox = React.createClass({
         this.setState({error: message["error"]});
       }
       else{
-        this.setState({userMsg: this.showUsers(message)});
+        this.setState({userCount: message["count"]});
       }
     }.bind(this);
 
@@ -283,7 +283,7 @@ var ChatBox = React.createClass({
     else if(this.state.connection){
       return (
         <div className="chatBox">
-          < UserCount message={this.state.userMsg} />
+          < UserCount count={this.state.userCount} />
           < MessageList data={this.state.data} />
           < ChatInput onMessageSubmit={this.handleMessageSubmit} />
         </div>
@@ -300,12 +300,25 @@ var ChatBox = React.createClass({
 
 var UserCount = React.createClass ({
   render: function(){
-    var msg = this.props.message;
-    return (
+    var count = this.props.count;
+    var rand = Math.random() * 2;
+    if(count > 1) {
+      return (
+        <div className="userCount">
+        {count + " users present"}
+        </div>
+        );     
+    } else if(rand >= 1) {
+      return(
+        <div className="userCount">
+        {"You're alone here. "} <a target="_blank" href="https://chrome.google.com/webstore/detail/context/bdedbolefbekcmfkjnffkoabnclfbcmh?hl=en-US&utm_source=chrome-ntp-launcher">Invite your friends!</a>
+        </div>
+        );
+    } else {
       <div className="userCount">
-      {msg}
+        {"It'll catch on eventually "} <a target="_blank" href="https://chrome.google.com/webstore/detail/context/bdedbolefbekcmfkjnffkoabnclfbcmh?hl=en-US&utm_source=chrome-ntp-launcher">Invite your friends!</a>
       </div>
-      );
+    }
   }
 
 });

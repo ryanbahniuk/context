@@ -327,6 +327,18 @@ img.user-inserted-image {
   height: 30px;
   padding-top: 8px;
   border-bottom: 1px solid $light-grey;
+  color: $light-grey;
+  font-size: 0.9rem;
+  text-align: center;
+
+  a:link, a:active, a:visited{
+    color: $light-grey;
+    // text-decoration: none;
+  }
+
+  a:hover{
+    color: $grey;
+  }
 }
 
 textarea {
