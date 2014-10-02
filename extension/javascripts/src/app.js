@@ -27,13 +27,8 @@ var App = React.createClass({
     if(user !== undefined) {
       return { showSettings: false, reportSent: false, detailsSent: false, userPresent: true, errorId: 0, pendingErrors: [], versionOkay: true };
     } else {
-<<<<<<< HEAD
-      return { showSettings: false, reportSent: false, detailsSent: false, userPresent: false, errorId: 0 };
-    }
-=======
       return { showSettings: false, reportSent: false, detailsSent: false, userPresent: false, errorId: 0, pendingErrors: [], versionOkay: true };
     };
->>>>>>> 93d6624bef9bbc2ae9b4c9df444b95bfef6913d3
   },
 
   onUserSuccess: function(object) {
