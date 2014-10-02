@@ -16,7 +16,7 @@ post '/error' do
   else
     params[:user_id] = nil
   end
-  error = PageError.create(url_id: url_id, user_id: params[:user_id], os: params[:os], description: params[:description])
+  error = PageError.create(url_id: url_id, user_id: params[:user_id], os: params[:os], description: params[:description], version: params[:version])
 
   content_type :text
   "#{error.id}"
@@ -46,7 +46,7 @@ post '/error/:id' do
     "Added description to #{error.id}"
   else
     url_id = Url.rootify_find_create(params[:url]).id
-    PageError.create(url_id: url_id, user_id: params[:user_id], os: params[:os], description: params[:description])
+    PageError.create(url_id: url_id, user_id: params[:user_id], os: params[:os], description: params[:description], version: params[:version])
     "Could not find this error"
   end
 end
