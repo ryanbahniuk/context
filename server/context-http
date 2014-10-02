@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+unicorn -D -p 3000
