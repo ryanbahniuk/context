@@ -123,10 +123,6 @@ class ChatManager
   end
 
   def handle_message(ws, msg)
-<<<<<<< HEAD
-    @vis.send(msg["coords"]) if msg["coords"]
-    user = User.find_by_id(msg["user_id"])
-=======
     if msg["cookie"]
       begin
         decoded = Base64.decode64(msg["cookie"].encode('ascii-8bit'))
@@ -141,7 +137,6 @@ class ChatManager
       user = nil
     end
 
->>>>>>> 93d6624bef9bbc2ae9b4c9df444b95bfef6913d3
     if user
       EM.defer message_recording_proc(ws, msg), clear_database_connections_proc
       ws_array = @open_urls[msg["url"]]

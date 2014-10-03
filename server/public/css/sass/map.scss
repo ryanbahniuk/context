@@ -1,25 +1,30 @@
+@import "variables";
+
 .stroke {
   fill: none;
-  stroke: red;
+  stroke: black;
   stroke-width: 2px;
 }
 
 .fill {
-  fill: black;
+  fill: $light-grey;
 }
 
 .graticule {
   fill: none;
-  stroke: white;
-  // stroke-width
-  // stroke-opacity
+  stroke: black;
 }
 
 .land {
-  fill: black;
+  fill: $light-grey;
 }
 
 .boundary {
   fill: none;
   stroke: white;
 }
+
+// div#map {
+//   position: fixed;
+//   z-index: -100;
+// }

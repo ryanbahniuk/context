@@ -6,8 +6,9 @@ $(document).ready(function(){
   var proj = d3.geo.orthographic()
     .scale(300)
     .translate([width/2, height/2])
-    .clipAngle(90)
-    .precision(0.1);
+    .clipAngle(140)
+    .precision(0.1)
+    .rotate([100, 30]);
 
   var path = d3.geo.path()
     .projection(proj);
@@ -84,9 +85,9 @@ $(document).ready(function(){
       });
     }
 
-  d3.timer(function(){
+  // d3.timer(function(){
     
-  })
+  // })
 
 
 
