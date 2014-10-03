@@ -315,9 +315,11 @@ var UserCount = React.createClass ({displayName: 'UserCount',
         )
         );
     } else {
+      return(
       React.DOM.div({className: "userCount"}, 
-        "It'll catch on eventually ", " ", React.DOM.a({target: "_blank", href: "https://chrome.google.com/webstore/detail/context/bdedbolefbekcmfkjnffkoabnclfbcmh?hl=en-USundefined=chrome-ntp-launcher"}, "Invite your friends!")
+        "It'll catch on eventually. ", " ", React.DOM.a({target: "_blank", href: "https://chrome.google.com/webstore/detail/context/bdedbolefbekcmfkjnffkoabnclfbcmh?hl=en-USundefined=chrome-ntp-launcher"}, "Invite your friends!")
       )
+      );
     }
   }
 

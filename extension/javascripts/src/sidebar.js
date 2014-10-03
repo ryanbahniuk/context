@@ -315,9 +315,11 @@ var UserCount = React.createClass ({
         </div>
         );
     } else {
+      return(
       <div className="userCount">
-        {"It'll catch on eventually "} <a target="_blank" href="https://chrome.google.com/webstore/detail/context/bdedbolefbekcmfkjnffkoabnclfbcmh?hl=en-US&utm_source=chrome-ntp-launcher">Invite your friends!</a>
+        {"It'll catch on eventually. "} <a target="_blank" href="https://chrome.google.com/webstore/detail/context/bdedbolefbekcmfkjnffkoabnclfbcmh?hl=en-US&utm_source=chrome-ntp-launcher">Invite your friends!</a>
       </div>
+      );
     }
   }
 
